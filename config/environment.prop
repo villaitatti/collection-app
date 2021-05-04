@@ -1,2 +1,1 @@
-shiroAuthenticationFilter=authcBasic,anon,authc
 platformBaseIri = https://collection.itatti.harvard.edu
