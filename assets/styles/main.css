@@ -1,0 +1,110 @@
+.metaphacts-header-navbar.navbar {
+    height: 70px !important;
+}
+
+.metaphacts-header-navbar {
+    background-color: white;
+    border-color: transparent;
+    -webkit-box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+    box-shadow: 0px 4px 4px 0px rgba(0,0,0,0.25);
+}
+
+.metaphacts-header-navbar .navbar-brand {
+    color: #1C252C;
+    padding: 0 !important;
+    padding-left: 15px !important;
+    height: 50px !important;
+}
+
+.metaphacts-header-navbar .navbar-brand > img {
+    height: 50px;
+}
+
+.metaphacts-header-navbar .navbar-nav > li > a:hover, .metaphacts-header-navbar .navbar-nav > li > a:focus {
+    color: #FFF !important;
+    background-color: #1C252C;
+}
+
+.metaphacts-header-navbar > .container-fluid > .navbar-collapse {
+    height: 70px !important;
+    margin-top: 25px !important;
+}
+
+.metaphacts-header-navbar .navbar-nav > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    line-height: 21px;
+    color: #1C252C !important;
+    font-weight: 400 !important;
+    margin: 0 5px 0 5px;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.metaphacts-header-navbar .navbar-brand:hover, .metaphacts-header-navbar .navbar-brand:focus {
+    color: #344655;
+    background-color: transparent;
+}
+
+.metaphacts-header-navbar .navbar-nav > li > a:hover, .metaphacts-header-navbar .navbar-nav > li > a:focus {
+    color: #FFF !important;
+    background-color: #1C252C;
+}
+
+
+
+#main-header-dropdown:hover {
+    background-color: #1C252C !important;
+    color: white !important;
+}
+
+
+.footer {
+    z-index: 40;
+    width: 100%;
+    background-color: #1C252C !important;
+    color: #fff;
+}
+
+.footer__pixel-groove {
+    visibility: hidden;
+}
+
+.footer-header {
+    text-transform: uppercase;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+#footer-columns-container {
+    padding: 30px !important;
+    font-size: 13px;
+    line-height: normal;
+    margin-bottom: 50px;
+    height: 100%;
+    display: block;
+    overflow: auto;
+}
+
+.component-page-toolbar {
+    z-index: 99999999 !important;
+}
+
+.navbar-collapse {
+    overflow: visible !important;
+}
+
+.navbar-default .navbar-toggle.collapsed .icon-bar {
+    background-color: #1C252C;
+}
+
+#main-header-dropdown {
+    background-color: #3f4b54 !important;
+    color: white !important;
+}
+
+.metaphacts-header-navbar .navbar-nav > li > a[title^='login'] {
+    background-color: #3f4b54 !important;
+    color: #ffffff !important;
+}

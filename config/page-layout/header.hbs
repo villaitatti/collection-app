@@ -1,0 +1,26 @@
+<bs-navbar data-fluid="true" class="metaphacts-header-navbar" data-fixed-top="true" data-role="navigation">
+    <bs-navbar-header>
+        <bs-navbar-brand>
+          <a href="/" style="line-height: 2;">
+            <img src="../../assets/images/logocollections.png" alt="{{deploymentTitle}}"/>
+          </a>
+        </bs-navbar-brand>
+        <bs-navbar-toggle/>
+    </bs-navbar-header>
+
+    <bs-navbar-collapse>
+        <bs-nav data-pull-right="true">
+            <bs-nav-item id="art_collection-mainmenu" data-href="#">Art Collection</bs-nav-item>
+            <bs-nav-item id="photo_archive-mainmenu" data-href="#">Photo Archive</bs-nav-item>
+            <bs-nav-item id="yashiro-mainmenu" data-href="/resource/yashiro:yashiro-home">Yashiro</bs-nav-item>
+            <mp-anonymous-hidden style="float:left;">
+              <bs-nav-item data-href="/sparql">Sparql</bs-nav-item>
+            </mp-anonymous-hidden>
+            <mp-nav-account></mp-nav-account>
+            <mp-anonymous-hidden style="float:left;">
+              <bs-nav-item data-href="/resource/?uri=http://www.metaphacts.com/resource/admin/" title="System Settings"><i class="fa fa-cog"></i></bs-nav-item>
+            </mp-anonymous-hidden>
+        </bs-nav>
+    </bs-navbar-collapse>
+</bs-navbar>
+
