@@ -1,25 +1,69 @@
-<bs-navbar data-fluid="true" class="metaphacts-header-navbar" data-fixed-top="true" data-role="navigation">
-    <bs-navbar-header>
-        <bs-navbar-brand>
-          <a href="/" style="line-height: 2;">
-            <img src="../../assets/images/logocollections.png" alt="{{deploymentTitle}}"/>
-          </a>
-        </bs-navbar-brand>
-        <bs-navbar-toggle/>
-    </bs-navbar-header>
+<bs-navbar class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="rs-header">
+    <div class="navbar-header">
+      <bs-navbar-toggle></bs-navbar-toggle>
+      <semantic-link
+        class="rs-header-logo"
+        iri="Default:start"
+      >itattidigitalcollections</semantic-link>
 
-    <bs-navbar-collapse>
-        <bs-nav data-pull-right="true">
-            <bs-nav-item id="art_collection-mainmenu" data-href="#">Art Collection</bs-nav-item>
-            <bs-nav-item id="photo_archive-mainmenu" data-href="#">Photo Archive</bs-nav-item>
-            <mp-anonymous-hidden style="float:left;">
-              <bs-nav-item data-href="/sparql">Sparql</bs-nav-item>
-            </mp-anonymous-hidden>
-            <mp-nav-account></mp-nav-account>
-            <mp-anonymous-hidden style="float:left;">
-              <bs-nav-item data-href="/resource/:admin" title="System Settings"><i class="fa fa-cog"></i></bs-nav-item>
-            </mp-anonymous-hidden>
-        </bs-nav>
+    </div>
+    <bs-navbar-collapse class="pull-right">
+      <bs-nav>
+        <bs-nav-item>
+          <semantic-link class="rs-body-m-M" iri="Default:PhotoArchive">PHOTO
+            ARCHIVE</semantic-link>
+        </bs-nav-item>
+        <bs-nav-item>
+          <semantic-link
+            class="rs-body-m-M"
+            iri="Default:Archive"
+          >ARCHIVE</semantic-link>
+        </bs-nav-item>
+        <bs-nav-item>
+          <semantic-link class="rs-body-m-M" iri="Default:RareBooks">RARE BOOKS</semantic-link>
+        </bs-nav-item>
+        <bs-nav-item>
+          <semantic-link class="rs-body-m-M" iri="Default:About">ART COLLECTION</semantic-link>
+        </bs-nav-item>
+        <bs-nav-item class="contact">
+          <a class="rs-body-m-M" href="http://itatti.harvard.edu/website-feedback">CONTACT</a>
+        </bs-nav-item>
+        <mp-anonymous-hidden>
+          <bs-nav-item>
+            <semantic-link
+              iri="Default:admin"
+              title="Go to admin settings"
+              class="rs-body-m-M"
+            >Admin</semantic-link>
+          </bs-nav-item>
+        </mp-anonymous-hidden>
+        <mp-anonymous-hidden>
+          <li role="presentation">
+            <a
+              href="/sparql"
+              title="Go to SPARQL endpoint"
+              class="rs-body-m-M"
+            >SPARQL</a>
+          </li>
+        </mp-anonymous-hidden>
+        <li role="presentation">
+          <mp-anonymous-hidden>
+            <a
+              id="logout-Link"
+              href="/logout"
+              title="logout"
+              class="rs-body-m-M fa fa-sign-out"
+            >Logout</a>
+          </mp-anonymous-hidden>
+          <a
+            id="login-Link"
+            href="/login"
+            title="login"
+            class="rs-body-m-M fa fa-sign-in"
+          >Login</a>
+        </li>
+      </bs-nav>
     </bs-navbar-collapse>
+  </div>
 </bs-navbar>
-

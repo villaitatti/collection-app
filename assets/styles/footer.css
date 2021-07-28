@@ -1,0 +1,31 @@
+.icon-holder{
+  display: flex;
+}
+
+.icon-holder img {
+  cursor: pointer;
+  height: 25px;
+  filter: invert(1);
+  margin-right: 15px;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  min-height: 185px;
+}
+
+.footer *{
+  background:  none !important;
+  color:  white;
+}
+footer a{
+  transition: 0.3s;
+}
+footer a:hover {
+  filter: opacity(0.7);
+}
+.footer h3 {
+  font-size: 18px;
+}

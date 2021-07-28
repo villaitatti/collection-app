@@ -1,0 +1,118 @@
+#home-page .home-header-container {
+  width: 90vw;
+  display: flex;
+  justify-content: center;
+  margin-top: 15vh;
+  align-items: center;
+}
+
+#home-page .home-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#home-page .home-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-content: center;
+  width: 50vw;
+}
+
+#home-page .home-header .message {
+  font-size: 44px;
+  font-weight: bold;
+  text-align: center;
+}
+#home-page .home-header .searchbar {
+  background: #1c252c;
+  padding: 2vh;
+  height: 12vh;
+  width: 100%;
+  display: grid;
+  margin-top: 50px;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 40px;
+}
+#home-page .home-header .searchbar form {
+  display: flex;
+  grid-column-start: 1;
+  grid-column-end: 5;
+}
+
+#home-page .home-header .searchbar form input#site-search {
+  height: 8vh;
+  font-size: 22px;
+}
+
+#home-page .structured-search-option {
+  cursor: pointer;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  text-align: center;
+}
+#home-page .structured-search-option:hover {
+  text-decoration: underline;
+  color: white;
+}
+
+#home-page .home-header .searchbar form button.btn.searchBtn {
+  height: 8vh;
+  width: 8vh;
+  font-size: 22px;
+  color: white;
+  background: var(--color-primary-100);
+}
+#home-page .home-body-grid {
+  margin-top: 120px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 40px;
+  margin-bottom: 120px;
+  width: 88vw;
+  height: 120vh;
+}
+#home-page .home-body-grid .grid-option:nth-child(1) {
+  background: url(/assets/images/media/photoarchive.png);
+}
+#home-page .home-body-grid .grid-option:nth-child(2) {
+  background: url(/assets/images/media/archive.jpg);
+}
+#home-page .home-body-grid .grid-option:nth-child(3) {
+  background: url(/assets/images/media/rare_books_banner.jpg);
+}
+#home-page .home-body-grid .grid-option:nth-child(4) {
+  background: url(/assets/images/media/art_collection.jpg);
+}
+#home-page .home-body-grid .grid-option {
+  display: flex;
+  cursor: pointer;
+  align-items: flex-end;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  padding-bottom: 5vh;
+  padding-left: 3vw;
+  padding-right: 5vw;
+  transition: 0.4s;
+}
+#home-page .grid-option:hover {
+  transform: scale(1.01);
+}
+
+#home-page .option-content {
+  background: #ffffffdb;
+  padding: 3vh;
+  min-height: 240px;
+}
+#home-page .content-title {
+  color: var(--color-primary-100);
+  font-size: 32px;
+  font-weight: bold;
+}
+#home-page .content-subtitle {
+  margin-top: 50px;
+  font-size: 22px;
+}

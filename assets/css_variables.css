@@ -1,0 +1,170 @@
+:root {
+  /* Text color: main and several opacities */
+  --color-dark: #1C252C;
+  --color-dark--op75: rgba(28, 37, 44, 0.75);
+  --color-dark--op50: rgba(28, 37, 44, 0.5);
+  --color-dark--op30: rgba(28, 37, 44, 0.3);
+  --color-dark--op20: rgba(28, 37, 44, 0.2);
+  --color-dark-darker: #131f29;
+
+  /* Other colors */
+  --color-off-white: #f6f6f6;
+  --color-grey: #e9ecef;
+  --color-grey-20: rgba(233, 236, 239, 0.2);
+  --color-light-grey: #f2f3f6;
+  --color-light-grey2: #bcbcbc;
+  --color-grey-dark: #3a3838;
+
+  /* Success color: used for success buttons, messages, form validation */
+  --color-success-light: #96decd;
+  --color-success: #23ba98;
+  --color-success-text: #0a6e58;
+  --color-success-darker: #1b9d7f; /* for hover and focus style */
+
+  /* Warning color: used for warning buttons, alert messages, form validation */
+  --color-warning-light: #fcf8e3;
+  --color-warning-text: #8a6d3b;
+  --color-warning: #f5c923;
+  --color-warning-darker: #e3b71a; /* for hover and focus style */
+
+  /* Danger color: used for danger buttons, alert messages, form validation */
+  --color-danger-light: #dcb3b8;
+  --color-danger: #f4364e;
+  --color-danger-darker: #d8213a; /* for hover and focus style */
+
+  /* Info color: used for info buttons, messages */
+  --color-info-light: #d9edf7;
+  --color-info-text: #31708f;
+  --color-info: #3793ff;
+  --color-info-darker: #2e80df; /* for hover and focus style */
+  --color-info--op30: rgba(56, 149, 255, 0.3);
+
+  /* primary theme color used in cards, tabs, buttons, dropdowns, resource page, etc. */
+  --color-primary-100: #AA182B;
+  --color-primary-100-darker: #610c17;
+  --color-primary-100-op70: rgba(170, 24, 43, 0.7);
+  --color-primary-80: #b36670;
+  --color-primary-75: #c97580;
+  --color-primary-50: #dbb6bb;
+  --color-primary-50--op50: #dbb6bb75;
+  --color-primary-50--op35: #dbb6bb44;
+  --color-primary-10: #e9d4d6;
+
+  --color-km-handle: #92abbe; /* knowledge map handle buttun color */
+  --color-checkbox-select: #73aedb; /* checkbox bg color when selected */
+  --color-exclamation: #2094ec; /* color for exclamation icon, currently used only in Image Observation tool */
+
+  /*    Background colors */
+  --color-body-bg: #ffffff; /* body background color */
+  --color-navbar-bg: #ffffff; /* top header navbar background color */
+  --color-header-bg: #ffffff; /* top header navbar background color */
+  --color-footer-bg: #1C252C; /* footer background color */
+  --color-userPage-bg: #f6f6f6; /* user page background color */
+
+  --colorMain-page-bg: #ffffff; /* codeblock and sparql results background color */
+  --color-breadcrumb-bg: #ffffff; /* breadcrumb background color */
+  --color-tf-dashboard-bg: #f6f6f6; /* thinking frame dashboard background color */
+  --color-km-bg: #f6f6f6; /* knowledge map background color */
+  --color-narrative-bg: #f6f6f6; /* narrative frame background color */
+  --color-dashboardPage-bg: #f6f6f6; /* system dashboard background color */
+  --color-resourceTabs-bg: #ffffff; /* resource page background color */
+
+  --color-tf-dashboardCard-bg: #ffffff; /* thinking frame dashboard card background color */
+  --color-popover-bg: #315d80; /*  popover background color */
+  --color-narrative-popover-bg: #e9ecef; /*  narrative popovers background color */
+
+  --color-alert-message-bg: #d93348; /* alert message background color (used in login page) */
+  --color-formInputs-bg: #ffffff; /* form input background color */
+
+  --color-sidebar-bg: #e9ecef; /* sidebars (clipboard and details) background color */
+  --color-sidebarClosed-bg: #e9ecef; /*  closed sidebars (clipboard and details) background color */
+  --color-sidebarFooter-bg: #e0dee9; /*  clipboard footer background color */
+  --color-sparlSidebar-bg: #e9ecef; /*  clipboard in Sparql page background color */
+
+  --color-frame-header: #e9ecef; /* thinking frame header -  background color */
+
+  --color-paginationHover-bg: #ecf0f1; /* pagination button hover - background color */
+
+  --color-codeBlock-bg: #f9fafc; /* code block - background color */
+  --color-codeBlockMode-bg: #e3e7ef;
+
+  --color-configDoc-border: rgba(29, 10, 112, 0.15);
+  --color-configDocHeader-bg: #f5f5f5;
+
+  /*    Panel colors */
+  --color-panel-bg: #ffffff;
+  --color-panelHeading: #ffffff;
+  --color-panelHeading-bg: #234158;
+
+  /* CodeMirror colors */
+  --color-codeMirror-bg: #ffffff;
+  --color-codeMirror-border: rgba(29, 10, 112, 0.25);
+
+  /* Icon colors */
+  --color-icon-dark: #1C252C; /* suggested same color of --color-dark */
+  --color-icon-warning: #fe4a60;
+  --color-icon-primary: #473c74; /* used in admin pages and resource page btns */
+  --color-icon-grey: #5f5f5f;
+
+  /*  Buttons colors - used in admin pages and vocabulary manager */
+  --color-btn-grey: #545151;
+  --color-btn-bg-grey: #e9eaee;
+  --color-btnHover-bg-grey: #d1d2d4e0;
+
+  --color-btn-green: #029c02; /* used in vocabulary manager term selection */
+
+  --color-btn-selected: #143752; /* used in object observations */
+
+  /* Toolbar colors (in narrative and knownledge map) */
+  --color-btn-toolbar: #6b6565;
+  --color-btn-toolbar-bg: #ffffff;
+  --color-btn-toolbar-border: #ddd;
+
+  /*   Form colors */
+  --color-form-placeholder: #113f6379;
+  --color-form-border: #05284228;
+
+  /*   Card colors */
+  --color-card-border: #d7d3e8;
+  --color-card-icon-hover: #d4d0e2;
+
+  /*   System Dashboard colors */
+  --color-dashboard-km: #1d387494;
+  --color-dashboard-narrative: #6780add9;
+  --color-dashboard-image: #729892;
+
+  /* Mirador colors */
+  --mirador-main-color: #60626d;
+  --color-miradorViewer-bg: #c1c4c7;
+  --color-miradorSlot-bg: #f9f9f9;
+  --color-miradorSlot-shadow: #5a5a5a;
+  --color-miradorBottomPanel-bg: #444654e0;
+  --color-miradorTooltipDark-bg: #51535f;
+
+  /*  Entity: background and icon colors, used for cards and resource page */
+  --color-entity-bg-thing: #dbdbde;
+  --color-entity-bg-actor: #d0d9dd;
+  --color-entity-bg-type: #e3e0d7;
+  --color-entity-bg-resource: #e5e9f0;
+
+  --color-entity-icon-thing: #5b5b5d;
+  --color-entity-icon-actor: #45626f;
+  --color-entity-icon-type: #857c70;
+  --color-entity-icon-resource: #506b9b;
+
+  /* Progress bar */
+  --progress-bar-bg: #29313a;
+
+  /* Fonts */
+  --font-family-base: "Roboto"; /* body font-family */
+  --font-size-body: 14px;
+  --font-family-navbar-logo: "Roboto"; /* navbar text logo font-family */
+
+  /* key page element dimensions */
+  --breadcrumb-height: 34px;
+  --nav-height: 58px; /* top navbar height */
+  --pageSection-bg: #ffffff;
+  --pageDarkerSection-bg: #f6f6f6;
+  --pageDarkerSection-shadow: #ddd9d9;
+  --pageSection-backArea-bg: #e7e6e6;
+}

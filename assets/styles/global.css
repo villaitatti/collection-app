@@ -1,0 +1,19 @@
+@import "./navbar.css";
+@import "./footer.css";
+@import "./start.css";
+
+.system-spinner__icon {
+    color: #007bff;
+    font-size: 24px !important;
+    animation: fa-spin 0.7s steps(8) infinite !important;
+  }
+  .system-spinner__icon::before {
+    content: "\f0ac" !important;
+  }
+  
+  .system-spinner__message {
+    display: none !important;
+  }
+  #template-content {
+    min-width: 90vw;
+}
