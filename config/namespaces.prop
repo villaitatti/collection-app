@@ -3,3 +3,5 @@ sim = http://purl.org/ontology/similarity/
 iiif = http://iiif.io/api/
 schema = http://schema.org/
 Default = https://collection.itatti.harvard.edu/resource/
+fr = https://collection.itatti.harvard.edu/resource/custom/fr/
+fc = https://collection.itatti.harvard.edu/resource/custom/fc/
