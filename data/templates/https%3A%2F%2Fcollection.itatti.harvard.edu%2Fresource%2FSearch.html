@@ -1,0 +1,176 @@
+<div id="simple-search">
+  <semantic-search
+    relations='[[> Default:SearchSimpleRelations]]'
+    search-profile='[[> Default:SearchSimpleProfile]]'
+  >
+  <semantic-query query='
+  SELECT ?token WHERE{
+    BIND(REPLACE("[[urlParam "keyword"]]","(?<!^)(?<!\\s)\\s+(?!\\s+)(?!$)", " AND ") as ?token)
+  }
+  '
+  template="{{>addAndTemplate}}"
+  >
+  <template id="addAndTemplate">
+  
+  <div>
+  <semantic-search-query-keyword
+  placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
+  domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+  default-query='
+  PREFIX bds: <http://www.bigdata.com/rdf/search#>
+  PREFIX hint: <http://www.bigdata.com/queryHints#>
+    SELECT DISTINCT ?subject WHERE {
+        {
+          ?subject a fc:work.
+        }union{
+          ?subject a fc:photo.
+        }
+        ?subject rdfs:label ?label .
+        ?label bds:search "{{bindings.0.token.value}}";
+        bds:minRelevance "0.3" ;
+        bds:relevance ?score ;
+        bds:matchAllTerms "true" .
+    }
+  '
+  query='
+  SELECT ?nothing WHERE{
+    ?nothing a <http://this_is_hidden_and_will_never_run>
+  }
+  '
+  class="hiddenSearchbar"
+  ></semantic-search-query-keyword>
+  <div class="superRow">
+  <bs-col
+    lg="3"
+    md="4"
+    sm="5"
+    class="fade-in-fwd filters-container"
+    style="margin-top: 8px"
+    id="artwork-filter-search"
+  >
+  <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+    <semantic-search-facet 
+    open-by-default="true"
+    facet-value-height="150px"
+    ></semantic-search-facet>
+  </bs-panel>
+  </bs-col>
+  <bs-col lg="9" md="8" sm="7">
+    <semantic-search-result-holder>
+      <div>
+      <semantic-search-result>
+        <semantic-query
+          id="view-more"
+          query='SELECT ?keywords WHERE {
+            BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
+          }'
+          template="{{>currentSearchText}}"
+        >
+          <template id="currentSearchText">
+            <h2>
+              Searched in artworks for:
+              <i>{{bindings.0.keywords.value}}</i>
+            </h2>
+          </template>
+        </semantic-query>
+        <semantic-query
+          id="view-more"
+          query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
+          } LIMIT 1'
+          template="{{>currentResultCount}}"
+        >
+          <template id="currentResultCount">
+            <h2>
+                Found {{bindings.0.count.value}} relevant results
+            </h2>
+          </template>
+        </semantic-query>
+        <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
+        <div id='artwork-filter-search-inline'>
+          <div class="change-view-options">
+            <mp-event-target-template-render
+            id="view-option-target"
+            template="{{> viewOptionTemplate}}"
+          >
+            <template id="viewOptionTemplate">
+                {{#ifCond selectedView "===" "table"}}
+                  <div class="fa fa-table option-selected"></div>
+                {{else}}
+                <mp-event-trigger
+                id="event-view-table"
+                type="Component.TemplateUpdate"
+                data='{"selectedView":"table"}'
+                targets='["view-option-target","result-view-target"]'>
+                  <div class="fa fa-table"></div>
+                </mp-event-trigger>
+                {{/ifCond}}
+              {{#ifCond selectedView "===" "list"}}
+               <div class="fa fa-list-ul option-selected"></div>
+              {{else}}
+              <mp-event-trigger
+              id="event-view-table"
+              type="Component.TemplateUpdate"
+              data='{"selectedView":"list"}'
+              targets='["view-option-target","result-view-target"]'>
+                <div class="fa fa-list-ul"></div>
+              </mp-event-trigger>
+              {{/ifCond}}
+              {{#if selectedView}}
+               {{#ifCond selectedView "===" "grid"}}
+                 <div class="fa fa-th option-selected"></div>
+               {{else}}
+               <mp-event-trigger
+               id="event-view-table"
+               type="Component.TemplateUpdate"
+               data='{"selectedView":"grid"}'
+               targets='["view-option-target","result-view-target"]'>
+                  <div class="fa fa-th"></div>
+              </mp-event-trigger>
+               {{/ifCond}}
+              {{else}}
+               <div class="fa fa-th option-selected"></div>
+              {{/if}}
+            </template>
+            </mp-event-target-template-render>
+          </div>
+            <semantic-table
+            id="grid-result"
+            query='SELECT DISTINCT  ?subject  WHERE {
+            }LIMIT 100'
+            number-of-displayed-rows="10"
+            tuple-template="{{> subjectCellTemplate}}"
+            options='{"showTableHeading": false, "showFilter":false}'
+            no-result-template='<h1>No results found..</h1>'
+          >
+            <template id="subjectCellTemplate">
+              <mp-event-target-template-render 
+              id="result-view-target" template="{{>resultTemplate}}">
+                <template id='resultTemplate'>
+                  <div>
+                  {{#if selectedView}}
+                    {{#ifCond selectedView "===" "list"}}
+                      [[> Default:CardArtwork]]
+                    {{/ifCond}}
+                    {{#ifCond selectedView "===" "grid"}}
+                    [[> Default:CardArtworkSmall]]
+                    {{/ifCond}}
+                    {{else}}
+                    [[> Default:CardArtworkSmall]]
+                  {{/if}}
+                </div>
+                </template>
+              </mp-event-target-template-render>
+            </template>
+          </semantic-table>
+        </div>
+      </semantic-search-result>
+      </div>
+    </semantic-search-result-holder>
+  </bs-col>
+  </div>
+  </div>
+  
+  </template>
+  </semantic-query>
+</semantic-search>
+</div>

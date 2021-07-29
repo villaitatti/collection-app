@@ -1,0 +1,30 @@
+#simple-search  .change-view-options {
+    display: flex;
+    font-size: 28px;
+    justify-content: flex-end;
+    align-items: center;
+    height: 5vh;
+    min-height: 50px;
+  }
+#simple-search  .change-view-options div {
+    margin-left: 8px;
+    cursor: pointer;
+  }
+#simple-search  .superRow {
+    width: 87vw;
+  }
+#simple-search  .option-selected {
+    color: var(--color-primary-100);
+  }
+#simple-search  .facet__category-selector-holder {
+    display: none;
+  }
+#simple-search  .facet {
+    display: flex;
+    border: none;
+    justify-content: center;
+    align-items: center;
+  }
+  #simple-search   button.btn-xs.show-facet-button.show-facet-button__hide {
+    display: none;
+  }
