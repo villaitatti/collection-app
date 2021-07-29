@@ -1,0 +1,53 @@
+<div id="printableInfo" class="workAndProductionInfo">
+  <!-- Fields for Work (Artwork or photograph) -->
+  <mp-field-visualization
+    subject="[[this]]"
+    fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {    ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/work_info>.   OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)}} ORDER BY ASC(?orderNo)"]]'
+    template="{{>workInfo}}"
+  >
+    <template id="workInfo">
+      {{#if noData}} {{else}}
+      <div class="workInfoContainer">
+        <h2>Work info</h2>
+        [[> :ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]]
+      </div>
+      {{/if}}
+    </template>
+  </mp-field-visualization>
+
+  <!-- Fields for Production -->
+  <div class="productionInfoContainer">
+    <mp-field-visualization
+      subject="[[this]]"
+      fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/production_info>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+      template="{{>productionInfo}}"
+    >
+      <template id="productionInfo">
+        {{#if noData}}
+        <div></div>
+        {{else}}
+        <h2>Production info</h2>
+        [[> :ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]] {{/if}}
+      </template>
+    </mp-field-visualization>
+    <!-- General fields -->
+    <mp-field-visualization
+      subject="[[this]]"
+      fields='[[ fieldDefinitionsFromQuery "SELECT ?field WHERE {  ?field <http://www.researchspace.org/resource/system/fields/category>  <http://www.researchspace.org/ontologies/platform/FieldCategories/other_details>. OPTIONAL {?field <http://www.researchspace.org/resource/system/fields/order> ?w. BIND(xsd:integer(?w) as ?orderNo)} } ORDER BY ASC(?orderNo)" ]]'
+      template="{{>generalInfo}}"
+    >
+      <template id="generalInfo">
+        {{#if noData}} {{else}}
+        <h2 style="margin-top: 4vh">Other details</h2>
+        [[> :ResourceFieldBasedVisualization subject=[[this]]
+        showSourceIcon="true" ]]
+        {{/if}}
+      </template>
+    </mp-field-visualization>
+  </div>
+  <div style="width: 93.5%" class="productionInfoContainer">
+    <!-- Photographs detailed information -->
+  </div>
+</div>

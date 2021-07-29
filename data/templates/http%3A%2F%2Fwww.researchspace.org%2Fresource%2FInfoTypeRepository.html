@@ -1,0 +1,43 @@
+<semantic-query
+  query="
+  SELECT  ?repo WHERE {
+    {
+      ?? fr:Work_kept_by_Institution ?repo.
+    }UNION{
+      ?? fr:Work_kept_by_Institution ?repo.
+    }
+    ?? a fc:work.
+  } LIMIT 1"
+  no-result-template="{{> noRepoResult}}"
+  template="{{> fcLabelTemplate}}"
+>
+  <template id="fcLabelTemplate">
+    <h4 class="fc-label">
+      {{#each bindings}}Repository:<div class="repoLink"><semantic-link
+        iri="{{repo.value}}"
+      ></semantic-link>
+    </div>
+     {{/each}}
+    </h4>
+  </template>
+  <template id="noRepoResult">
+    <semantic-query
+      query="
+    SELECT  ?repo WHERE {
+      ?? fr:Photo_has_provider_Institution ?repo.
+      ?? a custom:photo.
+    } LIMIT 1"
+      template="{{> fcLabelTemplate_second}}"
+    >
+      <template id="fcLabelTemplate_second">
+        <h4 class="fc-label">
+          {{#each bindings}}
+          <div class="repoLink">
+          <semantic-link iri="{{repo.value}}"></semantic-link>
+          </div>
+          {{/each}}
+        </h4>
+      </template>
+    </semantic-query>
+  </template>
+</semantic-query>
