@@ -1,0 +1,50 @@
+#breadcrumb {
+  height: -moz-fit-content;
+  height: fit-content !important;
+  min-height: 40px;
+}
+#breadcrumb .notifications-wrapper > div {
+  width: fit-content !important;
+}
+
+#breadcrumb .breadlinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+#breadcrumb .breadlinks div {
+  cursor: pointer;
+  margin-right: 1vw;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-height: 20px;
+}
+#breadcrumb .page-breadcrumb {
+  height: -moz-fit-content;
+  height: fit-content !important;
+  margin-top: 36px;
+  box-shadow: none;
+  width: 93vw;
+}
+#breadcrumb .rs-body-m-M:hover {
+  text-decoration: underline;
+}
+#breadcrumb .system-spinner {
+  display: none;
+}
+
+.repoLink {
+  margin-left: 4px;
+  font-weight: bold;
+}
+
+@media (max-width: 800px) {
+  #breadcrumb .breadlinks div {
+    margin: 10px;
+  }
+  #breadcrumb .page-breadcrumb {
+    height: -moz-fit-content;
+    height: fit-content !important;
+    position: relative !important;
+  }
+}

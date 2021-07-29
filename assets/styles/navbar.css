@@ -69,9 +69,6 @@
 .navbar + .navbar {
   width: 85vw !important;
 }
-.page-breadcrumb {
-  display: none;
-}
 
 #logout-Link + #login-Link {
   display: none;
