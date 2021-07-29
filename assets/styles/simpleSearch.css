@@ -39,3 +39,9 @@
 #simple-search .facet-relations {
   width: 100% !important;
 }
+
+
+#simple-search .griddle-custom-row {
+  margin-bottom: 75px;
+  justify-content: space-evenly !important;
+}

@@ -6,7 +6,8 @@
   min-height: 200px;
   max-width: 280px;
   max-height: 280px;
-  margin: 1vh;
+  margin-bottom: 20px;
+  margin-right: 20px;
   display: grid !important;
     grid-template-rows: repeat(3,1fr) !important;
     grid-template-columns: repeat(4,1fr);

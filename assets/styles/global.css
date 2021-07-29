@@ -1,6 +1,7 @@
 @import "./navbar.css";
 @import "./footer.css";
 @import "./start.css";
+@import "./rsbv.css";
 @import "./breadcrumb.css";
 @import "./artworkCard.css";
 @import "./artworkHeader.css";
@@ -24,4 +25,50 @@
 
 span.page__header-gripper-label {
   font-size: 36px;
+}
+/* Table pagination */
+
+.pagination {
+  margin-bottom: 2vh !important ;
+  justify-content: center !important;
+  flex-wrap: wrap;
+}
+
+.griddle-footer .pagination > .active > a {
+  background: var(--color-dark) !important;
+}
+.griddle-footer .pagination > li > a,
+.griddle-footer .pagination > li > span,
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--color-dark, #1d0a6e);
+  font-size: 12px;
+  line-height: 1.2;
+  text-decoration: none;
+  font-style: italic;
+  border: none;
+  background: #ebebeb;
+  font-size: 20px !important;
+  margin: 4px;
+  padding: 3px 8px;
+}
+.griddle-footer .pagination > li > a:focus,
+.griddle-footer .pagination > li > a:hover,
+.griddle-footer .pagination > li > span:focus,
+.griddle-footer .pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+  background: #d2d2d2 !important;
+}
+
+.pagination > li.active,
+.pagination > li.active > a {
+  color: white !important;
+  text-decoration: none !important;
+}
+
+.pagination > li > a {
+  font-size: 18px !important;
 }
