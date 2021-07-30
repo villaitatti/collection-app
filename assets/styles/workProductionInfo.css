@@ -55,6 +55,36 @@
   border-radius: 100%;
   opacity: 1;
 }
+.workAndProductionInfo .image-container img.thumbnailImage:hover +.zoom-option.fa.fa-search-plus {
+   opacity: 1;
+}
+.zoom-option.fa.fa-search-plus:hover{
+   opacity: 1;
+}
+.zoom-option.fa.fa-search-plus {
+  cursor: pointer;
+  transition: 0.4s;
+  position: absolute;
+  top: 0;
+  left:0;
+  font-size: 23px;
+  opacity: 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(0deg, #00000080, #ffffff00);
+}
+.slick-slide {
+  position: relative;
+}
+ul.slick-dots {
+  overflow: hidden;
+  position: relative;
+}
+
 
 @media (max-width: 1480px) {
   .workAndProductionInfo .productionInfoContainer {

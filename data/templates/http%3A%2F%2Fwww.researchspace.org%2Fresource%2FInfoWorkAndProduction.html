@@ -5,13 +5,16 @@
 
   <semantic-carousel
   query='
-        SELECT DISTINCT ?imgUrl  WHERE {                    
+        SELECT DISTINCT ?imgUrl ?fullsizeImgUrl ?imageManifest  WHERE {                    
           {
             # Artwork Image #
             ?? fr:Work_depicted_by_Photo ?photo.
             ?photo crm:P129i_is_subject_of ?fullsizeImgUrl.
             BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!500,500") AS ?imgUrl).
-            ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
+            ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
+            OPTIONAL{
+              ?fullsizeImgUrl crm:P129i_is_subject_of ?imageManifest.
+            }
           }UNION{
             # Photo Image #
             ?artwork fr:Work_depicted_by_Photo ?? .
@@ -20,17 +23,27 @@
             FILTER(?photo = ??).
             BIND(REPLACE(STR(?fullsizeImgUrl),"full/full","full/!500,500") AS ?imgUrl).
             ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>
+            OPTIONAL{
+              ?fullsizeImgUrl crm:P129i_is_subject_of ?imageManifest.
+            }
           }
       }ORDER BY ASC(?imgUrl) '
   tuple-template='{{>tuppleBoy}}'
 >
 <template id="tuppleBoy">
-
   <img
   alt='   '
   class="thumbnailImage"
   src="{{imgUrl.value}}"
   />
+  <mp-overlay-dialog title="‎‎" type="lightbox">
+    <mp-overlay-dialog-trigger>
+      <div class="zoom-option fa fa-search-plus">View in high detail</div>
+    </mp-overlay-dialog-trigger>
+    <mp-overlay-dialog-content>
+          [[> :SummaryImagesWorkIIIFModal]]
+    </mp-overlay-dialog-content>
+  </mp-overlay-dialog>
 </template>
 </semantic-carousel>
 
