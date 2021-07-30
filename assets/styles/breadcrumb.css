@@ -22,7 +22,6 @@
 #breadcrumb .page-breadcrumb {
   height: -moz-fit-content;
   height: fit-content !important;
-  margin-top: 36px;
   box-shadow: none;
   width: 93vw;
 }

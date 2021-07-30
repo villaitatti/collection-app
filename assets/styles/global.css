@@ -6,6 +6,8 @@
 @import "./artworkCard.css";
 @import "./artworkHeader.css";
 @import "./simpleSearch.css";
+@import "./workProductionInfo.css";
+
 
 .system-spinner__icon {
   color: #007bff;
@@ -71,4 +73,18 @@ span.page__header-gripper-label {
 
 .pagination > li > a {
   font-size: 18px !important;
+}
+
+.rs-application .table > tbody > tr > td {
+  border-bottom-color: #ebebeb !important;
+  border-bottom: 0px !important;
+}
+
+ol.page-breadcrumb{
+  position: fixed;
+  top: 90px;
+  left: 0;
+}
+.component-page-toolbar {
+  top: 90px;
 }

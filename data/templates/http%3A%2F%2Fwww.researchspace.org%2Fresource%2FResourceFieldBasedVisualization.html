@@ -29,7 +29,10 @@
               </span>
             </td>
             <td class="multiValueTd">
-              <b style="margin-right: 5px">Information Source</b>
+              <b style="margin-right: 5px">Annotations</b>
+            </td>
+            <td class="multiValueTd">
+              <b style="margin-right: 5px">Assertions</b>
             </td>
           </tr>
         </tbody>
@@ -57,32 +60,30 @@
                 {{/each}}
               </td>
               [[#if showSourceIcon]]
-              <td class="center createAssertion">
-                <div
-                  title="Create an annotation or assertion"
-                  class="rs-page__count--field-annotation"
-                >
-                  <semantic-link
-                    iri="http://www.researchspace.org/resource/Field"
-                    urlqueryparam-tab="annotations"
-                    urlqueryparam-field="{{field.iri}}"
-                    urlqueryparam-subject="[[this]]"
-                  >
-                    <i
-                      class="fa fa-plus"
-                      title="Create an annotation or assertion"
-                      ></i
-                    >
-                  </semantic-link>
-                </div>
-              </td>
               <td class="sourceIcon-badge">
+                <semantic-link
+                iri="http://www.researchspace.org/resource/Field"
+                urlqueryparam-tab="annotations"
+                urlqueryparam-field="{{field.iri}}"
+                urlqueryparam-subject="[[this]]"
+              >
                 <div class="sourceIcons">
-                  {{#each field.values as |value|}} [[> :SourceIcon ]]
-                  {{/each}}
+                  0
                 </div>
+                </semantic-link>
               </td>
-
+             <td class="sourceIcon-badge">
+              <semantic-link
+              iri="http://www.researchspace.org/resource/Field"
+              urlqueryparam-tab="annotations"
+              urlqueryparam-field="{{field.iri}}"
+              urlqueryparam-subject="[[this]]"
+            >
+                <div class="sourceIcons">
+                  0
+                </div>
+                </semantic-link>
+              </td>
               [[/if]]
             </tr>
           </tbody>
@@ -103,27 +104,29 @@
                 </div>
               </td>
               [[#if showSourceIcon]]
-              <td class="center createAssertion">
-                <div
-                  title="Create an annotation or assertion"
-                  class="rs-page__count--field-annotation"
-                >
-                  <semantic-link
-                    iri="http://www.researchspace.org/resource/Field"
-                    urlqueryparam-tab="annotations"
-                    urlqueryparam-field="{{field.iri}}"
-                    urlqueryparam-subject="[[this]]"
-                  >
-                    <i
-                      class="fa fa-plus"
-                      title="Create an annotation or assertion"
-                      ></i
-                    >
-                  </semantic-link>
+              <td class="sourceIcon-badge">
+                <semantic-link
+                iri="http://www.researchspace.org/resource/Field"
+                urlqueryparam-tab="annotations"
+                urlqueryparam-field="{{field.iri}}"
+                urlqueryparam-subject="[[this]]"
+              >
+                <div class="sourceIcons">
+                  0
                 </div>
+                </semantic-link>
               </td>
-              <td>
-                <div class="sourceIcons">[[> :SourceIcon ]]</div>
+             <td class="sourceIcon-badge">
+              <semantic-link
+              iri="http://www.researchspace.org/resource/Field"
+              urlqueryparam-tab="annotations"
+              urlqueryparam-field="{{field.iri}}"
+              urlqueryparam-subject="[[this]]"
+            >
+                <div class="sourceIcons">
+                  0
+                </div>
+                </semantic-link>
               </td>
 
               [[/if]]
