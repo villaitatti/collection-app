@@ -89,7 +89,6 @@
     "kind": "literal",
     "queryPattern": "
       BIND(\"Without image\" as ?withoutImage ).
-      OPTIONAL{
         {
           $subject fr:Work_depicted_by_Photo ?photo.
           ?photo crm:P129i_is_subject_of ?fullImage.
@@ -98,7 +97,6 @@
           ?subject crm:P129i_is_subject_of ?fullImage.
           BIND(\"With image\" as ?withImage ).
         }
-      }
       BIND(COALESCE(?withImage, ?withoutImage) AS ?literal) .
     "}]
 }
