@@ -48,7 +48,7 @@
     style="margin-top: 8px"
     id="artwork-filter-search"
   >
-  <bs-panel id="filter-panel" header="Filters"  collapsible="true" default-expanded="true">
+  <bs-panel id="filter-panel" header="Filter by"  collapsible="true" default-expanded="true">
     <semantic-search-facet 
     open-by-default="true"
     facet-value-height="150px"
@@ -146,7 +146,7 @@
               <mp-event-target-template-render 
               id="result-view-target" template="{{>resultTemplate}}">
                 <template id='resultTemplate'>
-                  <div>
+                  <div class="no-spinner">
                   {{#if selectedView}}
                     {{#ifCond selectedView "===" "list"}}
                       [[> Default:CardArtwork]]

@@ -7,6 +7,8 @@
 @import "./artworkHeader.css";
 @import "./simpleSearch.css";
 @import "./workProductionInfo.css";
+@import "./workPhoto.css";
+
 
 
 .system-spinner__icon {
@@ -86,5 +88,12 @@ ol.page-breadcrumb{
   left: 0;
 }
 .component-page-toolbar {
+  top: 90px;
+}
+
+.modal-content .modal-header{
+  padding: 0px 22px 0px !important;
+}
+.modal-dialog.overlay-lightbox__dialog.modal-dialog {
   top: 90px;
 }
