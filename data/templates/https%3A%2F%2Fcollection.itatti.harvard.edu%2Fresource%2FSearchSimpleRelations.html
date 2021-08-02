@@ -1,5 +1,5 @@
 {
-  "<https://pharos.artresearch.net/resource/custom/fr/Person_has_Date_of_Birth>":[
+  "<https://collection.itatti.harvard.edu/resource/custom/fr/Person_has_Date_of_Birth>":[
   {
     "kind": "numeric-range",
     "queryPattern": "
@@ -8,7 +8,7 @@
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
-  "<https://pharos.artresearch.net/resource/custom/fr/Person_has_Date_of_Death>": [
+  "<https://collection.itatti.harvard.edu/resource/custom/fr/Person_has_Date_of_Death>": [
   {
     "kind": "numeric-range",
     "queryPattern": "
@@ -17,35 +17,35 @@
         FILTER(?literal <= ?__numericRangeEndValue__) .
         BIND(xsd:integer(str(?gYear)) as ?literal)."
   }],
-  "<https://pharos.artresearch.net/resource/custom/fr/Event_has_Type>": [
+  "<https://collection.itatti.harvard.edu/resource/custom/fr/Event_has_Type>": [
   {
     "kind": "literal",
     "queryPattern": "
       $subject fr:Person_has_Event ?event.
         ?event fr:Event_has_Type ?__value__ ."
   }],
-  "<https://pharos.artresearch.net/resource/custom/fr/Event_at_Place>": [
+  "<https://collection.itatti.harvard.edu/resource/custom/fr/Event_at_Place>": [
   {
     "kind": "resource",
     "queryPattern": "
       $subject fr:Person_has_Event ?event.
         ?event fr:Event_at_Place ?__value__ ."
   }],
-"<https://pharos.artresearch.net/resource/custom/fr/Work_kept_by_Institution>":[
+"<https://collection.itatti.harvard.edu/resource/custom/fr/Work_kept_by_Institution>":[
 {
   "kind": "resource",
   "queryPattern": "
       $subject fr:Work_kept_by_Institution ?__value__.
   "
 }],
-"<https://pharos.artresearch.net/resource/custom/fr/Work_from_Place>": [
+"<https://collection.itatti.harvard.edu/resource/custom/fr/Work_from_Place>": [
 {
   "kind": "resource",
   "queryPattern": "
     $subject fr:Work_from_Place ?__value__.
   "
 }],
-"<https://pharos.artresearch.net/resource/custom/fr/Person_has_Date_of_Birth>":[
+"<https://collection.itatti.harvard.edu/resource/custom/fr/Person_has_Date_of_Birth>":[
 {
   "kind": "numeric-range",
   "queryPattern": "
@@ -54,7 +54,7 @@
       FILTER(?literal <= ?__numericRangeEndValue__) .
       BIND(xsd:integer(str(?gYear)) as ?literal)."
 }],
-"<https://pharos.artresearch.net/resource/custom/fr/Person_has_Date_of_Death>": [
+"<https://collection.itatti.harvard.edu/resource/custom/fr/Person_has_Date_of_Death>": [
 {
   "kind": "numeric-range",
   "queryPattern": "
@@ -63,14 +63,14 @@
       FILTER(?literal <= ?__numericRangeEndValue__) .
       BIND(xsd:integer(str(?gYear)) as ?literal)."
 }],
-"<https://pharos.artresearch.net/resource/custom/fr/Event_has_Type>": [
+"<https://collection.itatti.harvard.edu/resource/custom/fr/Event_has_Type>": [
 {
   "kind": "resource",
   "queryPattern": "
       $subject fr:Person_has_Event ?event.
       ?event fr:Event_has_Type ?__value__ ."
 }],
-"<https://pharos.artresearch.net/resource/custom/fr/Event_at_Place>": [
+"<https://collection.itatti.harvard.edu/resource/custom/fr/Event_at_Place>": [
 {
   "kind": "resource",
   "queryPattern": "
@@ -78,14 +78,14 @@
       $subject fr:Person_has_Event ?event.
       ?event fr:Event_at_Place ?__value__ ."
 }],
-"<https://pharos.artresearch.net/resource/custom/fr/Work_from_Date>": [{
+"<https://collection.itatti.harvard.edu/resource/custom/fr/Work_from_Date>": [{
   "kind": "date-range",
   "datatype": "http://www.w3.org/2001/XMLSchema#date",
   "queryPattern": "
   $subject fr:Work_from_Date ?dateStart.
   $subject fr:Work_from_Date ?dateEnd .
   "}],
-  "<https://pharos.artresearch.net/resource/custom/WithImage>": [{
+  "<https://collection.itatti.harvard.edu/resource/custom/WithImage>": [{
     "kind": "literal",
     "queryPattern": "
       BIND(\"Without image\" as ?withoutImage ).
