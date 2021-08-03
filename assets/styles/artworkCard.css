@@ -68,7 +68,7 @@
 
 .artwork-card-big {
   min-height: 23vh;
-  min-width: 100%;
+  min-width: 50vw;
   margin-right: 0 !important;
   height: -moz-fit-content;
   height: fit-content;

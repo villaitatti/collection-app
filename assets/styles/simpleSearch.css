@@ -19,9 +19,27 @@
   width: 87vw;
   min-height: 100vh;
 }
-#simple-search .option-selected {
+#simple-search .fa {
+  transition: 0.4s;
+}
+
+#simple-search .fa:hover {
+  color: #8b8a8a;
+}
+.nav.nav-tabs {
+  border-bottom: none !important
+}
+
+#simple-search a[role="tab"][aria-selected=true] > div {
   color: var(--color-primary-100);
 }
+#simple-search .nav.nav-tabs>li.active {
+  box-shadow: none;
+}
+#simple-search .nav.nav-tabs>li:hover {
+  box-shadow: none;
+}
+
 #simple-search .facet__category-selector-holder {
   display: none;
 }
@@ -138,4 +156,11 @@
   top: 18vh;
   z-index: 1;
   background: white;
+}
+
+
+@media (max-width:1000px){
+  #simple-search #artwork-filter-search {
+    position: unset;
+  }
 }

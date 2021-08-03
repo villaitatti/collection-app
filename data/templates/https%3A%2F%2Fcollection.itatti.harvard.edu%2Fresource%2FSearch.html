@@ -87,81 +87,68 @@
         </semantic-query>
         <semantic-search-facet-breadcrumbs></semantic-search-facet-breadcrumbs>
         <div id='artwork-filter-search-inline'>
-          <div class="change-view-options">
-            <mp-event-target-template-render
-            id="view-option-target"
-            template="{{> viewOptionTemplate}}"
-          >
-            <template id="viewOptionTemplate">
-                {{#ifCond selectedView "===" "table"}}
-                  <div class="fa fa-table option-selected"></div>
-                {{else}}
-                <mp-event-trigger
-                id="event-view-table"
-                type="Component.TemplateUpdate"
-                data='{"selectedView":"table"}'
-                targets='["view-option-target","result-view-target"]'>
-                  <div class="fa fa-table"></div>
-                </mp-event-trigger>
-                {{/ifCond}}
-              {{#ifCond selectedView "===" "list"}}
-               <div class="fa fa-list-ul option-selected"></div>
-              {{else}}
-              <mp-event-trigger
-              id="event-view-table"
-              type="Component.TemplateUpdate"
-              data='{"selectedView":"list"}'
-              targets='["view-option-target","result-view-target"]'>
-                <div class="fa fa-list-ul"></div>
-              </mp-event-trigger>
-              {{/ifCond}}
-              {{#if selectedView}}
-               {{#ifCond selectedView "===" "grid"}}
-                 <div class="fa fa-th option-selected"></div>
-               {{else}}
-               <mp-event-trigger
-               id="event-view-table"
-               type="Component.TemplateUpdate"
-               data='{"selectedView":"grid"}'
-               targets='["view-option-target","result-view-target"]'>
-                  <div class="fa fa-th"></div>
-              </mp-event-trigger>
-               {{/ifCond}}
-              {{else}}
-               <div class="fa fa-th option-selected"></div>
-              {{/if}}
-            </template>
-            </mp-event-target-template-render>
-          </div>
-            <semantic-table
-            id="grid-result"
-            query='SELECT DISTINCT  ?subject  WHERE {
-            }LIMIT 100'
-            number-of-displayed-rows="12"
-            tuple-template="{{> subjectCellTemplate}}"
-            options='{"showTableHeading": false, "showFilter":false}'
-            no-result-template='<h1>No results found..</h1>'
-          >
-            <template id="subjectCellTemplate">
-              <mp-event-target-template-render 
-              id="result-view-target" template="{{>resultTemplate}}">
-                <template id='resultTemplate'>
+
+          <bs-tab-container
+          id="tab-container"
+          class="page__body-navtabs--borderless"
+          default-active-key="grid"
+          unmount-on-exit="false"
+        >
+          <div>
+            <bs-nav class="change-view-options" bs-style="tabs">
+              <bs-nav-item event-key="table">
+                <div class="fa fa-table"></div>
+              </bs-nav-item>
+              <bs-nav-item event-key="list">
+                <div class="fa fa-list"></div>
+              </bs-nav-item>
+              <bs-nav-item event-key="grid">
+                <div class="fa fa- fa-th"></div>
+              </bs-nav-item>
+            </bs-nav>
+
+            <bs-tab-content unmount-on-exit="true">
+              <bs-tab-pane event-key="grid">
+                <semantic-table
+                id="grid-result"
+                query='SELECT DISTINCT  ?subject  WHERE {
+                }LIMIT 100'
+                number-of-displayed-rows="12"
+                tuple-template="{{> subjectCellTemplate}}"
+                options='{"showTableHeading": false, "showFilter":false}'
+                no-result-template='<h1>No results found..</h1>'
+              >
+                <template id="subjectCellTemplate">
                   <div class="no-spinner">
-                  {{#if selectedView}}
-                    {{#ifCond selectedView "===" "list"}}
-                      [[> Default:CardArtwork]]
-                    {{/ifCond}}
-                    {{#ifCond selectedView "===" "grid"}}
-                    [[> Default:CardArtworkSmall]]
-                    {{/ifCond}}
-                    {{else}}
-                    [[> Default:CardArtworkSmall]]
-                  {{/if}}
-                </div>
+                  [[> Default:CardArtworkSmall]]
+                  </div>
                 </template>
-              </mp-event-target-template-render>
-            </template>
-          </semantic-table>
+                </semantic-table>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="list">
+                <semantic-table
+                id="grid-result"
+                query='SELECT DISTINCT  ?subject  WHERE {
+                }LIMIT 100'
+                number-of-displayed-rows="12"
+                tuple-template="{{> subjectCellTemplate}}"
+                options='{"showTableHeading": false, "showFilter":false}'
+                no-result-template='<h1>No results found..</h1>'
+              >
+                <template id="subjectCellTemplate">
+                  <div class="no-spinner">
+                  [[> Default:CardArtwork]]
+                  </div>
+                </template>
+                </semantic-table>
+              </bs-tab-pane>
+              <bs-tab-pane event-key="table">
+                [[> Default:SearchResultTableWork]]
+                
+              </bs-tab-pane>
+            </bs-tab-content>
+          </div>
+        </bs-tab-container>
         </div>
       </semantic-search-result>
       </div>
