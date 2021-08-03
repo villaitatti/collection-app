@@ -105,12 +105,6 @@
   object-fit: contain;
 }
 
-
-
-
-
-
-
 .thumbnailImageTabular:-moz-broken {
   background-image: url(/assets/images/media/image_placeholder_broken.jpg) !important;
   position: relative;

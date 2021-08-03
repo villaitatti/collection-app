@@ -16,8 +16,8 @@
   cursor: pointer;
 }
 #simple-search .superRow {
-  width: 87vw;
-  min-height: 100vh;
+display: inline-block;
+min-width: 90vw
 }
 #simple-search .fa {
   transition: 0.4s;
