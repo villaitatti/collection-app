@@ -188,15 +188,9 @@
                 </semantic-query>
                 <semantic-query 
                 query='SELECT ?provider WHERE { 
-                  {
-                  <{{subject.value}}> fr:Work_has_provider_Institution ?provider
-                  }union{
-                   ?original owl:sameAs <{{subject.value}}>.
-                   ?original fr:Work_has_provider_Institution ?provider 
-                  }union{
-                    <{{subject.value}}> fr:Photo_depicts_Work  ?work.
-                    ?work fr:Work_has_provider_Institution ?provider.
-                  }
+                    <{{subject.value}}> <https://collection.itatti.harvard.edu/custom/has_provider> ?provider.
+                    ?provider rdfs:label ?providerLabel.
+                    FILTER(?providerLabel != "I Tatti")
                 }LIMIT 1'
                 template="{{>archiveTemplate}}"
                 >

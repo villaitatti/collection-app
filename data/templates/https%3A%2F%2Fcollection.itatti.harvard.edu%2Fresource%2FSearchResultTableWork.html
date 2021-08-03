@@ -10,6 +10,8 @@
     ?subject a fc:work.
     OPTIONAL{
       ?subject <https://collection.itatti.harvard.edu/custom/has_provider> ?provider.
+      ?provider rdfs:label ?providerLabel.
+      FILTER(?providerLabel != "I Tatti")
     }
     OPTIONAL{
       ?subject fr:Work_created_from_Artist ?creator.
@@ -29,7 +31,7 @@
     }
     BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
-}GROUP BY(?subject) ORDER BY DESC (?score) LIMIT 100'
+}GROUP BY(?subject) LIMIT 100'
   options='{"showFilter":true, "pageSizeSelection": true,"resultsPerPage":10}'
   number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
   column-configuration='[
@@ -65,6 +67,8 @@ WHERE {
     }
     OPTIONAL{
       ?subject <https://collection.itatti.harvard.edu/custom/has_provider> ?provider.
+      ?provider rdfs:label ?providerLabel.
+      FILTER(?providerLabel != "I Tatti")
     }
     OPTIONAL{
       ?fullsizeImgUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817>.
@@ -72,7 +76,7 @@ WHERE {
     }
     BIND("/assets/images/media/image_placeholder.jpg" as ?default_imageUrl)
     BIND(coalesce(?smallerImgUrl, ?default_imageUrl) as ?image)
-  }GROUP BY(?subject) ORDER BY DESC (?score) LIMIT 100'
+  }GROUP BY(?subject) LIMIT 100'
   options='{"showFilter":true, "resultsPerPage":10}'
   number-of-displayed-rows="{{#if noRows}}{{noRows}}{{else}}10{{/if}}"
   column-configuration='[

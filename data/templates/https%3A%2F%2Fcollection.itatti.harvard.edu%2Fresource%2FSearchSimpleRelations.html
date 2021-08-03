@@ -98,5 +98,14 @@
         BIND(\"With image\" as ?withImage ).
       }
       BIND(COALESCE(?withImage, ?withoutImage) AS ?literal) .
-    "}]
+    "}],
+    "<https://collection.itatti.harvard.edu/custom/has_provider>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+          $subject ?__relation__ ?__value__.
+          ?__value__ rdfs:label ?providerLabel.
+          FILTER(?providerLabel != \"I Tatti\")
+          "
+    }]
 }
