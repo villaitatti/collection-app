@@ -1,3 +1,9 @@
+<div style="margin-top:8vh">
+  <h1 style="font-size: 36px;
+  margin-left: 12px;
+  color: #802126;">[[title]]
+  </h1>
+
 <div id="simple-search">
   <semantic-search
     relations='[[> Default:SearchSimpleRelations]]'
@@ -17,19 +23,8 @@
   placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
   domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
   default-query='
-  PREFIX bds: <http://www.bigdata.com/rdf/search#>
-  PREFIX hint: <http://www.bigdata.com/queryHints#>
     SELECT DISTINCT ?subject WHERE {
-        {
-          ?subject a fc:work.
-        }union{
-          ?subject a fc:photo.
-        }
-        ?subject rdfs:label ?label .
-        ?label bds:search "{{bindings.0.token.value}}";
-        bds:minRelevance "0.3" ;
-        bds:relevance ?score ;
-        bds:matchAllTerms "true" .
+      [[query]]
     }
   '
   query='
@@ -62,27 +57,13 @@
       <semantic-search-result>
         <semantic-query
           id="view-more"
-          query='SELECT ?keywords WHERE {
-            BIND(REPLACE(str("[[urlParam "keyword"]]"),"\\+"," ") as ?keywords)
-          }'
-          template="{{>currentSearchText}}"
-        >
-          <template id="currentSearchText">
-            <h2>
-              Searched in artworks for:
-              <i>{{bindings.0.keywords.value}}</i>
-            </h2>
-          </template>
-        </semantic-query>
-        <semantic-query
-          id="view-more"
           query='SELECT (COUNT(DISTINCT ?subject) as ?count) WHERE {
           } LIMIT 1'
           template="{{>currentResultCount}}"
         >
           <template id="currentResultCount">
             <h2>
-                Found {{bindings.0.count.value}} relevant results
+                Displaying {{bindings.0.count.value}} results
             </h2>
           </template>
         </semantic-query>
@@ -160,4 +141,6 @@
   </template>
   </semantic-query>
 </semantic-search>
+</div>
+
 </div>

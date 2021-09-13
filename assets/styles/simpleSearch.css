@@ -50,9 +50,6 @@ min-width: 90vw
   align-items: center;
 }
 
-#simple-search .hiddenSearchbar {
-  display: none;
-}
 #simple-search .facet-relations {
   width: 100% !important;
 }
@@ -60,6 +57,10 @@ min-width: 90vw
 #simple-search .griddle-custom-row {
   margin-bottom: 75px;
   justify-content: space-evenly !important;
+}
+
+#simple-search .hiddenSearchbar {
+  display: none;
 }
 
 #simple-search .show-facet-button {
