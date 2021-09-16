@@ -186,32 +186,6 @@
                 </tr>
                 </template>
                 </semantic-query>
-                <semantic-query 
-                query='SELECT ?provider WHERE { 
-                    <{{subject.value}}> <https://collection.itatti.harvard.edu/custom/has_provider> ?provider.
-                    ?provider rdfs:label ?providerLabel.
-                    FILTER(?providerLabel != "I Tatti")
-                }LIMIT 1'
-                template="{{>archiveTemplate}}"
-                >
-                <template id="archiveTemplate">
-
-                <tr class="rs-page-resource__field">
-                  <td class="rs-page-resource__field-label-holder headLine">
-                    <span class="rs-page-resource__field-label">
-                      Archive
-                    </span>
-                  </td>
-                  <td>
-                      <span class="rs-page-resource__field-value">
-                        <div style="width:25vw; max-width: 450px;">
-                          <semantic-link iri="{{bindings.0.provider.value}}"></semantic-link>
-                        </div>
-                      </span>
-                  </td>
-                </tr>
-                </template>
-                </semantic-query>
 
                 <semantic-query 
                 query='SELECT ?work WHERE { 
