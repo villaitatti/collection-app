@@ -131,10 +131,10 @@ min-width: 90vw
 }
 
 #simple-search i.facet__relation__header__icon--selected {
-  display: none;
+  color: #b2182b;
 }
 #simple-search i.facet__relation__header__icon {
-  display: none;
+  color: #b2182b;
 }
 
 #simple-search .facet__relation__values__value {
