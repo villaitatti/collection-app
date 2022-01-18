@@ -32,5 +32,24 @@
         {{/each}}
       </template>
     </semantic-query></h2>
+       <h2 style="margin-left: 5px; margin-top: 10px;" class="fc-label">
+      <semantic-query query='SELECT ?og WHERE{
+        ?? <https://collection.itatti.harvard.edu/custom/has_original_record> ?og
+      }'
+      template="{{>relArtwork}}"
+      >
+      <template id="relArtwork">
+        
+        {{#each bindings}}
+          <a 
+              class="artwork-link" 
+              title="Hollis record" 
+              href="{{og.value}}"  
+              target="_null" >
+                  View Hollis Record
+          </a>
+        {{/each}}
+      </template>
+    </semantic-query></h2>
   </div>
 </div>
