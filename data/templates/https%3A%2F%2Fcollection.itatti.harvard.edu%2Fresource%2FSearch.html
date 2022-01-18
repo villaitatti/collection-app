@@ -1,5 +1,7 @@
 <div id="simple-search">
   <semantic-search
+    id="semantic-search"
+    limit="10000"
     relations='[[> Default:SearchSimpleRelations]]'
     search-profile='[[> Default:SearchSimpleProfile]]'
   >
@@ -16,21 +18,33 @@
   <semantic-search-query-keyword
   placeholder='You searched for [[urlParam "keyword"]], but you can search for anything!'
   domain="<http://www.cidoc-crm.org/cidoc-crm/E22_Man-Made_Object>"
+  escape-lucene-syntax="false"
   default-query='
   PREFIX bds: <http://www.bigdata.com/rdf/search#>
+  PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+  PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+  PREFIX fc: <https://collection.itatti.harvard.edu/resource/custom/fc/>
+  PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+  PREFIX fr: <https://collection.itatti.harvard.edu/resource/custom/fr/>
   PREFIX hint: <http://www.bigdata.com/queryHints#>
-    SELECT DISTINCT ?subject WHERE {
-        {
-          ?subject a fc:work.
-        }union{
-          ?subject a fc:photo.
-        }
-        ?subject rdfs:label ?label .
-        ?label bds:search "{{bindings.0.token.value}}";
-        bds:minRelevance "0.3" ;
+    SELECT DISTINCT ?subject   WHERE {
+  {
+    ?subject a fc:work.
+  } UNION {
+    ?subject a fc:photo.
+  }
+  
+  {
+  	?subject rdfs:label ?extra_label.
+  } union {
+    ?subject fr:Work_created_from_Artist |fr:Work_from_Place| fr:Work_influenced_by_Artist|crm:P50_has_current_keeper|fr:Photo_depicts_work | fr:Work_shows_Subject ?extra.
+    ?extra rdfs:label ?extra_label.
+  }
+  ?extra_label bds:search "[[urlParam "keyword"]]";
+        bds:minRelevance "0.2"^^xsd:double ;
         bds:relevance ?score ;
         bds:matchAllTerms "true" .
-    }
+}LIMIT 100
   '
   query='
   SELECT ?nothing WHERE{
