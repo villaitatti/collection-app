@@ -1,0 +1,313 @@
+<div style="
+position: relative;display: flex;
+flex-direction: column;
+margin-top: 30px;
+    place-items: center;">
+  [[#if editMode]]
+  <h3>Edit <mp-label iri="[[this]]"></mp-label>
+  </h3>
+  <br />
+  [[else]]
+  <h2>Add new Artwork
+  </h2>
+  [[/if]]
+ <semantic-query query='PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+      PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+        SELECT ?num WHERE {
+               BIND(REPLACE(STR(UUID()),"urn:uuid:","") AS ?num)
+        }
+    ' template="{{>val}}">
+    <template id="val">
+      <div class="Title">Suggested Identifier</div>
+        <div class="Title">{{bindings.0.num.value}}</div>
+    </template>
+  </semantic-query>
+
+
+  <semantic-form for-class='https://collection.itatti.harvard.edu/resource/work/' 
+    post-action="redirect" 
+    [[#if editMode]] 
+    subject='[[this]]'
+    [[else]] 
+    new-subject-template='https://collection.itatti.harvard.edu/resource/work//{{ObjectID}}'
+    browser-persistence=false 
+    persistence='sparql' 
+    [[/if]] fields='[[  fieldDefinitions
+    ObjectID="http://www.researchspace.org/fieldDefinition/ObjectID" 
+    Creator="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Creator_Authoring_Form" 
+    Title="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Title_Authoring_Form" 
+    Date_Description="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Work_from_Date" 
+    Artstor_Earliest_Date="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Artstor_Earliest_Date" 
+    Artstor_Latest_Date="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Artstor_Latest_Date" 
+    Work_Type_Authoring_Form="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Work_Type_Authoring_Form" 
+    Culture="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Culture_Authoring_Form" 
+    Style_/_Periods_Authoring_Form="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Style_/_Periods_Authoring_Form" 
+    Physical_Description="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Description_Authoring_Form" 
+    Material="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Material_Authoring_Form" 
+    Dimension="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Dimension_Authoring_form" 
+    Location="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Location_Authoring_Form" 
+    Subject="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Subject_Authoring_Form" 
+    Relationship="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Relationship_Authoring_Form" 
+    References="https://collection.itatti.harvard.edu/fieldDefinitionContainer/References_Authoring_Form" 
+    Rights="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Rights_Authoring_Form" 
+    Repository="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Repository_Authoring_Form" 
+    Repository_Classification_Number="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Repository_Classification_Number_Authoring_Form" 
+    Repository_Accession_Number="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Repository_Accession_Number_Authoring_Form" 
+
+    ]]'>
+    <div class='sections'>
+
+      <div class='border-with-title'>
+        <h2>Names and Classifications</h2>
+        <semantic-form-text-input for="ObjectID"></semantic-form-text-input>
+        <semantic-form-text-input for="Creator"></semantic-form-text-input>
+        <semantic-form-text-input for="Title"></semantic-form-text-input>
+        <semantic-form-text-input for="Date_Description"></semantic-form-text-input>
+        <semantic-form-datetime-input for="Artstor_Earliest_Date"></semantic-form-datetime-input>
+        <semantic-form-datetime-input for="Artstor_Latest_Date"></semantic-form-datetime-input>
+        <semantic-form-autocomplete-input for="Work_Type_Authoring_Form"></semantic-form-autocomplete-input>
+        <semantic-form-autocomplete-input for="Culture"></semantic-form-autocomplete-input>
+        <semantic-form-autocomplete-input for="Style_/_Periods_Authoring_Form"></semantic-form-autocomplete-input>
+        <semantic-form-text-input for="Physical_Description"></semantic-form-text-input>
+        <semantic-form-autocomplete-input for="Material"></semantic-form-autocomplete-input>
+        <semantic-form-text-input for="Dimension"></semantic-form-text-input>
+        <semantic-form-autocomplete-input for="Location"></semantic-form-autocomplete-input>
+        <semantic-form-text-input for="Subject"></semantic-form-text-input>
+
+        <semantic-form-composite-input for="Relationship"
+          new-subject-template="/relationship/{{Relationship_content}}" fields='[[  fieldDefinitions
+          Relationship_content="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Relationship_Content_Authoring_Form"
+          Relationship_type="https://collection.itatti.harvard.edu/fieldDefinitionContainer/Relationship_Type_Authoring_Form"
+                ]]'>
+          <semantic-form-text-input for="Relationship_content"></semantic-form-text-input>
+          <semantic-form-select-input for='Relationship_type'></semantic-form-select-input>
+      </semantic-form-composite-input>
+
+      <semantic-form-text-input for="References"></semantic-form-text-input>
+      <semantic-form-select-input for='Rights'></semantic-form-select-input>
+      <semantic-form-autocomplete-input for='Repository'></semantic-autocomplete-select-input>
+
+      
+      </div>
+      <semantic-form-text-input for="Repository_Classification_Number"></semantic-form-text-input>
+      <semantic-form-text-input for="Repository_Accession_Number"></semantic-form-text-input>
+    </div>
+
+    <div style=" padding-bottom : 20px; display:flex;gap:10px; margin-top:10px">
+
+      <button name="submit" class="btn btn-secondary">Save</button>
+      <button name="reset" class="btn btn-secondary">Reset</button>
+    </div>
+  </semantic-form>
+
+</div>
+<!-- <style>
+  .border-with-title {
+    box-shadow: 13px 10px 10px 1px #c1c1c170 !important;
+    border: 1px solid #aadab5;
+    border-radius: 4px;
+    box-shadow: 0px 0px 8px 3px #ebebeb;
+    padding: 15px;
+    margin-top: 15px;
+  }
+
+  .sections {
+    width: 55vw;
+    gap: 20px;
+  }
+
+
+  .system-spinner {
+  animation: hideAnimation 0s ease-in 5s;
+  animation-fill-mode: forwards;
+} 
+
+@keyframes system-spinner {
+  to {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+}
+
+</style> -->
+
+
+
+
+
+[[#*inline "showOnRdsGlobalPersonFor"]]
+[[> Default:ReadMoreButton]]
+<div style="display: flex; align-items: flex-end;">
+  <div style="flex-grow: 1; min-width: 50%;">
+    [[> @partial-block ]]
+  </div>
+  <div style='padding: 5px'>
+    <semantic-form-template template="{{> template}}">
+      <template id="template">
+        {{#if model.fields.[[fieldName]]}}
+          {{#each model.fields.[[fieldName]].values}}
+            {{#if node}}
+              <mp-description iri="{{node.value}}"></mp-description>
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </template>
+    </semantic-form-template>
+  </div>
+  <div>
+    <semantic-form-template template="{{> template}}">
+      <template id="template">
+        {{#if model.fields.[[fieldName]]}}
+          {{#each model.fields.[[fieldName]].values}}
+            {{#if node}}
+              <semantic-query
+                query='SELECT * WHERE { {{node}} a ?type } LIMIT 1'
+                template=' '
+                no-result-template='{{> readMoreOnRdsGlobal resourceIri=node.value}}'>
+                [[> readMoreOnRdsGlobal_frontendTemplate]]
+              </semantic-query>
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </template>
+    </semantic-form-template>
+  </div>
+</div>
+[[/inline]]
+
+
+
+[[#*inline "newSubPerson"]]
+<div style="display: flex; align-items: flex-end;">
+  <div style="flex-grow: 1">
+    [[> @partial-block ]]
+  </div>
+  <div>
+    <semantic-link
+      iri="[[resolvePrefix "Default:E21_Person_AuthoringForms"]]"
+      target="_blank">
+      <button class='btn btn-secondary'>Create new</button>
+    </semantic-link>
+  </div>
+</div>
+[[/inline]]
+
+
+
+[[#*inline "showOnRdsGlobalPlaceFor"]]
+[[> Default:ReadMoreButton]]
+<div style="display: flex; align-items: flex-end;">
+  <div style="flex-grow: 1; min-width: 50%;">
+    [[> @partial-block ]]
+  </div>
+  <div style='padding: 5px'>
+    <semantic-form-template template="{{> template}}">
+      <template id="template">
+        {{#if model.fields.[[fieldName]]}}
+          {{#each model.fields.[[fieldName]].values}}
+            {{#if node}}
+              <mp-description iri="{{node.value}}"></mp-description>
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </template>
+    </semantic-form-template>
+  </div>
+  <div>
+    <semantic-form-template template="{{> template}}">
+      <template id="template">
+        {{#if model.fields.[[fieldName]]}}
+          {{#each model.fields.[[fieldName]].values}}
+            {{#if node}}
+              <semantic-query
+                query='SELECT * WHERE { {{node}} a ?type } LIMIT 1'
+                template=' '
+                no-result-template='{{> readMoreOnRdsGlobal resourceIri=node.value}}'>
+                [[> readMoreOnRdsGlobal_frontendTemplate]]
+              </semantic-query>
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </template>
+    </semantic-form-template>
+  </div>
+</div>
+[[/inline]]
+
+
+
+[[#*inline "newSubPlace"]]
+<div style="display: flex; align-items: flex-end;">
+  <div style="flex-grow: 1">
+    [[> @partial-block ]]
+  </div>
+  <div>
+    <semantic-link
+      iri="[[resolvePrefix "Default:E53_Place_AuthoringForms"]]"
+      target="_blank">
+      <button class='btn btn-secondary'>Create new</button>
+    </semantic-link>
+  </div>
+</div>
+[[/inline]]
+
+
+
+[[#*inline "showOnRdsGlobalMaterialFor"]]
+[[> Default:ReadMoreButton]]
+<div style="display: flex; align-items: flex-end;">
+  <div style="flex-grow: 1; min-width: 50%;">
+    [[> @partial-block ]]
+  </div>
+  <div style='padding: 5px'>
+    <semantic-form-template template="{{> template}}">
+      <template id="template">
+        {{#if model.fields.[[fieldName]]}}
+          {{#each model.fields.[[fieldName]].values}}
+            {{#if node}}
+              <mp-description iri="{{node.value}}"></mp-description>
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </template>
+    </semantic-form-template>
+  </div>
+  <div>
+    <semantic-form-template template="{{> template}}">
+      <template id="template">
+        {{#if model.fields.[[fieldName]]}}
+          {{#each model.fields.[[fieldName]].values}}
+            {{#if node}}
+              <semantic-query
+                query='SELECT * WHERE { {{node}} a ?type } LIMIT 1'
+                template=' '
+                no-result-template='{{> readMoreOnRdsGlobal resourceIri=node.value}}'>
+                [[> readMoreOnRdsGlobal_frontendTemplate]]
+              </semantic-query>
+            {{/if}}
+          {{/each}}
+        {{/if}}
+      </template>
+    </semantic-form-template>
+  </div>
+</div>
+[[/inline]]
+
+
+
+[[#*inline "newSubMaterial"]]
+<div style="display: flex; align-items: flex-end;">
+  <div style="flex-grow: 1">
+    [[> @partial-block ]]
+  </div>
+  <div>
+    <semantic-link
+      iri="[[resolvePrefix "Default:E55_Material_AuthoringForms"]]"
+      target="_blank">
+      <button class='btn btn-secondary'>Create new</button>
+    </semantic-link>
+  </div>
+</div>
+[[/inline]]
