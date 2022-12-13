@@ -10,8 +10,7 @@ margin-top: 30px;
   [[else]]
   <h2>Add new Artwork
   </h2>
-  [[/if]]
- <semantic-query query='PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+   <semantic-query query='PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
       PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
       PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
         SELECT ?num WHERE {
@@ -23,6 +22,8 @@ margin-top: 30px;
         <div class="Title">{{bindings.0.num.value}}</div>
     </template>
   </semantic-query>
+  [[/if]]
+
 
 
   <semantic-form for-class='https://collection.itatti.harvard.edu/resource/work/' 
