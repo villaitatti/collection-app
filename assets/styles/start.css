@@ -89,6 +89,9 @@
 #home-page .home-body-grid .grid-option:nth-child(4) {
   background: url(/assets/images/media/art_collection.jpg);
 }
+#home-page .home-body-grid .grid-option#mb_diaries{
+    background: url(/assets/images/media/mb-cover1.jpg);
+}
 #home-page .home-body-grid .grid-option {
   display: flex;
   cursor: pointer;
