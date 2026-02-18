@@ -17,6 +17,11 @@
   background-size: contain;
   background-repeat: no-repeat;
 }
+
+.navbar {
+  margin-bottom: 35px;
+}
+
 .navbar .container {
   width: 100%;
   background: white;
@@ -25,6 +30,10 @@
   padding-bottom: 5px;
   min-height: 84px;
 }
+.navbar-default .navbar-nav a {
+  color: black;
+}
+
 .navbar-default .navbar-nav > li > a {
   transition: 0.3s;
   color: black;
