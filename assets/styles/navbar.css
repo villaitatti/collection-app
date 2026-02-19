@@ -3,11 +3,11 @@
   width: 100% !important;
   height: 100% !important;
 }
-.navbar-header:hover {
+#collection .navbar-header:hover {
   filter: drop-shadow(45px 25px 0px #dedede);
 }
 
-.navbar-header {
+#collection .navbar-header {
   background: url(/assets/images/logos/logocollections.png);
   font-size: 0 !important;
   width: 80px;
