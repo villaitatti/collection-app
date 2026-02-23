@@ -79,7 +79,7 @@
   grid-gap: 35px;
   margin-bottom: 15vh;
   width: 60vw;
-    margin-left: 15vw;
+  margin-left: 15vw;
   height: fit-content;
 }
 #home-page .home-body-grid .grid-option:nth-child(1) {
@@ -94,8 +94,8 @@
 #home-page .home-body-grid .grid-option:nth-child(4) {
   background: url(/assets/images/media/art_collection.jpg);
 }
-#home-page .home-body-grid .grid-option#mb_diaries{
-    background: url(/assets/images/media/mb-cover1.jpg);
+#home-page .home-body-grid .grid-option#mb_diaries {
+  background: url(/assets/images/media/mb-cover1.jpg);
 }
 #home-page .home-body-grid .grid-option {
   display: flex;
@@ -135,13 +135,12 @@
   min-width: 260px;
 }
 
-
-@media(max-width:1400px){
-  #home-page .home-body-grid{
+@media (max-width: 1400px) {
+  #home-page .home-body-grid {
     display: flex !important;
     flex-wrap: wrap;
     margin-left: 0 !important;
     width: unset !important;
-    justify-content: center ;
+    justify-content: center;
   }
 }
