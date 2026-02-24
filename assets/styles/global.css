@@ -9,6 +9,9 @@
 @import "./workProductionInfo.css";
 
 
+.fa-sign-out::before{
+  content: none!important;
+}
 
 .system-spinner__icon {
   color: #007bff;
