@@ -168,3 +168,108 @@
   --pageDarkerSection-shadow: #ddd9d9;
   --pageSection-backArea-bg: #e7e6e6;
 }
+
+
+/* =============================================================================
+   I TATTI DESIGN SYSTEM TOKENS
+   Prefixed --itatti-* to avoid collisions with ResearchSpace system vars above.
+   Per-project palette tokens are scoped to each project's container IDs.
+   ============================================================================= */
+
+:root {
+
+  /* ── Typography ── */
+  --itatti-font-heading : 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --itatti-font-body    : 'Lato', 'Open Sans', Arial, sans-serif;
+
+  /* ── Type scale (base 16 px) ── */
+  --itatti-text-xs   : 0.75rem;
+  --itatti-text-sm   : 0.875rem;
+  --itatti-text-base : 1rem;
+  --itatti-text-md   : 1.125rem;
+  --itatti-text-lg   : 1.25rem;
+  --itatti-text-xl   : 1.5rem;
+  --itatti-text-2xl  : 2rem;
+  --itatti-text-3xl  : 2.5rem;
+  --itatti-text-4xl  : 3rem;
+  --itatti-text-5xl  : 3.75rem;
+  --itatti-text-6xl  : 5rem;
+
+  /* ── Line heights ── */
+  --itatti-leading-tight   : 1.15;
+  --itatti-leading-snug    : 1.30;
+  --itatti-leading-normal  : 1.55;
+  --itatti-leading-relaxed : 1.70;
+
+  /* ── Spacing (4-pt grid) ── */
+  --itatti-space-1  : 0.25rem;
+  --itatti-space-2  : 0.5rem;
+  --itatti-space-3  : 0.75rem;
+  --itatti-space-4  : 1rem;
+  --itatti-space-5  : 1.25rem;
+  --itatti-space-6  : 1.5rem;
+  --itatti-space-8  : 2rem;
+  --itatti-space-10 : 2.5rem;
+  --itatti-space-12 : 3rem;
+  --itatti-space-16 : 4rem;
+  --itatti-space-20 : 5rem;
+  --itatti-space-24 : 6rem;
+  --itatti-space-32 : 8rem;
+
+  /* ── Warm parchment scale ── */
+  --itatti-parchment-deep  : #c4b897;
+  --itatti-parchment-mid   : #e0d5c0;
+  --itatti-parchment-light : #f0ece4;
+  --itatti-parchment-pale  : #faf7f3;
+
+  /* ── Layout ── */
+  --itatti-container-max     : 1200px;
+  --itatti-container-padding : clamp(1rem, 4vw, 2.5rem);
+  --itatti-nav-height        : 100px;
+
+  /* ── Navbar typography ── */
+  --itatti-nav-logo-title-size : 2.25rem;     /* 36px */
+  --itatti-nav-logo-sub-size   : 1.875rem;    /* 30px */
+  --itatti-nav-item-size       : 1.125rem;    /* 18px */
+
+  /* ── Elevation ── */
+  --itatti-shadow-sm : 0 1px 4px  rgba(0,0,0,.07);
+  --itatti-shadow-md : 0 4px 12px rgba(0,0,0,.11);
+  --itatti-shadow-lg : 0 8px 24px rgba(0,0,0,.16);
+
+  /* ── Radius ── */
+  --itatti-radius-sm : 2px;
+  --itatti-radius-md : 4px;
+  --itatti-radius-lg : 8px;
+}
+
+
+/* ── All projects — shared academic neutral ──────────────────────────────── */
+/* Project identity is conveyed through the logo/name only; color is neutral.  */
+
+:is(#mb_diaries_header, #mb_diaries_diaries,
+    #mb_diaries_diary, #mb_diaries_pages, #mb_home,
+    #bellegreene-menu, #bellegreene-container,
+    #yashiro-menu, #yashiro-container) {
+
+  --project-main       : #1a1a1a;
+  --project-main-dark  : #000000;
+  --project-main-light : #444444;
+  --project-main-tint  : rgba(0,0,0,.04);
+
+  --project-accent     : #444444;
+  --project-accent-dark: #222222;
+
+  --project-bg         : #ffffff;
+  --project-bg-alt     : #f6f6f4;
+  --project-text       : #1a1a1a;
+  --project-border     : #e2e2e2;
+
+  --project-link       : #1a1a1a;
+  --project-link-hover : #444444;
+
+  --project-nav-bg     : #ffffff;
+  --project-nav-text   : #1a1a1a;
+  --project-nav-accent : #1a1a1a;
+  --project-nav-border : #e2e2e2;
+}

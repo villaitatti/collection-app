@@ -9,13 +9,13 @@
   margin-right: 15px;
 }
 
+/* Legacy .footer styles (collection-level pages) */
 .footer {
   display: flex;
   align-items: center;
   height: 100%;
   min-height: 185px;
 }
-
 .footer *{
   background:  none !important;
   color:  white;
@@ -28,4 +28,117 @@ footer a:hover {
 }
 .footer h3 {
   font-size: 18px;
+}
+
+
+/* ── Shared project footer (itatti-footer) ── */
+.itatti-footer {
+  margin-top: 10px;
+  flex-shrink    : 0;
+  background     : #1a1a1a;
+  color          : #aaaaaa;
+  padding        : 3rem 0 0;
+  font-family    : var(--itatti-font-body, 'Lato', sans-serif);
+  font-size      : 13px;
+  line-height    : 1.7;
+}
+
+.itatti-footer-inner {
+  max-width  : var(--itatti-container-max, 1200px);
+  margin     : 0 auto;
+  padding    : 0 var(--itatti-container-padding, 2rem) 2.5rem;
+  display    : grid;
+  grid-template-columns: 2fr 1.2fr 1.2fr 1fr;
+  gap        : 2.5rem;
+  align-items: flex-start;
+}
+
+/* ── Column shared ── */
+.itatti-footer-col {}
+
+/* Logo + institution */
+.itatti-footer-logo {
+  height        : 38px;
+  width         : auto;
+  filter        : brightness(0) invert(1);
+  opacity       : 0.65;
+  margin-bottom : 1rem;
+  display       : block;
+  background    : transparent !important;
+  transition    : opacity 0.2s ease;
+}
+.itatti-footer-logo-link:hover .itatti-footer-logo { opacity: 0.9; }
+
+.itatti-footer-inst {
+  color       : #cccccc;
+  margin      : 0 0 0.4rem;
+  font-size   : 13px;
+  line-height : 1.5;
+}
+
+.itatti-footer-address {
+  color    : #666666;
+  margin   : 0;
+  font-size: 12px;
+}
+
+/* Column headings */
+.itatti-footer-heading {
+  font-family    : var(--itatti-font-body, 'Lato', sans-serif);
+  font-size      : 10px;
+  font-weight    : 700;
+  text-transform : uppercase;
+  letter-spacing : 0.12em;
+  color          : #666666;
+  margin         : 0 0 1rem;
+  padding        : 0;
+}
+
+/* Link lists */
+.itatti-footer-list {
+  list-style : none;
+  margin     : 0;
+  padding    : 0;
+}
+
+.itatti-footer-list li {
+  margin-bottom: 0.45rem;
+}
+
+.itatti-footer-list a,
+.itatti-footer-list semantic-link {
+  color          : #999999 !important;
+  text-decoration: none !important;
+  font-size      : 13px;
+  transition     : color 0.15s ease;
+}
+
+.itatti-footer-list a:hover,
+.itatti-footer-list semantic-link:hover {
+  color          : #dddddd !important;
+  text-decoration: none !important;
+}
+
+/* Bottom bar — copyright */
+.itatti-footer-bar {
+  border-top  : 1px solid #2e2e2e;
+  text-align  : center;
+  padding     : 1rem var(--itatti-container-padding, 2rem);
+  font-size   : 11px;
+  color       : #555555;
+}
+
+/* RS convention: hide login link when logged in */
+#logout-Link + #login-Link { display: none; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .itatti-footer-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .itatti-footer-inner {
+    grid-template-columns: 1fr;
+  }
 }

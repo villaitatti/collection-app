@@ -26,7 +26,21 @@
   display: none !important;
 }
 #template-content {
-  min-width: 90vw;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+body, html {
+  overflow-x: hidden;
+}
+
+/* ── Override RS page-container fixed height so footer follows content ── */
+/* RS sets height: calc(100vh - nav-height) which pins the footer to viewport
+   bottom and causes it to overlap overflowing content. min-height lets the
+   container grow with content so the footer always appears after it. */
+.page-container {
+  height: auto !important;
+  min-height: calc(100vh - var(--nav-height, 63px)) !important;
 }
 
 span.page__header-gripper-label {
