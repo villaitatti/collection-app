@@ -1,0 +1,44 @@
+[[> collection:Header ]]
+
+<semantic-context repository="sharedshelf">
+<div class="collection-page">
+  <div class="collection-search-header">
+    <h1>Repositories &amp; Institutions</h1>
+    <p class="collection-subtitle">Museums, archives, and collections</p>
+  </div>
+
+  <div class="collection-container" style="padding-top: 32px;">
+    <div class="collection-breadcrumb">
+      <semantic-link iri="collection:Search">Collections</semantic-link>
+      <span class="separator">›</span>
+      Repositories
+    </div>
+
+    <semantic-table
+      query='
+        SELECT DISTINCT ?subject ?label ?type (COUNT(DISTINCT ?work) AS ?holdings) WHERE {
+          ?subject a crm:E74_Group .
+          ?subject rdfs:label ?label .
+          ?work crm:P50_has_current_keeper ?subject .
+          OPTIONAL {
+            ?subject crm:P2_has_type ?typeUri .
+            ?typeUri rdfs:label ?type .
+          }
+        }
+        GROUP BY ?subject ?label ?type
+        HAVING (COUNT(DISTINCT ?work) > 0)
+        ORDER BY DESC(?holdings)
+        LIMIT 300
+      '
+      column-configuration='[
+        {"variableName": "subject", "displayName": "Institution"},
+        {"variableName": "label", "displayName": "Name"},
+        {"variableName": "type", "displayName": "Type"},
+        {"variableName": "holdings", "displayName": "Holdings"}
+      ]'
+      number-of-displayed-rows="25"
+      no-result-template='<p style="color: #999; text-align: center; padding: 40px;">No repositories found.</p>'
+    ></semantic-table>
+  </div>
+</div>
+</semantic-context>

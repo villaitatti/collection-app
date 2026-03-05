@@ -1,0 +1,122 @@
+<div class="collection-card">
+  <!-- Thumbnail: traverse work → image → digital → URL -->
+  <div class="collection-card-thumb">
+    <semantic-query
+      query='SELECT ?imgUrl WHERE {
+        BIND("/assets/images/media/image_placeholder.jpg" AS ?default)
+        OPTIONAL {
+          # Path 1: work ← P138_represents ← visual ← P65 ← image → P129i → digital → URL
+          ?img crm:P65_shows_visual_item ?vis .
+          ?vis crm:P138_represents <{{subject.value}}> .
+          ?img crm:P129i_is_subject_of ?digital .
+          ?digital crm:P1_is_identified_by ?fullUrl .
+          FILTER(ISURI(?fullUrl))
+          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?smallUrl)
+        }
+        OPTIONAL {
+          # Path 2: direct P129i (for orphan images or works with direct digital)
+          <{{subject.value}}> crm:P129i_is_subject_of ?digital2 .
+          ?digital2 crm:P1_is_identified_by ?fullUrl2 .
+          FILTER(ISURI(?fullUrl2))
+          BIND(REPLACE(STR(?fullUrl2), "full/full", "full/!200,200") AS ?smallUrl2)
+        }
+        BIND(COALESCE(?smallUrl, ?smallUrl2, ?default) AS ?imgUrl)
+      } LIMIT 1'
+      template="{{> thumb}}"
+    >
+      <template id="thumb">
+        <img src="{{bindings.0.imgUrl.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='/assets/images/media/image_placeholder.jpg';" />
+      </template>
+    </semantic-query>
+  </div>
+
+  <!-- Card Body -->
+  <div class="collection-card-body">
+    <h3>
+      <semantic-link iri="{{subject.value}}"></semantic-link>
+    </h3>
+
+    <div class="collection-card-meta">
+      <!-- Creator -->
+      <semantic-query
+        query='SELECT ?creator ?creatorUri WHERE {
+          <{{subject.value}}> crm:P108i_was_produced_by ?prod .
+          ?prod crm:P14_carried_out_by ?creatorUri .
+          ?creatorUri rdfs:label ?creator .
+        } LIMIT 1'
+        template="{{> creatorMeta}}"
+      >
+        <template id="creatorMeta">
+          <div class="collection-card-meta-item">
+            <span class="meta-label">Creator</span>
+            <semantic-link iri="{{bindings.0.creatorUri.value}}">{{bindings.0.creator.value}}</semantic-link>
+          </div>
+        </template>
+      </semantic-query>
+
+      <!-- Date -->
+      <semantic-query
+        query='SELECT ?date WHERE {
+          <{{subject.value}}> crm:P108i_was_produced_by ?prod .
+          ?prod crm:P4_has_time-span ?ts .
+          ?ts crm:P3_has_note ?date .
+        } LIMIT 1'
+        template="{{> dateMeta}}"
+      >
+        <template id="dateMeta">
+          <div class="collection-card-meta-item">
+            <span class="meta-label">Date</span>
+            {{bindings.0.date.value}}
+          </div>
+        </template>
+      </semantic-query>
+
+      <!-- Repository -->
+      <semantic-query
+        query='SELECT ?keeper ?keeperUri WHERE {
+          <{{subject.value}}> crm:P50_has_current_keeper ?keeperUri .
+          ?keeperUri rdfs:label ?keeper .
+        } LIMIT 1'
+        template="{{> keeperMeta}}"
+      >
+        <template id="keeperMeta">
+          <div class="collection-card-meta-item">
+            <span class="meta-label">Repository</span>
+            <semantic-link iri="{{bindings.0.keeperUri.value}}">{{bindings.0.keeper.value}}</semantic-link>
+          </div>
+        </template>
+      </semantic-query>
+
+      <!-- Type -->
+      <semantic-query
+        query='SELECT ?type WHERE {
+          <{{subject.value}}> crm:P2_has_type ?typeUri .
+          ?typeUri a crm:E55_Type ; rdfs:label ?type .
+        } LIMIT 2'
+        template="{{> typeMeta}}"
+      >
+        <template id="typeMeta">
+          <div class="collection-card-meta-item">
+            <span class="meta-label">Type</span>
+            {{#each bindings}}{{#if @index}}, {{/if}}{{type.value}}{{/each}}
+          </div>
+        </template>
+      </semantic-query>
+    </div>
+
+    <!-- Source badge -->
+    <semantic-query
+      query='SELECT ?source WHERE {
+        OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/berensonart> { <{{subject.value}}> a crm:E22_Human-Made_Object } BIND("berensonart" AS ?s1) }
+        OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/bibber> { <{{subject.value}}> a crm:E22_Human-Made_Object } BIND("bibber" AS ?s2) }
+        OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/fototeca> { <{{subject.value}}> a crm:E22_Human-Made_Object } BIND("fototeca" AS ?s3) }
+        BIND(COALESCE(?s1, ?s2, ?s3, "unknown") AS ?source)
+      } LIMIT 1'
+      template="{{> sourceBadge}}"
+    >
+      <template id="sourceBadge">
+        <span class="collection-card-source source-{{bindings.0.source.value}}">{{bindings.0.source.value}}</span>
+      </template>
+    </semantic-query>
+  </div>
+</div>

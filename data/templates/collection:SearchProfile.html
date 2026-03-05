@@ -1,0 +1,76 @@
+{
+  "categories": [
+    {
+      "iri": "<crm:E22_Human-Made_Object>",
+      "label": "Work / Photograph"
+    },
+    {
+      "iri": "<crm:E21_Person>",
+      "label": "Person"
+    },
+    {
+      "iri": "<crm:E74_Group>",
+      "label": "Repository"
+    },
+    {
+      "iri": "<crm:E55_Type>",
+      "label": "Type"
+    },
+    {
+      "iri": "<crm:E57_Material>",
+      "label": "Material"
+    },
+    {
+      "iri": "<crm:E53_Place>",
+      "label": "Place"
+    },
+    {
+      "iri": "<http://www.w3.org/2001/XMLSchema#string>",
+      "label": "Text"
+    }
+  ],
+  "relations": [
+    {
+      "iri": "<crm:P108i_was_produced_by_creator>",
+      "label": "Creator / Artist",
+      "hasDomain": "<crm:E22_Human-Made_Object>",
+      "hasRange": "<crm:E21_Person>"
+    },
+    {
+      "iri": "<crm:P2_has_type>",
+      "label": "Type / Classification",
+      "hasDomain": "<crm:E22_Human-Made_Object>",
+      "hasRange": "<crm:E55_Type>"
+    },
+    {
+      "iri": "<crm:P32_used_general_technique_rel>",
+      "label": "Technique",
+      "hasDomain": "<crm:E22_Human-Made_Object>",
+      "hasRange": "<crm:E55_Type>"
+    },
+    {
+      "iri": "<crm:P45_consists_of>",
+      "label": "Material",
+      "hasDomain": "<crm:E22_Human-Made_Object>",
+      "hasRange": "<crm:E57_Material>"
+    },
+    {
+      "iri": "<crm:P62_depicts>",
+      "label": "Subject Depicted",
+      "hasDomain": "<crm:E22_Human-Made_Object>",
+      "hasRange": "<crm:E55_Type>"
+    },
+    {
+      "iri": "<crm:P50_has_current_keeper>",
+      "label": "Repository / Keeper",
+      "hasDomain": "<crm:E22_Human-Made_Object>",
+      "hasRange": "<crm:E74_Group>"
+    },
+    {
+      "iri": "<crm:P55_has_current_location>",
+      "label": "Current Location",
+      "hasDomain": "<crm:E22_Human-Made_Object>",
+      "hasRange": "<crm:E53_Place>"
+    }
+  ]
+}
