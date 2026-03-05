@@ -75,22 +75,6 @@ min-width: 90vw
   transition: 0.4s;
 }
 
-#simple-search .facet__relation__values__value.checkbox input[type="checkbox"] {
-  -webkit-appearance: initial;
-  appearance: initial;
-  border: none;
-  margin: -1px 0 0 -20px;
-}
-#simple-search
-  .facet__relation__values__value.checkbox
-  input[type="checkbox"]:checked:after {
-  /* Heres your symbol replacement */
-  content: "✖";
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--color-primary-100);
-}
-
 #simple-search .FacetBreadcrumbs--container {
   justify-content: center;
   align-items: center;

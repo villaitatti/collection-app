@@ -109,3 +109,222 @@ ul.nav.navbar-nav li{
     float: unset !important;
   }
 }
+
+
+/* =============================================================================
+   .itatti-navbar  —  shared project navbar shell
+   Applied to every project navbar (MB Diaries, Belle Greene, Yashiro).
+   Layout and interaction live here; colours come from per-project tokens in
+   css_variables.css.
+   ============================================================================= */
+
+/* ── Wrapper ── */
+.itatti-navbar {
+  margin-top       : 84px !important;
+  background-color : var(--project-nav-bg,  #ffffff) !important;
+  border-bottom    : 1px solid var(--project-nav-border, #e2e2e2) !important;
+  box-shadow       : none !important;
+  min-height       : var(--itatti-nav-height) !important;
+  height           : var(--itatti-nav-height) !important;
+}
+
+/* ── Inner row — max-width capped, aligns with page body ── */
+.itatti-navbar .rs-header {
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
+  height          : var(--itatti-nav-height);
+  max-width       : var(--itatti-container-max);
+  margin          : 0 auto;
+  padding         : 0 var(--itatti-container-padding);
+  width           : 100%;
+  box-sizing      : border-box;
+}
+
+/* ── Logo ── */
+.itatti-navbar .nav-logo {
+  display         : flex;
+  align-items     : center;
+  gap             : var(--itatti-space-3);
+  text-decoration : none;
+  flex-shrink     : 0;
+}
+
+.itatti-navbar .nav-logo img {
+  height     : 44px;
+  width      : auto;
+  object-fit : contain;
+}
+
+.itatti-navbar .nav-logo-text {
+  display        : flex;
+  flex-direction : column;
+}
+
+.itatti-navbar .nav-logo-title {
+  font-family    : var(--itatti-font-heading);
+  font-size      : var(--itatti-nav-logo-title-size);
+  font-weight    : 500;
+  color          : #1a1a1a;
+  line-height    : var(--itatti-leading-snug);
+  text-decoration: none;
+}
+
+.itatti-navbar .nav-logo-subtitle {
+  font-family    : var(--itatti-font-body);
+  font-size      : var(--itatti-nav-logo-sub-size);
+  font-weight    : 400;
+  font-style     : italic;
+  letter-spacing : 0.03em;
+  color          : #888888;
+  line-height    : var(--itatti-leading-snug);
+  margin-top     : 1px;
+}
+
+/* ── Bootstrap collapse/pull-right override ── */
+.itatti-navbar .navbar-collapse.pull-right {
+  display    : flex !important;
+  align-items: center;
+  height     : 100%;
+  float      : none !important;
+}
+
+/* ── Nav list ── */
+.itatti-navbar .nav.navbar-nav {
+  display    : flex;
+  align-items: center;
+  height     : var(--itatti-nav-height);
+  margin     : 0;
+  float      : none !important;
+}
+
+.itatti-navbar .nav.navbar-nav > li {
+  height  : 100%;
+  display : flex;
+  position: relative;
+  margin  : 0;
+}
+
+/* Top-level link / dropdown trigger */
+.itatti-navbar .nav.navbar-nav > li > a {
+  display        : flex;
+  align-items    : center;
+  height         : 100%;
+  padding        : 0 var(--itatti-space-5);
+  font-family    : var(--itatti-font-body);
+  font-size      : var(--itatti-nav-item-size);
+  font-weight    : 500;
+  text-transform : uppercase;
+  letter-spacing : 0.08em;
+  color          : var(--project-nav-text, #1a1a1a) !important;
+  text-decoration: none;
+  background     : none !important;
+  border-bottom  : 1px solid transparent;
+  transition     : color .2s ease, border-color .2s ease;
+  box-sizing     : border-box;
+  white-space    : nowrap;
+}
+
+.itatti-navbar .nav.navbar-nav > li > a:hover,
+.itatti-navbar .nav.navbar-nav > li.open > a,
+.itatti-navbar .nav.navbar-nav > li.open > a:hover,
+.itatti-navbar .nav.navbar-nav > li.open > a:focus {
+  color        : #000000 !important;
+  border-bottom: 1px solid #1a1a1a !important;
+  background   : none !important;
+}
+
+/* ── Dropdown panel ── */
+.itatti-navbar .dropdown-menu {
+  background-color: #ffffff !important;
+  border          : 1px solid #e2e2e2 !important;
+  border-radius   : 0 0 var(--itatti-radius-sm) var(--itatti-radius-sm) !important;
+  box-shadow      : 0 2px 8px rgba(0,0,0,.06) !important;
+  padding         : var(--itatti-space-2) 0;
+  min-width       : 300px;
+}
+
+.itatti-navbar .dropdown-menu > li > a {
+  display        : block;
+  font-family    : var(--itatti-font-body);
+  font-size      : var(--itatti-nav-item-size);
+  font-weight    : 400;
+  color          : #1a1a1a !important;
+  padding        : var(--itatti-space-2) var(--itatti-space-6);
+  text-decoration: none;
+  transition     : background-color .15s ease, color .15s ease;
+}
+
+.itatti-navbar .dropdown-menu > li > a:hover,
+.itatti-navbar .dropdown-menu > li > a:focus {
+  text-decoration : none;
+}
+
+/* ── Dropdown group labels (non-interactive section headers) ── */
+.itatti-navbar .dropdown-menu > li.nav-group-label {
+  display        : block;
+  list-style     : none;
+  pointer-events : none;
+  margin         : var(--itatti-space-3) 0 0;
+  padding        : 0 var(--itatti-space-6) var(--itatti-space-1);
+  border-top     : 1px solid #eeeeee;
+  font-family    : var(--itatti-font-body);
+  font-size      : 11px;
+  font-weight    : 700;
+  text-transform : uppercase;
+  letter-spacing : 0.12em;
+  color          : #aaaaaa;
+}
+.itatti-navbar .dropdown-menu > li.nav-group-label:first-child {
+  margin-top : var(--itatti-space-2);
+  border-top : none;
+}
+
+/* ── Dropdown group divider ── */
+.itatti-navbar .dropdown-menu > li.nav-group-divider {
+  height        : 1px;
+  background    : #e2e2e2;
+  margin        : var(--itatti-space-2) var(--itatti-space-6);
+  padding       : 0;
+  overflow      : hidden;
+  pointer-events: none;
+}
+
+.itatti-navbar .dropdown-toggle::after,
+.itatti-navbar .dropdown-toggle::before { display: none !important; }
+
+/* ── Mobile ── */
+@media (max-width: 992px) {
+  .itatti-navbar {
+    height    : auto !important;
+    min-height: var(--itatti-nav-height) !important;
+  }
+
+  .itatti-navbar .rs-header {
+    padding  : 0 var(--itatti-space-4);
+    flex-wrap: wrap;
+    height   : auto;
+    min-height: var(--itatti-nav-height);
+  }
+
+  .itatti-navbar .navbar-collapse.pull-right {
+    width    : 100%;
+    height   : auto;
+    flex-wrap: wrap;
+  }
+
+  .itatti-navbar .nav.navbar-nav {
+    height   : auto;
+    flex-wrap: wrap;
+  }
+
+  .itatti-navbar .nav.navbar-nav > li {
+    height: auto;
+  }
+
+  .itatti-navbar .nav.navbar-nav > li > a {
+    height : auto;
+    padding: var(--itatti-space-3) var(--itatti-space-4);
+    border-bottom: none;
+  }
+}
