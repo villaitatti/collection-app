@@ -104,19 +104,5 @@
       </semantic-query>
     </div>
 
-    <!-- Source badge -->
-    <semantic-query
-      query='SELECT ?source WHERE {
-        OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/berensonart> { <{{subject.value}}> a crm:E22_Human-Made_Object } BIND("berensonart" AS ?s1) }
-        OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/bibber> { <{{subject.value}}> a crm:E22_Human-Made_Object } BIND("bibber" AS ?s2) }
-        OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/fototeca> { <{{subject.value}}> a crm:E22_Human-Made_Object } BIND("fototeca" AS ?s3) }
-        BIND(COALESCE(?s1, ?s2, ?s3, "unknown") AS ?source)
-      } LIMIT 1'
-      template="{{> sourceBadge}}"
-    >
-      <template id="sourceBadge">
-        <span class="collection-card-source source-{{bindings.0.source.value}}">{{bindings.0.source.value}}</span>
-      </template>
-    </semantic-query>
   </div>
 </div>

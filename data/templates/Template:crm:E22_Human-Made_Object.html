@@ -29,18 +29,6 @@
         </template>
       </semantic-query>
 
-      <!-- Source badge -->
-      <semantic-query
-        query='SELECT ?source ?sourceLabel WHERE {
-          OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/berensonart> { ?? a crm:E22_Human-Made_Object } BIND("berensonart" AS ?s) BIND("Berenson Art Collection" AS ?sl) }
-          OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/bibber> { ?? a crm:E22_Human-Made_Object } BIND("bibber" AS ?s2) BIND("Biblioteca Berenson" AS ?sl2) }
-          OPTIONAL { GRAPH <https://sharedshelf.itatti.harvard.edu/graph/fototeca> { ?? a crm:E22_Human-Made_Object } BIND("fototeca" AS ?s3) BIND("Fototeca I Tatti" AS ?sl3) }
-          BIND(COALESCE(?s, ?s2, ?s3) AS ?source)
-          BIND(COALESCE(?sl, ?sl2, ?sl3) AS ?sourceLabel)
-        } LIMIT 1'
-        template="<span class='collection-card-source source-{{bindings.0.source.value}}'>{{bindings.0.sourceLabel.value}}</span>"
-      ></semantic-query>
-
       <h1><mp-label iri="[[this]]"></mp-label></h1>
 
       <!-- If this is a photograph/image, show banner linking to parent work -->
@@ -362,15 +350,16 @@
           <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 12px;">
             {{#each bindings}}
               <div style="text-align: center; width: 100px;">
-                <semantic-link iri="{{person.value}}" style="text-decoration: none; color: inherit;">
+                <semantic-link iri="{{person.value}}" style="text-decoration: none; color: inherit; display: block;">
                   {{#if thumb}}
                     <img src="{{thumb.value}}" alt="{{personLabel.value}}"
-                         style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid #e0e0e0; margin-bottom: 6px;"
-                         onerror="this.onerror=null;this.parentNode.innerHTML='<div style=\'width:72px;height:72px;border-radius:50%;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 6px;\'>👤</div>'" />
+                         style="width: 72px; height: 72px; min-width: 72px; min-height: 72px; max-width: 72px; max-height: 72px; border-radius: 50%; object-fit: cover; border: 2px solid #e0e0e0; margin: 0 auto 6px; display: block;"
+                         onerror="this.onerror=null;this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                    <div style="width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; background: #f0f0f0; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 6px; display: none;">👤</div>
                   {{else}}
-                    <div style="width: 72px; height: 72px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 6px;">👤</div>
+                    <div style="width: 72px; height: 72px; min-width: 72px; min-height: 72px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 6px;">👤</div>
                   {{/if}}
-                  <div style="font-size: 12px; font-weight: 500; line-height: 1.3; color: #333;">{{personLabel.value}}</div>
+                  <div style="font-size: 12px; font-weight: 500; line-height: 1.3; color: #333; overflow: hidden; text-overflow: ellipsis;">{{personLabel.value}}</div>
                 </semantic-link>
               </div>
             {{/each}}

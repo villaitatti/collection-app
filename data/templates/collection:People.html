@@ -3,66 +3,107 @@
 <semantic-context repository="sharedshelf">
 <div class="collection-page">
   <div class="collection-search-header">
-    <h1>Artists &amp; Photographers</h1>
-    <p class="collection-subtitle">People in the Collections knowledge graph</p>
+    <h1>People &amp; Artists</h1>
+    <p class="collection-subtitle">Berenson Photo Archive</p>
   </div>
 
-  <div class="collection-container" style="padding-top: 32px;">
+  <div class="collection-container collection-search-body">
     <div class="collection-breadcrumb">
       <semantic-link iri="collection:Search">Collections</semantic-link>
       <span class="separator">›</span>
       People
     </div>
 
-    <semantic-table
-      query='
-        SELECT DISTINCT ?subject ?label ?nationality ?role ?birthDate ?deathDate (COUNT(DISTINCT ?work) AS ?works) WHERE {
-          ?subject a crm:E21_Person .
-          ?subject rdfs:label ?label .
-          OPTIONAL {
-            ?subject crm:P2_has_type ?natUri .
-            ?natUri rdfs:label ?nationality .
-            FILTER(!CONTAINS(LCASE(?nationality), "artist"))
-            FILTER(!CONTAINS(LCASE(?nationality), "photographer"))
-            FILTER(!CONTAINS(LCASE(?nationality), "sitter"))
-            FILTER(!CONTAINS(LCASE(?nationality), "unidentified"))
+    <semantic-search
+      relations='[[> collection:PeopleSearchRelations]]'
+      search-profile='[[> collection:PeopleSearchProfile]]'
+    >
+      <semantic-search-query-keyword
+        placeholder='Search people, artists, photographers...'
+        domain="<crm:E21_Person>"
+        default-query='
+          SELECT DISTINCT ?subject WHERE {
+            ?subject a crm:E21_Person .
           }
-          OPTIONAL {
-            ?subject crm:P2_has_type ?roleUri .
-            ?roleUri rdfs:label ?role .
-            FILTER(CONTAINS(LCASE(?role), "artist") || CONTAINS(LCASE(?role), "photographer") || CONTAINS(LCASE(?role), "painter") || CONTAINS(LCASE(?role), "sculptor"))
+        '
+        query='
+          SELECT DISTINCT ?subject WHERE {
+            ?subject a crm:E21_Person .
+            ?subject rdfs:label ?label .
+            FILTER(REGEX(?label, ?__token__, "i"))
           }
-          OPTIONAL {
-            ?birth a crm:E67_Birth ; crm:P98_brought_into_life ?subject .
-            ?birth crm:P4_has_time-span ?bts .
-            ?bts crm:P82a_begin_of_the_begin ?birthDate .
-          }
-          OPTIONAL {
-            ?death a crm:E69_Death ; crm:P100_was_death_of ?subject .
-            ?death crm:P4_has_time-span ?dts .
-            ?dts crm:P82a_begin_of_the_begin ?deathDate .
-          }
-          OPTIONAL {
-            ?work crm:P108i_was_produced_by ?prod .
-            ?prod crm:P14_carried_out_by ?subject .
-          }
-        }
-        GROUP BY ?subject ?label ?nationality ?role ?birthDate ?deathDate
-        ORDER BY ?label
-        LIMIT 500
-      '
-      column-configuration='[
-        {"variableName": "subject", "displayName": "Person"},
-        {"variableName": "label", "displayName": "Name"},
-        {"variableName": "nationality", "displayName": "Nationality"},
-        {"variableName": "role", "displayName": "Role"},
-        {"variableName": "birthDate", "displayName": "Born"},
-        {"variableName": "deathDate", "displayName": "Died"},
-        {"variableName": "works", "displayName": "Works"}
-      ]'
-      number-of-displayed-rows="25"
-      no-result-template='<p style="color: #999; text-align: center; padding: 40px;">No people found.</p>'
-    ></semantic-table>
+        '
+      ></semantic-search-query-keyword>
+
+      <div class="row" style="margin-top: 16px;">
+        <bs-col lg="3" md="4" sm="5">
+          <div class="collection-filters-panel">
+            <h4>Filters</h4>
+            <semantic-search-facet
+              open-by-default="true"
+              facet-value-height="150px"
+            ></semantic-search-facet>
+          </div>
+        </bs-col>
+
+        <bs-col lg="9" md="8" sm="7">
+          <semantic-search-result-holder>
+            <semantic-search-result>
+              <semantic-table
+                id="people-result-table"
+                query='
+                  SELECT ?subject
+                         (SAMPLE(?nat) AS ?nationality)
+                         (SAMPLE(?r) AS ?role)
+                         (SAMPLE(?bd) AS ?birthDate)
+                         (SAMPLE(?dd) AS ?deathDate)
+                         (COUNT(DISTINCT ?work) AS ?works)
+                  WHERE {
+                    OPTIONAL {
+                      ?subject crm:P2_has_type ?natUri .
+                      FILTER(CONTAINS(STR(?natUri), "/type/nationality/"))
+                      ?natUri rdfs:label ?nat .
+                    }
+                    OPTIONAL {
+                      ?subject crm:P2_has_type ?roleUri .
+                      FILTER(CONTAINS(STR(?roleUri), "/type/role/"))
+                      ?roleUri rdfs:label ?r .
+                    }
+                    OPTIONAL {
+                      ?birth a crm:E67_Birth ; crm:P98_brought_into_life ?subject .
+                      ?birth crm:P4_has_time-span ?bts .
+                      ?bts crm:P82a_begin_of_the_begin ?bd .
+                    }
+                    OPTIONAL {
+                      ?death a crm:E69_Death ; crm:P100_was_death_of ?subject .
+                      ?death crm:P4_has_time-span ?dts .
+                      ?dts crm:P82a_begin_of_the_begin ?dd .
+                    }
+                    OPTIONAL {
+                      ?work crm:P108i_was_produced_by ?prod .
+                      ?prod crm:P14_carried_out_by ?subject .
+                    }
+                  }
+                  GROUP BY ?subject
+                  ORDER BY ?subject
+                  LIMIT 500
+                '
+                column-configuration='[
+                  {"variableName": "subject", "displayName": "Person"},
+                  {"variableName": "nationality", "displayName": "Nationality"},
+                  {"variableName": "role", "displayName": "Role"},
+                  {"variableName": "birthDate", "displayName": "Born"},
+                  {"variableName": "deathDate", "displayName": "Died"},
+                  {"variableName": "works", "displayName": "Works"}
+                ]'
+                number-of-displayed-rows="25"
+                no-result-template='<p style="color: #999; text-align: center; padding: 40px;">No people found.</p>'
+              ></semantic-table>
+            </semantic-search-result>
+          </semantic-search-result-holder>
+        </bs-col>
+      </div>
+    </semantic-search>
   </div>
 </div>
 </semantic-context>
