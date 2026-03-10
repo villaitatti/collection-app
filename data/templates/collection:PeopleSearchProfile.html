@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "iri": "<crm:E21_Person>",
+      "label": "Person"
+    },
+    {
+      "iri": "<crm:E55_Type>",
+      "label": "Type"
+    },
+    {
+      "iri": "<http://www.w3.org/2001/XMLSchema#string>",
+      "label": "Text"
+    }
+  ],
+  "relations": [
+    {
+      "iri": "<fc:person_nationality>",
+      "label": "Nationality",
+      "hasDomain": "<crm:E21_Person>",
+      "hasRange": "<crm:E55_Type>"
+    },
+    {
+      "iri": "<fc:person_role>",
+      "label": "Role",
+      "hasDomain": "<crm:E21_Person>",
+      "hasRange": "<crm:E55_Type>"
+    }
+  ]
+}

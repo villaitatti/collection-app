@@ -1,0 +1,61 @@
+{
+  "<crm:P108i_was_produced_by_creator>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        $subject crm:P108i_was_produced_by ?production .
+        ?production crm:P14_carried_out_by ?__value__ .
+      "
+    }
+  ],
+  "<crm:P2_has_type>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        $subject crm:P2_has_type ?__value__ .
+        ?__value__ a crm:E55_Type .
+      "
+    }
+  ],
+  "<crm:P32_used_general_technique_rel>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        $subject crm:P108i_was_produced_by ?production .
+        ?production crm:P32_used_general_technique ?__value__ .
+      "
+    }
+  ],
+  "<crm:P45_consists_of>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        $subject crm:P45_consists_of ?__value__ .
+      "
+    }
+  ],
+  "<crm:P62_depicts>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        $subject crm:P62_depicts ?__value__ .
+      "
+    }
+  ],
+  "<crm:P50_has_current_keeper>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        $subject crm:P50_has_current_keeper ?__value__ .
+      "
+    }
+  ],
+  "<crm:P55_has_current_location>": [
+    {
+      "kind": "resource",
+      "queryPattern": "
+        $subject crm:P55_has_current_location ?__value__ .
+      "
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+[[> collection:Header ]]
+
+<semantic-context repository="sharedshelf">
+<div class="collection-page">
+  <div class="collection-search-header">
+    <h1>Search the Collections</h1>
+    <p class="collection-subtitle">Berenson Photo Archive</p>
+  </div>
+
+  <div class="collection-container collection-search-body">
+    <semantic-search
+      relations='[[> collection:SearchRelations]]'
+      search-profile='[[> collection:SearchProfile]]'
+    >
+      <semantic-search-query-keyword
+        placeholder='Search works, photographs, artists...'
+        domain="<crm:E22_Human-Made_Object>"
+        default-query='
+          SELECT DISTINCT ?subject WHERE {
+            ?subject a crm:E22_Human-Made_Object .
+            ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+          }
+        '
+        query='
+          SELECT DISTINCT ?subject WHERE {
+            ?subject a crm:E22_Human-Made_Object .
+            ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+            ?subject rdfs:label ?label .
+            FILTER(REGEX(?label, ?__token__, "i"))
+          }
+        '
+      ></semantic-search-query-keyword>
+
+      <div class="row" style="margin-top: 16px;">
+        <bs-col lg="3" md="4" sm="5">
+          <div class="collection-filters-panel">
+            <h4>Filters</h4>
+            <semantic-search-facet
+              open-by-default="true"
+              facet-value-height="150px"
+            ></semantic-search-facet>
+          </div>
+        </bs-col>
+
+        <bs-col lg="9" md="8" sm="7">
+          <semantic-search-result-holder>
+            <semantic-search-result>
+              <semantic-table
+                id="search-result-table"
+                query='SELECT DISTINCT ?subject WHERE { } LIMIT 500'
+                number-of-displayed-rows="15"
+                tuple-template="{{> listCard}}"
+                options='{"showTableHeading": false, "showFilter": false}'
+                no-result-template='<div style="text-align:center; padding: 40px;"><h2 style="color: #999;">No results found</h2><p>Try broadening your search or removing some filters.</p></div>'
+              >
+                <template id="listCard">
+                  <div class="no-spinner">
+                    [[> collection:CardWork]]
+                  </div>
+                </template>
+              </semantic-table>
+            </semantic-search-result>
+          </semantic-search-result-holder>
+        </bs-col>
+      </div>
+    </semantic-search>
+  </div>
+</div>
+</semantic-context>

@@ -1,0 +1,20 @@
+<!-- Shared E21_Person template — routes to the correct app-specific view -->
+<semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://sharedshelf.itatti.harvard.edu/")) }'>
+  <template id='then'>
+    [[> collection:PersonView ]]
+  </template>
+  <template id='else'>
+    <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://yashiro.itatti.harvard.edu/")) }'>
+      <template id='then'>
+        [[> yashiro:PersonView ]]
+      </template>
+      <template id='else'>
+        <!-- Generic fallback for unknown person URIs -->
+        <div style="max-width: 800px; margin: 40px auto; padding: 24px;">
+          <h1><mp-label iri="[[this]]"></mp-label></h1>
+          <p>Person resource: <code>[[this]]</code></p>
+        </div>
+      </template>
+    </semantic-if>
+  </template>
+</semantic-if>

@@ -1,0 +1,225 @@
+[[> collection:Header ]]
+
+<semantic-context repository="sharedshelf">
+<div class="collection-page">
+  <div class="collection-container collection-detail">
+
+    <!-- Breadcrumb -->
+    <div class="collection-breadcrumb">
+      <semantic-link iri="collection:Search">Collections</semantic-link>
+      <span class="separator">›</span>
+      <semantic-link iri="collection:People">People</semantic-link>
+      <span class="separator">›</span>
+      <mp-label iri="[[this]]"></mp-label>
+    </div>
+
+    <!-- Person Header -->
+    <div class="collection-person-header">
+      <div class="collection-person-avatar">👤</div>
+      <div class="collection-person-info">
+        <h1><mp-label iri="[[this]]"></mp-label></h1>
+
+        <!-- Life dates -->
+        <semantic-query
+          query='SELECT ?birthDate ?deathDate ?birthPlace ?deathPlace WHERE {
+            OPTIONAL {
+              ?birth a crm:E67_Birth ; crm:P98_brought_into_life ?? .
+              ?birth crm:P4_has_time-span ?bts .
+              ?bts crm:P82a_begin_of_the_begin ?birthDate .
+              OPTIONAL { ?birth crm:P7_took_place_at ?bp . ?bp rdfs:label ?birthPlace }
+            }
+            OPTIONAL {
+              ?death a crm:E69_Death ; crm:P100_was_death_of ?? .
+              ?death crm:P4_has_time-span ?dts .
+              ?dts crm:P82a_begin_of_the_begin ?deathDate .
+              OPTIONAL { ?death crm:P7_took_place_at ?dp . ?dp rdfs:label ?deathPlace }
+            }
+          } LIMIT 1'
+          template="{{> lifeDates}}"
+        >
+          <template id="lifeDates">
+            <div class="collection-person-dates">
+              {{#if bindings.0.birthDate}}
+                {{bindings.0.birthDate.value}}{{#if bindings.0.birthPlace}} ({{bindings.0.birthPlace.value}}){{/if}}
+              {{/if}}
+              {{#if bindings.0.deathDate}}
+                 – {{bindings.0.deathDate.value}}{{#if bindings.0.deathPlace}} ({{bindings.0.deathPlace.value}}){{/if}}
+              {{/if}}
+            </div>
+          </template>
+        </semantic-query>
+
+        <!-- Tags: Nationality, Roles, Gender -->
+        <div class="collection-person-tags">
+          <semantic-query
+            query='SELECT DISTINCT ?tag WHERE {
+              ?? crm:P2_has_type ?typeUri .
+              ?typeUri rdfs:label ?tag .
+            } LIMIT 8'
+            template="{{> tags}}"
+          >
+            <template id="tags">
+              {{#each bindings}}<span class="collection-tag">{{tag.value}}</span>{{/each}}
+            </template>
+          </semantic-query>
+        </div>
+
+        <!-- ULAN Link -->
+        <semantic-query
+          query='SELECT ?ulan WHERE {
+            ?? owl:sameAs ?ulan .
+            FILTER(CONTAINS(STR(?ulan), "vocab.getty.edu/ulan"))
+          } LIMIT 1'
+          template="{{> ulanLink}}"
+        >
+          <template id="ulanLink">
+            <div style="margin-top: 12px;">
+              <a href="{{bindings.0.ulan.value}}" target="_blank" class="collection-external-link">
+                ↗ View on Getty ULAN
+              </a>
+            </div>
+          </template>
+        </semantic-query>
+      </div>
+    </div>
+
+    <!-- Alternative Names -->
+    <semantic-query
+      query='SELECT ?name WHERE {
+        ?? crm:P1_is_identified_by ?nameNode .
+        ?nameNode a crm:E41_Appellation ;
+                  crm:P190_has_symbolic_content ?name .
+      }'
+      template="{{> altNames}}"
+    >
+      <template id="altNames">
+        <div class="collection-info-panel" style="margin-bottom: 24px;">
+          <div class="collection-field">
+            <div class="collection-field-label">Known Names</div>
+            <div class="collection-field-value">
+              {{#each bindings}}{{#if @index}} · {{/if}}{{name.value}}{{/each}}
+            </div>
+          </div>
+        </div>
+      </template>
+    </semantic-query>
+
+    <!-- Works created by this person -->
+    <semantic-query
+      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date) AS ?date) (SAMPLE(?keeper) AS ?keeper) WHERE {
+        ?work a crm:E22_Human-Made_Object .
+        ?work crm:P108i_was_produced_by ?prod .
+        ?prod crm:P14_carried_out_by ?? .
+        ?work rdfs:label ?label .
+        OPTIONAL {
+          ?work crm:P108i_was_produced_by ?p2 .
+          ?p2 crm:P4_has_time-span ?ts .
+          ?ts crm:P3_has_note ?date .
+        }
+        OPTIONAL {
+          ?work crm:P50_has_current_keeper ?k .
+          ?k rdfs:label ?keeper .
+        }
+        OPTIONAL {
+          ?img crm:P65_shows_visual_item ?vis .
+          ?vis crm:P138_represents ?work .
+          ?img crm:P129i_is_subject_of ?digital .
+          ?digital crm:P1_is_identified_by ?fullUrl .
+          FILTER(ISURI(?fullUrl))
+          OPTIONAL { ?img rdfs:label ?imgLbl }
+          FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
+          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?imgUrl)
+        }
+      } GROUP BY ?work ?label
+      LIMIT 50'
+      template="{{> worksSection}}"
+    >
+      <template id="worksSection">
+        <div class="collection-related-section">
+          <h2>Works ({{bindings.length}})</h2>
+          <p style="color: #999; margin-bottom: 16px;">Works created by or attributed to this person</p>
+          <div class="collection-related-grid">
+            {{#each bindings}}
+              <div class="collection-card-grid" style="height: auto;">
+                <div class="collection-card-thumb" style="height: 160px;">
+                  {{#if thumb}}
+                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='/assets/images/media/image_placeholder.jpg';" />
+                  {{else}}
+                    <div style="width:100%;height:100%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:40px;">🖼</div>
+                  {{/if}}
+                </div>
+                <div class="collection-card-body" style="padding: 12px;">
+                  <h3 style="font-size: 13px; margin-bottom: 4px;">
+                    <semantic-link iri="{{work.value}}">{{label.value}}</semantic-link>
+                  </h3>
+                  {{#if date}}<div style="font-size: 12px; color: #666;">{{date.value}}</div>{{/if}}
+                  {{#if keeper}}<div style="font-size: 11px; color: #999; margin-top: 2px;">{{keeper.value}}</div>{{/if}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </template>
+    </semantic-query>
+
+    <!-- Works depicting this person (as subject) -->
+    <semantic-query
+      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date) AS ?date) (SAMPLE(?keeper) AS ?keeper) WHERE {
+        ?work a crm:E22_Human-Made_Object .
+        ?work crm:P65_shows_visual_item ?visual .
+        ?visual crm:P138_represents ?? .
+        ?work rdfs:label ?label .
+        OPTIONAL {
+          ?work crm:P108i_was_produced_by ?p .
+          ?p crm:P4_has_time-span ?ts .
+          ?ts crm:P3_has_note ?date .
+        }
+        OPTIONAL {
+          ?work crm:P50_has_current_keeper ?k .
+          ?k rdfs:label ?keeper .
+        }
+        OPTIONAL {
+          ?img crm:P65_shows_visual_item ?vis .
+          ?vis crm:P138_represents ?work .
+          ?img crm:P129i_is_subject_of ?digital .
+          ?digital crm:P1_is_identified_by ?fullUrl .
+          FILTER(ISURI(?fullUrl))
+          OPTIONAL { ?img rdfs:label ?imgLbl }
+          FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
+          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?imgUrl)
+        }
+      } GROUP BY ?work ?label
+      LIMIT 50'
+      template="{{> depictedSection}}"
+    >
+      <template id="depictedSection">
+        <div class="collection-related-section">
+          <h2>Depicted In ({{bindings.length}})</h2>
+          <p style="color: #999; margin-bottom: 16px;">Works that depict or represent this person as a subject</p>
+          <div class="collection-related-grid">
+            {{#each bindings}}
+              <div class="collection-card-grid" style="height: auto;">
+                <div class="collection-card-thumb" style="height: 160px;">
+                  {{#if thumb}}
+                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='/assets/images/media/image_placeholder.jpg';" />
+                  {{else}}
+                    <div style="width:100%;height:100%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:40px;">🖼</div>
+                  {{/if}}
+                </div>
+                <div class="collection-card-body" style="padding: 12px;">
+                  <h3 style="font-size: 13px; margin-bottom: 4px;">
+                    <semantic-link iri="{{work.value}}">{{label.value}}</semantic-link>
+                  </h3>
+                  {{#if date}}<div style="font-size: 12px; color: #666;">{{date.value}}</div>{{/if}}
+                  {{#if keeper}}<div style="font-size: 11px; color: #999; margin-top: 2px;">{{keeper.value}}</div>{{/if}}
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </template>
+    </semantic-query>
+
+  </div>
+</div>
+</semantic-context>

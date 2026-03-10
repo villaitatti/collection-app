@@ -1,0 +1,140 @@
+[[> collection:Header ]]
+
+<semantic-context repository="sharedshelf">
+<div class="collection-page">
+  <div class="collection-container collection-detail">
+
+    <!-- Breadcrumb -->
+    <div class="collection-breadcrumb">
+      <semantic-link iri="collection:Search">Collections</semantic-link>
+      <span class="separator">›</span>
+      <semantic-link iri="collection:Repositories">Repositories</semantic-link>
+      <span class="separator">›</span>
+      <mp-label iri="[[this]]"></mp-label>
+    </div>
+
+    <!-- Group Header -->
+    <div class="collection-person-header">
+      <div class="collection-person-avatar">🏛</div>
+      <div class="collection-person-info">
+        <h1><mp-label iri="[[this]]"></mp-label></h1>
+
+        <!-- Formation date -->
+        <semantic-query
+          query='SELECT ?formDate ?formPlace WHERE {
+            OPTIONAL {
+              ?formation a crm:E66_Formation ; crm:P95_has_formed ?? .
+              ?formation crm:P4_has_time-span ?fts .
+              ?fts crm:P82a_begin_of_the_begin ?formDate .
+              OPTIONAL { ?formation crm:P7_took_place_at ?fp . ?fp rdfs:label ?formPlace }
+            }
+          } LIMIT 1'
+          template="{{> formationDate}}"
+        >
+          <template id="formationDate">
+            {{#if bindings.0.formDate}}
+            <div class="collection-person-dates">
+              Founded: {{bindings.0.formDate.value}}{{#if bindings.0.formPlace}} ({{bindings.0.formPlace.value}}){{/if}}
+            </div>
+            {{/if}}
+          </template>
+        </semantic-query>
+
+        <!-- Tags: Type -->
+        <div class="collection-person-tags">
+          <semantic-query
+            query='SELECT DISTINCT ?tag WHERE {
+              ?? crm:P2_has_type ?typeUri .
+              ?typeUri rdfs:label ?tag .
+            } LIMIT 6'
+            template="{{> tags}}"
+          >
+            <template id="tags">
+              {{#each bindings}}<span class="collection-tag">{{tag.value}}</span>{{/each}}
+            </template>
+          </semantic-query>
+        </div>
+
+        <!-- ULAN Link -->
+        <semantic-query
+          query='SELECT ?ulan WHERE {
+            ?? owl:sameAs ?ulan .
+            FILTER(CONTAINS(STR(?ulan), "vocab.getty.edu/ulan"))
+          } LIMIT 1'
+          template="{{> ulanLink}}"
+        >
+          <template id="ulanLink">
+            <div style="margin-top: 12px;">
+              <a href="{{bindings.0.ulan.value}}" target="_blank" class="collection-external-link">
+                ↗ View on Getty ULAN
+              </a>
+            </div>
+          </template>
+        </semantic-query>
+      </div>
+    </div>
+
+    <!-- Alternative Names -->
+    <semantic-query
+      query='SELECT ?name WHERE {
+        ?? crm:P1_is_identified_by ?nameNode .
+        ?nameNode a crm:E41_Appellation ;
+                  crm:P190_has_symbolic_content ?name .
+      }'
+      template="{{> altNames}}"
+    >
+      <template id="altNames">
+        <div class="collection-info-panel" style="margin-bottom: 24px;">
+          <div class="collection-field">
+            <div class="collection-field-label">Known Names</div>
+            <div class="collection-field-value">
+              {{#each bindings}}{{#if @index}} · {{/if}}{{name.value}}{{/each}}
+            </div>
+          </div>
+        </div>
+      </template>
+    </semantic-query>
+
+    <!-- Works kept by this institution -->
+    <semantic-query
+      query='SELECT (COUNT(DISTINCT ?work) AS ?total) WHERE {
+        ?work crm:P50_has_current_keeper ?? .
+      }'
+      template="{{> worksCount}}"
+    >
+      <template id="worksCount">
+        <div class="collection-related-section">
+          <h2>Holdings ({{bindings.0.total.value}} works)</h2>
+          <p style="color: #999; margin-bottom: 16px;">Works and photographs held by this institution</p>
+        </div>
+      </template>
+    </semantic-query>
+
+    <semantic-table
+      query='SELECT DISTINCT ?subject ?label ?creator ?date WHERE {
+        ?subject crm:P50_has_current_keeper ?? .
+        ?subject rdfs:label ?label .
+        OPTIONAL {
+          ?subject crm:P108i_was_produced_by ?prod .
+          ?prod crm:P14_carried_out_by ?c .
+          ?c rdfs:label ?creator .
+        }
+        OPTIONAL {
+          ?subject crm:P108i_was_produced_by ?prod2 .
+          ?prod2 crm:P4_has_time-span ?ts .
+          ?ts crm:P3_has_note ?date .
+        }
+      } LIMIT 100'
+      column-configuration='[
+        {"variableName": "subject", "displayName": "Work"},
+        {"variableName": "label", "displayName": "Title"},
+        {"variableName": "creator", "displayName": "Creator"},
+        {"variableName": "date", "displayName": "Date"}
+      ]'
+      number-of-displayed-rows="20"
+      no-result-template='<p style="color: #999;">No works found for this institution.</p>'
+    ></semantic-table>
+
+  </div>
+</div>
+</semantic-context>
