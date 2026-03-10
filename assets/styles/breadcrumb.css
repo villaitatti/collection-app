@@ -28,9 +28,6 @@
 #breadcrumb .rs-body-m-M:hover {
   text-decoration: underline;
 }
-#breadcrumb .system-spinner {
-  display: none;
-}
 
 .repoLink {
   margin-left: 4px;
