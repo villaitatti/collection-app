@@ -37,6 +37,12 @@
   padding: 0 24px;
 }
 
+/* Full-width variant for detail pages */
+.collection-container.collection-detail-fullwidth {
+  max-width: 100%;
+  padding: 0 40px;
+}
+
 .collection-section {
   margin-bottom: 48px;
 }
@@ -350,7 +356,7 @@
 .collection-detail-header h1 span,
 .collection-detail-header h1 mp-label,
 .collection-detail-header h1 .mp-label {
-  font-size: 22px !important;
+  font-size: 38px !important;
   font-family: var(--collection-font-display) !important;
   color: var(--collection-anthracite) !important;
 }
@@ -508,6 +514,8 @@
 
 .collection-person-info {
   flex: 1;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .collection-person-dates {
@@ -532,6 +540,17 @@
   font-size: 12px;
   padding: 4px 10px;
   border-radius: 3px;
+}
+
+.collection-tag--link {
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: var(--collection-transition);
+}
+
+.collection-tag--link:hover {
+  background: var(--collection-gold);
+  color: var(--collection-white) !important;
 }
 
 /* ---- External links ---- */
@@ -575,10 +594,153 @@
   color: var(--collection-grey-light);
 }
 
+/* ---- 3-Column Detail Layout ---- */
+.collection-detail-layout-3col {
+  display: grid;
+  grid-template-columns: 3fr 6fr 3fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* Center column wrapper (image + images thumbnails) */
+.collection-center-column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.collection-related-section--inline {
+  margin-top: 0;
+}
+
+/* Right column: context panel (subjects, persons, inscriptions) */
+.collection-context-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.collection-context-section {
+  background: var(--collection-white);
+  border: 1px solid var(--collection-grey-light);
+  border-radius: var(--collection-radius);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.collection-context-section:last-child {
+  margin-bottom: 0;
+}
+
+.collection-context-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--collection-font-body);
+  color: var(--collection-anthracite);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--collection-crimson-light);
+}
+
+/* Person chips (compact layout for right column) */
+.collection-persons-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.collection-person-chip {
+  display: flex;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: var(--collection-radius);
+  transition: var(--collection-transition);
+}
+
+.collection-person-chip:hover {
+  background: var(--collection-crimson-light);
+}
+
+.collection-person-chip-avatar {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--collection-grey-light);
+}
+
+.collection-person-chip-placeholder {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 50%;
+  background: var(--collection-bg-warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.collection-person-chip-name {
+  font-family: var(--collection-font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--collection-anthracite);
+  line-height: 1.3;
+}
+
+/* Inscription items in context panel */
+.collection-inscription-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--collection-grey-light);
+  font-family: var(--collection-font-body);
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--collection-grey-dark);
+}
+
+.collection-inscription-item:last-child {
+  border-bottom: none;
+}
+
+/* Images section description */
+.collection-images-count {
+  font-weight: 400;
+  color: var(--collection-grey-medium);
+  font-size: 16px;
+}
+
+.collection-images-description {
+  font-family: var(--collection-font-body);
+  font-size: 13px;
+  color: var(--collection-grey-medium);
+  margin-top: -8px;
+  margin-bottom: 16px;
+}
+
 /* ---- Responsive ---- */
+@media (max-width: 1200px) {
+  .collection-detail-layout-3col {
+    grid-template-columns: 3fr 6fr 3fr;
+    gap: 20px;
+  }
+}
+
 @media (max-width: 992px) {
   .collection-detail-layout {
     grid-template-columns: 1fr;
+  }
+  .collection-detail-layout-3col {
+    grid-template-columns: 1fr;
+  }
+  .collection-container.collection-detail-fullwidth {
+    max-width: 100%;
+    padding: 0 24px;
   }
   .collection-collections-grid {
     grid-template-columns: 1fr;
@@ -736,6 +898,58 @@
 /* Hide any category images in the facet pills (they add clutter in a small sidebar) */
 .collection-page .facet__category-selector-holder .category-item__category-image {
   display: none;
+}
+
+/* ---- Placeholder Images (SVG-based, no external requests) ---- */
+
+/* Artwork placeholder — framed picture icon */
+.placeholder-artwork {
+  width: 100%;
+  height: 100%;
+  background-color: var(--collection-bg-warm);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'%3E%3Crect x='24' y='28' width='72' height='64' rx='4' stroke='%23c5b99a' stroke-width='2.5' fill='none'/%3E%3Cpath d='M24 72 l20-18 12 10 16-22 24 30' stroke='%23c5b99a' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='48' cy='48' r='7' stroke='%23c5b99a' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Person placeholder — silhouette icon */
+.placeholder-person {
+  width: 100%;
+  height: 100%;
+  background-color: var(--collection-bg-warm);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'%3E%3Ccircle cx='60' cy='44' r='18' stroke='%23c5b99a' stroke-width='2.5' fill='none'/%3E%3Cpath d='M28 100 c0-20 14-32 32-32 s32 12 32 32' stroke='%23c5b99a' stroke-width='2.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 64px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Small variant for chips/avatars */
+.placeholder-person--small {
+  background-size: 28px 28px;
+}
+
+/* Round variant for person avatars */
+.placeholder-person--round {
+  border-radius: 50%;
+}
+
+/* Dark-bg variant for the main image panel */
+.placeholder-artwork--dark {
+  background-color: var(--collection-anthracite);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'%3E%3Crect x='24' y='28' width='72' height='64' rx='4' stroke='%23555' stroke-width='2.5' fill='none'/%3E%3Cpath d='M24 72 l20-18 12 10 16-22 24 30' stroke='%23555' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='48' cy='48' r='7' stroke='%23555' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-size: 96px 96px;
+}
+
+/* Utility: hide broken img, show sibling placeholder */
+img.img-with-fallback {
+  /* normal display */
 }
 
 /* ---- Override RS platform defaults ---- */

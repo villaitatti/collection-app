@@ -1,0 +1,74 @@
+[[> collection:Header ]]
+
+<semantic-context repository="sharedshelf">
+<div class="collection-page">
+  <div class="collection-container collection-detail">
+
+    <!-- Breadcrumb -->
+    <div class="collection-breadcrumb">
+      <semantic-link iri="collection:Search">Collections</semantic-link>
+      <span class="separator">›</span>
+      <semantic-link iri="collection:Search">Search</semantic-link>
+      <span class="separator">›</span>
+      <span>Subject</span>
+      <span class="separator">›</span>
+      <semantic-query query='SELECT ?label WHERE { ?? rdfs:label ?label } LIMIT 1'
+        template="{{bindings.0.label.value}}"></semantic-query>
+    </div>
+
+    <!-- Header -->
+    <div class="collection-detail-header">
+      <span class="collection-type-badge">Subject</span>
+      <h1><mp-label iri="[[this]]"></mp-label></h1>
+    </div>
+
+    <!-- Works depicting this subject -->
+    <semantic-query
+      query='SELECT DISTINCT ?work ?workLabel ?imgUrl WHERE {
+        ?work a crm:E22_Human-Made_Object .
+        ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+        ?work rdfs:label ?workLabel .
+        ?work crm:P65_shows_visual_item ?vis .
+        ?vis crm:P138_represents ?? .
+        OPTIONAL {
+          ?img crm:P65_shows_visual_item ?imgVis .
+          ?imgVis crm:P138_represents ?work .
+          ?img crm:P129i_is_subject_of ?digital .
+          ?digital crm:P1_is_identified_by ?fullUrl .
+          FILTER(ISURI(?fullUrl))
+          OPTIONAL { ?img rdfs:label ?imgLbl }
+          FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
+          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!300,300") AS ?imgUrl)
+        }
+      } LIMIT 100'
+      template="{{> subjectWorks}}"
+      no-result-template='<div style="text-align: center; padding: 40px; color: #999;">No works found depicting this subject.</div>'
+    >
+      <template id="subjectWorks">
+        <div class="collection-related-section">
+          <h2>Works depicting this subject <span class="collection-images-count">({{bindings.length}})</span></h2>
+          <div class="collection-related-grid">
+            {{#each bindings}}
+              <div class="collection-card-grid" style="height: auto;">
+                <div class="collection-card-thumb" style="height: 200px;">
+                  {{#if imgUrl}}
+                    <img src="{{imgUrl.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
+                  {{else}}
+                    <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
+                  {{/if}}
+                </div>
+                <div class="collection-card-body" style="padding: 12px;">
+                  <h3 style="font-size: 14px;">
+                    <semantic-link iri="{{work.value}}">{{workLabel.value}}</semantic-link>
+                  </h3>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </template>
+    </semantic-query>
+
+  </div>
+</div>
+</semantic-context>

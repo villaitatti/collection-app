@@ -15,7 +15,7 @@
 
     <!-- Person Header -->
     <div class="collection-person-header">
-      <div class="collection-person-avatar">👤</div>
+      <div class="collection-person-avatar placeholder-person placeholder-person--round" style="background-size: 56px 56px;"></div>
       <div class="collection-person-info">
         <h1><mp-label iri="[[this]]"></mp-label></h1>
 
@@ -143,9 +143,9 @@
               <div class="collection-card-grid" style="height: auto;">
                 <div class="collection-card-thumb" style="height: 160px;">
                   {{#if thumb}}
-                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='/assets/images/media/image_placeholder.jpg';" />
+                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
                   {{else}}
-                    <div style="width:100%;height:100%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:40px;">🖼</div>
+                    <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
                   {{/if}}
                 </div>
                 <div class="collection-card-body" style="padding: 12px;">
@@ -201,9 +201,9 @@
               <div class="collection-card-grid" style="height: auto;">
                 <div class="collection-card-thumb" style="height: 160px;">
                   {{#if thumb}}
-                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.src='/assets/images/media/image_placeholder.jpg';" />
+                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
                   {{else}}
-                    <div style="width:100%;height:100%;background:#f5f5f5;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:40px;">🖼</div>
+                    <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
                   {{/if}}
                 </div>
                 <div class="collection-card-body" style="padding: 12px;">
