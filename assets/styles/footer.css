@@ -33,7 +33,6 @@ footer a:hover {
 
 /* ── Shared project footer (itatti-footer) ── */
 .itatti-footer {
-  margin-top: 10px;
   flex-shrink    : 0;
   background     : #1a1a1a;
   color          : #aaaaaa;

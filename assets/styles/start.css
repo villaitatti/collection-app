@@ -136,6 +136,10 @@
   min-width: 260px;
 }
 
+.component-page-toolbar {
+  display: none!important;
+}
+
 @media (max-width: 1400px) {
   #home-page .home-body-grid {
     display: flex !important;

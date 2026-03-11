@@ -366,19 +366,6 @@
   padding: 1vh;
 }
 
-.artwork-card-big .system-spinner {
-  display: none !important;
-}
-.placeCard .system-spinner {
-  display: none !important;
-}
-.repositoryCard .system-spinner {
-  display: none !important;
-}
-.personCard .system-spinner {
-  display: none !important;
-}
-
 #tableView .griddle-filter::before {
   content: "Click on the column titles to sort results ";
   /* content: ""; */

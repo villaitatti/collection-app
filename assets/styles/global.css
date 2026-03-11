@@ -13,18 +13,6 @@
   content: none!important;
 }
 
-.system-spinner__icon {
-  color: #007bff;
-  font-size: 24px !important;
-  animation: fa-spin 0.7s steps(8) infinite !important;
-}
-.system-spinner__icon::before {
-  content: "\f0ac" !important;
-}
-
-.system-spinner__message {
-  display: none !important;
-}
 #template-content {
   width: 100%;
   box-sizing: border-box;
@@ -34,6 +22,11 @@ body, html {
   overflow-x: hidden;
 }
 
+/* ── Hide RS duplicate navbar (rendered twice during React hydration) ── */
+nav.itatti-collection-navbar + nav.itatti-collection-navbar {
+  display: none !important;
+}
+
 /* ── Override RS page-container fixed height so footer follows content ── */
 /* RS sets height: calc(100vh - nav-height) which pins the footer to viewport
    bottom and causes it to overlap overflowing content. min-height lets the
@@ -41,6 +34,7 @@ body, html {
 .page-container {
   height: auto !important;
   min-height: calc(100vh - var(--nav-height, 63px)) !important;
+  margin-top: -28px;
 }
 
 span.page__header-gripper-label {

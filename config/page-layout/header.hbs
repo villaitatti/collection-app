@@ -1,103 +1,12 @@
-<bs-navbar id="collection" class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="rs-header">
-    <div class="navbar-header">
-      <bs-navbar-toggle></bs-navbar-toggle>
-      <semantic-link
-        class="rs-header-logo"
-        iri="collection:Start"
-      >itattidigitalcollections</semantic-link>
-
-    </div>
-    <bs-navbar-collapse class="pull-right">
-      <bs-nav>
-        <!--
-        <mp-anonymous-hidden>
-          <li class="dropdown" class="dropdown" class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">AUTHORING FORMS
-              <b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <a href="/resource/ArtworkAuth">Artwork
-                </a>
-              </li>
-            </ul>
-          </li>
-        </mp-anonymous-hidden>-->
-        <bs-nav-item>
-          <!--
-          <semantic-link class="rs-body-m-M" iri="Default:PhotoArchive">PHOTO
-            ARCHIVE</semantic-link>
-          </bs-nav-item>
-          -->
-
-      <li class="dropdown" class="dropdown" class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">PROJECTS
-            <b class="caret"></b></a>
-          <ul class="dropdown-menu" role="menu">
-            <li>
-              <semantic-link uri='https://yashiro.itatti.harvard.edu/resource/Start'>Yashiro & Berenson</semantic-link>
-            </li>
-            <li>
-              <semantic-link uri='https://mbdiaries.itatti.harvard.edu/resource/diaries'>Mary Berenson diaries</semantic-link>
-              </a>
-            </li>
-            <li>
-              <semantic-link uri='https://bellegreene.itatti.harvard.edu/resource/Start'>Belle Greene Correspondence</semantic-link>
-              </a>
-            </li>
-            <li>
-              <semantic-link iri='collection:Search'>Collections</semantic-link>
-            </li>
-           <!--
-           <li>
-              <a href="/resource/BernardPhotographs">
-                Bernard Berenson Personal Photographs
-              </a>
-            </li> 
-            -->
-          </ul>
-        </li>
-        
-        <!--
-        <bs-nav-item>
-          <semantic-link class="rs-body-m-M" iri="Default:ArtCollection">ART COLLECTION</semantic-link>
-        </bs-nav-item>
-        -->
-        <mp-anonymous-hidden>
-          <bs-nav-item>
-            <semantic-link
-              iri="rsp:admin"
-              title="Go to admin settings"
-              class="rs-body-m-M"
-            >ADMIN</semantic-link>
-          </bs-nav-item>
-        </mp-anonymous-hidden>
-        <mp-anonymous-hidden>
-          <li role="presentation">
-            <a
-              href="/sparql"
-              title="Go to SPARQL endpoint"
-              class="rs-body-m-M"
-            >SPARQL</a>
-          </li>
-        </mp-anonymous-hidden>
-        <li role="presentation">
-          <mp-anonymous-hidden>
-            <a
-              id="logout-Link"
-              href="/logout"
-              title="logout"
-              class="rs-body-m-M"
-            >LOGOUT</a>
-          </mp-anonymous-hidden>
-          <a
-            id="login-Link"
-            href="/login"
-            title="login"
-            class="rs-body-m-M"
-          >LOGIN</a>
-        </li>
-      </bs-nav>
-    </bs-navbar-collapse>
+<nav id="collection" class="itatti-collection-navbar" role="navigation">
+  <div class="collection-navbar-inner">
+    <a href="/resource/collection:Start" class="collection-navbar-logo">
+      <img src="/assets/images/logo.png" alt="I Tatti Digital Collections">
+    </a>
+    <ul class="collection-navbar-nav">
+      <li><a href="/resource/collection:Start#collections">Collections</a></li>
+      <li><a href="/resource/collection:Start#projects">Projects</a></li>
+      <li><a href="/resource/collection:Start#about">About</a></li>
+    </ul>
   </div>
-</bs-navbar>
+</nav>
