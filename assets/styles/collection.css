@@ -50,31 +50,18 @@
 }
 
 /* ─── Navbar ─────────────────────────────────────── */
-.itatti-collection-navbar,
-.itatti-collection-navbar.navbar {
-  position: sticky !important;
+.itatti-collection-navbar {
+  position: sticky;
   top: 0;
   z-index: 200;
-  background: rgba(255,255,255,0.92) !important;
+  background: rgba(255,255,255,0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  /* Strip Bootstrap default navbar padding/min-height */
-  padding: 0 !important;
-  min-height: unset !important;
-  margin-bottom: 0 !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  margin: 0;
+  padding: 0;
 }
 
-/* Bootstrap injects a .container or .navbar-header wrapper — flatten it */
-.itatti-collection-navbar > .container,
-.itatti-collection-navbar > .container-fluid,
-.itatti-collection-navbar .navbar-header {
-  padding: 0 !important;
-  margin: 0 !important;
-  float: none !important;
-}
 
 .itatti-collection-navbar .collection-navbar-inner {
   max-width: var(--max-w);
