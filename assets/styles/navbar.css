@@ -111,7 +111,7 @@
 
 /* ── Wrapper ── */
 .itatti-navbar {
-  margin-top       : 84px !important;
+  margin-top       : 58px !important;
   background-color : var(--project-nav-bg,  #ffffff) !important;
   border-bottom    : 1px solid var(--project-nav-border, #e2e2e2) !important;
   box-shadow       : none !important;
