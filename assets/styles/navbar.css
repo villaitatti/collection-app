@@ -28,7 +28,6 @@
   height: 100%;
   margin-top: 10px;
   padding-bottom: 5px;
-  min-height: 84px;
 }
 .navbar-default .navbar-nav a {
   color: black;
@@ -52,9 +51,6 @@
   height: 40px !important;
   margin-top: 20px;
   margin-left: 10px;
-}
-.navbar-collapse.pull-right.collapse {
-  background: white;
 }
 
 .navbar .contact:hover {
@@ -119,8 +115,6 @@
   background-color : var(--project-nav-bg,  #ffffff) !important;
   border-bottom    : 1px solid var(--project-nav-border, #e2e2e2) !important;
   box-shadow       : none !important;
-  min-height       : var(--itatti-nav-height) !important;
-  height           : var(--itatti-nav-height) !important;
 }
 
 /* ── Inner row — max-width capped, aligns with page body ── */

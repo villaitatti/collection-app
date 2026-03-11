@@ -1,124 +1,252 @@
-<div id="home-page">
-  <div class="home-header-container">
-    <div class="home-header">
-      <div class="message">
-        Welcome to the I Tatti Digital Collections        
+<!-- ═══ HERO ════════════════════════════════════════ -->
+<section class="coll-hero">
+  <div class="coll-section-wrap">
+    <div class="coll-hero-inner">
+      <div class="coll-hero-text">
+        <div class="coll-hero-eyebrow">Villa I Tatti &mdash; Harvard University Center for Italian Renaissance Studies</div>
+        <h1 class="coll-hero-h1">Explore <em>I Tatti's</em><br>Digital Collections</h1>
+        <p class="coll-hero-desc">Search across 300,000 photographs, artworks, manuscripts, correspondence, and archival documents from the I Tatti Collection in Florence.</p>
+        <div class="coll-search-wrap">
+          <form action="/resource/Default:Search" method="get">
+            <div class="coll-search-bar">
+              <input
+                class="coll-search-input"
+                type="search"
+                name="keyword"
+                placeholder="Search the collections..."
+                aria-label="Search the collections"
+                minlength="2"
+                spellcheck="true"
+              >
+              <button type="submit" class="coll-search-btn" aria-label="Search">
+                <i class="fa fa-magnifying-glass"></i>
+              </button>
+            </div>
+          </form>
+          <div class="coll-search-links">
+            <!--
+            <semantic-link iri="Default:StructuredSearch">Structured search</semantic-link>-->
+            <semantic-link iri="Default:Search">Browse all records</semantic-link>
+          </div>
+        </div>
       </div>
-      <div class="searchbar">
-        <form>
-          <input
-            required
-            minlength="2"
-            spellcheck="true"
-            class="form-control"
-            pattern="[A-Za-z0-9\s]+"
-            placeholder="Search the collection"
-            type="search"
-            title="Type at least 2 characters, only alphanumeric e.g. (Mona Lisa 1503)"
-            id="site-search"
-            name="keyword"
-            aria-label="Search through site content"
-          />
-          <input type="hidden" name="uri" value="Default:Search" />
-          <button
-            type="submit"
-            class="btn searchBtn"
-          >
-            <i class="fa fa-search"></i>
-          </button>
-        </form>
-        <semantic-link  class="structured-search-option" iri="Default:StructuredSearch">
-            Structured search
-      </semantic-link>
+      <div class="coll-hero-mosaic">
+        <img src="/assets/images/hero-fototeca.jpg" alt="Madonna col Figlio, from the Fototeca Berenson">
+        <img src="/assets/images/hero-florentine-drawing.jpg" alt="Renaissance drawing of a warrior">
+        <img src="/assets/images/hero-marchig-portrait.jpg" alt="Renaissance portrait from the Marchig collection">
       </div>
     </div>
   </div>
-    <div class="home-body-grid">
+</section>
 
-  <!-- <div class="grid-option">
-      <div class="option-content">
-      <div class="content-title">
-        Art Collection
-      </div>
-      <div class="content-subtitle">
-        Explore 320 works of art held by the Harvard Center through catalog entries and historical photograps that document their state during the 20th century.
-      </div>
+<!-- ═══ COLLECTIONS ═════════════════════════════════ -->
+<div class="coll-collections-bg" id="collections">
+  <div class="coll-section-wrap coll-section-pad">
+    <div class="coll-section-header">
+      <h2 class="coll-section-title">Collections</h2>
+      <span class="coll-section-line"></span>
+    </div>
+    <p class="coll-section-subtitle">Three entry points into I Tatti's digitized holdings &mdash; from the extensive photograph archive to the Renaissance art collection and the personal papers of the Berensons and their circle.</p>
+
+    <div class="coll-collections-grid">
+
+      <!-- Photo Archive -->
+      <semantic-link iri="Default:Search" class="coll-card">
+        <div class="coll-card-visual">
+          <img src="/assets/images/collection-photo-archive.jpg" alt="Archive prints at Villa I Tatti Fototeca">
+          <span class="coll-badge">Fototeca</span>
+        </div>
+        <div class="coll-card-body">
+          <div class="coll-card-title">Photo Archive</div>
+          <div class="coll-card-desc">Around 300,000 photographic prints documenting artworks from Antiquity through the mid-twentieth century, with emphasis on Italian Renaissance painting and drawing. Includes 14 named special collections &mdash; from Creswell's Islamic architecture to Zanardi's restoration documentation.</div>
+          <div class="coll-card-footer">
+            <div class="coll-card-stat"><span>300,000+</span> photographs</div>
+            <div class="coll-card-link">Explore <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+          </div>
+        </div>
+      </semantic-link>
+
+      <!-- Art Collection -->
+      <semantic-link iri="Default:Search" class="coll-card">
+        <div class="coll-card-visual">
+          <img src="/assets/images/collection-art.jpg" alt="Art Collection at Villa I Tatti">
+          <span class="coll-badge">Villa I Tatti</span>
+        </div>
+        <div class="coll-card-body">
+          <div class="coll-card-title">Art Collection</div>
+          <div class="coll-card-desc">The Berensons' personal collection of 150 Italian panel paintings from the 14th&ndash;16th centuries &mdash; including works by Giotto, Sassetta, and Domenico Veneziano &mdash; alongside 50 Asian sculptures and scrolls, 20 pre-Columbian to Renaissance sculptures, and 15 Islamic works.</div>
+          <div class="coll-card-footer">
+            <div class="coll-card-stat"><span>235+</span> works of art</div>
+            <div class="coll-card-link">Explore <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+          </div>
+        </div>
+      </semantic-link>
+
+      <!-- Archive -->
+      <semantic-link iri="Default:Search" class="coll-card">
+        <div class="coll-card-visual">
+          <img src="/assets/images/collection-archive.jpg" alt="Historical Archives">
+          <span class="coll-badge">Archives</span>
+        </div>
+        <div class="coll-card-body">
+          <div class="coll-card-title">Archive</div>
+          <div class="coll-card-desc">Manuscripts, diaries, and correspondence from Bernard and Mary Berenson, their circle, and related collections &mdash; including the Mary Berenson Diaries, Belle da Costa Greene letters, Yashiro correspondence, personal photographs, and CRIA flood rescue documents.</div>
+          <div class="coll-card-footer">
+            <div class="coll-card-stat"><span>72+</span> linear feet</div>
+            <div class="coll-card-link">Explore <i class="fa fa-arrow-right" style="font-size:11px"></i></div>
+          </div>
+        </div>
+      </semantic-link>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ QUOTE ═══════════════════════════════════════ -->
+<div class="coll-quote-band">
+  <div class="coll-quote-inner">
+    <blockquote>&ldquo;I would prefer my works of art to remain distributed over the house and not dumped into a separate room as a museum or gallery.&rdquo;</blockquote>
+    <cite>Bernard Berenson</cite>
+  </div>
+</div>
+
+<!-- ═══ PROJECTS ════════════════════════════════════ -->
+<div class="coll-projects-bg" id="projects">
+  <div class="coll-section-wrap coll-section-pad">
+    <div class="coll-section-header">
+      <h2 class="coll-section-title">Projects</h2>
+      <span class="coll-section-line"></span>
+    </div>
+    <p class="coll-section-subtitle">Curated digital projects offering alternative ways to explore I Tatti's collections &mdash; from interactive maps and digital editions to online exhibitions.</p>
+
+    <div class="coll-projects-grid">
+
+      <!-- Row 1: featured wide + tall -->
+      <a href="https://fototeca.itatti.net" class="proj-card proj-wide">
+        <img src="/assets/images/project-fototeca-explorer.jpg" alt="Berenson Reading Room">
+        <div class="proj-info">
+          <div class="proj-tag">Collection Explorer</div>
+          <div class="proj-title">Fototeca Berenson</div>
+          <div class="proj-desc">Navigate the digitized photo archive through the physical layout of the Fototeca, the archival hierarchy by school and artist, or an interactive map. Browse the archive remotely while preserving the intellectual structure of the physical collection.</div>
+        </div>
+      </a>
+
+      <a href="https://bassani.itatti.net" class="proj-card proj-lg">
+        <img src="/assets/images/project-bassani-ivories.jpg" alt="Afro-Portuguese ivory sculpture">
+        <div class="proj-info">
+          <div class="proj-tag">Digital Edition</div>
+          <div class="proj-title">Africa and the Renaissance: Art in Ivory</div>
+          <div class="proj-desc">A digital edition of Bassani and Fagg's 1988 publication on Afro-Portuguese ivories carved by African artists for European patrons in the 15th&ndash;16th centuries. Features a filterable gallery, interactive map, searchable catalogue, and paginated reader.</div>
+        </div>
+      </a>
+
+      <!-- Row 2: 3 medium cards -->
+      <a href="https://travels.itatti.net" class="proj-card proj-md">
+        <img src="/assets/images/project-berenson-travels.png" alt="Map of the Berensons' travels across Europe">
+        <div class="proj-info">
+          <div class="proj-tag">Interactive Map</div>
+          <div class="proj-title">The Travels of Mary &amp; Bernard Berenson</div>
+          <div class="proj-desc">Visualize the Berensons' journeys year by year, drawn from Mary's diaries spanning 1891 to 1937.</div>
+        </div>
+      </a>
+
+      <a href="https://florentinedrawings.itatti.harvard.edu" class="proj-card proj-md">
+        <img src="/assets/images/project-florentine-drawings.jpg" alt="Renaissance drawing of a warrior">
+        <div class="proj-info">
+          <div class="proj-tag">Linked Open Data</div>
+          <div class="proj-title">Florentine Drawings</div>
+          <div class="proj-desc">Berenson's <em>Drawings of the Florentine Painters</em> as a searchable, structured online catalogue.</div>
+        </div>
+      </a>
+
+      <a href="https://cria.itatti.harvard.edu" class="proj-card proj-md">
+        <img src="/assets/images/project-cria-flood.jpg" alt="Ponte Vecchio during the 1966 flood">
+        <div class="proj-info">
+          <div class="proj-tag">Online Exhibition</div>
+          <div class="proj-title">CRIA &mdash; Committee to Rescue Italian Art</div>
+          <div class="proj-desc">The 1966 Florence flood and the international campaign to rescue Italian cultural heritage.</div>
+        </div>
+      </a>
+
+      <!-- Row 3: Yashiro + Belle Greene + Oral History -->
+      <semantic-link uri="https://yashiro.itatti.harvard.edu/resource/Start" class="proj-card proj-md">
+        <img src="/assets/images/project-yashiro.jpg" alt="Yashiro and Berenson">
+        <div class="proj-info">
+          <div class="proj-tag">Correspondence</div>
+          <div class="proj-title">Yashiro and Berenson</div>
+          <div class="proj-desc">The scholarly relationship between Yukio Yashiro and Bernard Berenson, pioneers in the cross-cultural study of art history.</div>
+        </div>
+      </semantic-link>
+
+      <semantic-link uri="https://bellegreene.itatti.harvard.edu/resource/Start" class="proj-card proj-md">
+        <img src="/assets/images/project-belle-greene.jpg" alt="Belle da Costa Greene">
+        <div class="proj-info">
+          <div class="proj-tag">Correspondence</div>
+          <div class="proj-title">Letters of Belle da Costa Greene</div>
+          <div class="proj-desc">Correspondence between the legendary Morgan Library director and Bernard Berenson, spanning decades of friendship and intellectual exchange.</div>
+        </div>
+      </semantic-link>
+
+      <a href="https://oralhistory.itatti.harvard.edu" class="proj-card proj-md">
+        <img src="/assets/images/project-oral-history.jpg" alt="Villa I Tatti garden watercolor">
+        <div class="proj-info">
+          <div class="proj-tag">Oral History</div>
+          <div class="proj-title">Oral History of I Tatti</div>
+          <div class="proj-desc">First-person recorded interviews documenting life at I Tatti.</div>
+        </div>
+      </a>
+
+      <!-- Row 4: Berensons at Harvard + Floreat Musica -->
+      <a href="https://berenson.itatti.harvard.edu" class="proj-card proj-half">
+        <img src="/assets/images/project-berensons-harvard.jpg" alt="Berensons at Harvard">
+        <div class="proj-info">
+          <div class="proj-tag">Online Exhibition</div>
+          <div class="proj-title">Berensons at Harvard</div>
+          <div class="proj-desc">Bernard and Mary Berenson as students at Harvard.</div>
+        </div>
+      </a>
+
+      <semantic-link uri="https://mbdiaries.itatti.harvard.edu/resource/diaries" class="proj-card proj-half">
+        <img src="/assets/images/media/mb-cover1.jpg" alt="Mary Berenson Diaries">
+        <div class="proj-info">
+          <div class="proj-tag">Digital Edition</div>
+          <div class="proj-title">Mary Berenson Diaries</div>
+          <div class="proj-desc">Browse through the diaries kept by Mary Berenson between 1891 and 1937.</div>
+        </div>
+      </semantic-link>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ABOUT STRIP ═════════════════════════════════ -->
+<div class="coll-about-strip" id="about">
+  <div class="coll-about-inner">
+    <div class="coll-about-img">
+      <img src="/assets/images/about-library-corridor.jpg" alt="Berenson Library corridor">
+    </div>
+    <div class="coll-about-text">
+      <h2>The collections at Villa I Tatti</h2>
+      <p>When Bernard Berenson bequeathed his villa and collections to Harvard University in 1959, the library held over 50,000 volumes and 170,000 photographs. Under Harvard's stewardship, the collections have grown to nearly 200,000 volumes, 300,000 photographs, and extensive archival holdings &mdash; making it one of the world's preeminent research libraries for Italian Renaissance studies.</p>
+      <p>The Digital Collections Portal provides unified search and curated access to these holdings, bringing a century of art-historical scholarship to researchers worldwide.</p>
+      <div class="coll-about-stats">
+        <div>
+          <div class="coll-about-stat-num">200,000</div>
+          <div class="coll-about-stat-label">Library volumes</div>
+        </div>
+        <div>
+          <div class="coll-about-stat-num">300,000</div>
+          <div class="coll-about-stat-label">Photographs</div>
+        </div>
+        <div>
+          <div class="coll-about-stat-num">3,500</div>
+          <div class="coll-about-stat-label">Rare books</div>
+        </div>
+        <div>
+          <div class="coll-about-stat-num">1961</div>
+          <div class="coll-about-stat-label">Established</div>
+        </div>
       </div>
     </div>
-
-    <div class="grid-option">
-      <div class="option-content">
-        <div class="content-title">
-          Photo Archive
-        </div>
-        <div class="content-subtitle">
-          This online exhibition explore the aftermath of a devastating flood in Florence, Italy in
-          1966 and the preservation efforts of the Committee to Rescure Italian Art.
-        </div>
-      </div>
-    </div>
-    <div class="grid-option">
-      <div class="option-content">
-      <div class="content-title">
-        Archive
-      </div>
-      <div class="content-subtitle">
-        An online catalogue that transforms Bernard Berenson's The Drawings of the Florentine Painters
-        into Linked Open Data. Generously sponsored by the Samuel H. Kress Foundation.
-      </div>
-    </div>
-    </div>
-
-    <div class="grid-option">
-      <div class="option-content">
-      <div class="content-title">
-        Bernard Berenson Personal Photograps
-      </div>
-      <div class="content-subtitle">
-        Through a series of recorded interviews, this online exhibition features a collection
-        of first person accounts of I Tatti.
-      </div>
-      </div>
-    </div> -->
-
-
-    <semantic-link uri='https://mbdiaries.itatti.harvard.edu/resource/diaries'>
-        <div class="grid-option" id="mb_diaries">
-            <div class="option-content">
-            <div class="content-title">
-                Mary Berenson Diaries
-            </div>
-            <div class="content-subtitle">
-                Browse through the diaries kept by Mary Berenson between 1891 and 1937
-            </div>
-            </div>
-        </div>
-    </semantic-link>
-
-    <semantic-link uri='https://yashiro.itatti.harvard.edu/resource/Start'>
-        <div class="grid-option" id="yashiro" style="background-image: url('/assets/images/yashiro_home.jpg'); background-size: cover; background-position: center;">
-            <div class="option-content">
-            <div class="content-title">
-                Berenson &amp; Yashiro
-            </div>
-            <div class="content-subtitle">
-                The correspondence between Bernard Berenson and Yukio Yashiro, among the most influential art historians in the West and in Japan
-            </div>
-            </div>
-        </div>
-    </semantic-link>
-
-    <semantic-link uri='https://bellegreene.itatti.harvard.edu/resource/Start'>
-        <div class="grid-option" id="bellegreene" style="background-image: url('/assets/images/bellegreene_background.jpg'); background-size: cover; background-position: center;">
-            <div class="option-content">
-            <div class="content-title">
-                Belle da Costa Greene
-            </div>
-            <div class="content-subtitle">
-                The letters of Belle da Costa Greene to Bernard Berenson, documenting one of the art world's most extraordinary relationships
-            </div>
-            </div>
-        </div>
-    </semantic-link>
   </div>
 </div>
