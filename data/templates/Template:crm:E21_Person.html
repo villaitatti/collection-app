@@ -4,16 +4,23 @@
     [[> collection:PersonView ]]
   </template>
   <template id='else'>
-    <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://yashiro.itatti.harvard.edu/")) }'>
+    <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://bellegreene.itatti.harvard.edu/")) }'>
       <template id='then'>
-        [[> yashiro:PersonView ]]
+        [[> bellegreene:Person ]]
       </template>
       <template id='else'>
-        <!-- Generic fallback for unknown person URIs -->
-        <div style="max-width: 800px; margin: 40px auto; padding: 24px;">
-          <h1><mp-label iri="[[this]]"></mp-label></h1>
-          <p>Person resource: <code>[[this]]</code></p>
-        </div>
+        <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://yashiro.itatti.harvard.edu/")) }'>
+          <template id='then'>
+            [[> yashiro:Person ]]
+          </template>
+          <template id='else'>
+            <!-- Generic fallback for unknown person URIs -->
+            <div style="max-width: 800px; margin: 40px auto; padding: 24px;">
+              <h1><mp-label iri="[[this]]"></mp-label></h1>
+              <p>Person resource: <code>[[this]]</code></p>
+            </div>
+          </template>
+        </semantic-if>
       </template>
     </semantic-if>
   </template>
