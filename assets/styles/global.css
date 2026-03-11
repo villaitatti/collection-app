@@ -34,7 +34,6 @@ nav.itatti-collection-navbar + nav.itatti-collection-navbar {
 .page-container {
   height: auto !important;
   min-height: calc(100vh - var(--nav-height, 63px)) !important;
-  margin-top: -28px;
 }
 
 span.page__header-gripper-label {
