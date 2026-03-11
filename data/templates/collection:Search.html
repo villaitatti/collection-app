@@ -4,8 +4,17 @@
 <div class="collection-page">
   <div class="collection-search-header">
     <h1>Search the Collections</h1>
-    <p class="collection-subtitle">Berenson Photo Archive</p>
+    <p class="collection-subtitle" id="collection-subtitle">Berenson Photo Archive</p>
   </div>
+  <script>
+    (function() {
+      var names = { fototeca: 'Photo Archive', berensonart: 'Art Collection', bibber: 'Archive' };
+      var p = new URLSearchParams(window.location.search).get('collection');
+      if (p && names[p]) {
+        document.getElementById('collection-subtitle').textContent = names[p];
+      }
+    })();
+  </script>
 
   <div class="collection-container collection-search-body">
     <semantic-search
@@ -18,15 +27,25 @@
         domain="<crm:E22_Human-Made_Object>"
         default-query='
           SELECT DISTINCT ?subject WHERE {
-            ?subject a crm:E22_Human-Made_Object .
+            GRAPH ?g { ?subject a crm:E22_Human-Made_Object . }
             ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
+            BIND("[[urlParam "collection"]]" AS ?collParam)
+            FILTER(
+              ?collParam = "" ||
+              ?g = URI(CONCAT("https://sharedshelf.itatti.harvard.edu/graph/", ?collParam))
+            )
           }
         '
         query='
           SELECT DISTINCT ?subject WHERE {
-            ?subject a crm:E22_Human-Made_Object .
+            GRAPH ?g { ?subject a crm:E22_Human-Made_Object . }
             ?subject crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
             ?subject rdfs:label ?label .
+            BIND("[[urlParam "collection"]]" AS ?collParam)
+            FILTER(
+              ?collParam = "" ||
+              ?g = URI(CONCAT("https://sharedshelf.itatti.harvard.edu/graph/", ?collParam))
+            )
             FILTER(REGEX(?label, ?__token__, "i"))
           }
         '
