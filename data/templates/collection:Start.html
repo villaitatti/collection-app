@@ -7,16 +7,16 @@
         <h1 class="coll-hero-h1">Explore <em>I Tatti's</em><br>Digital Collections</h1>
         <p class="coll-hero-desc">Search across 300,000 photographs, artworks, manuscripts, correspondence, and archival documents from the I Tatti Collection in Florence.</p>
         <div class="coll-search-wrap">
-          <form action="/resource/Default:Search" method="get">
+          <form>
+            <input type="hidden" name="uri" value="collection:Search">
             <div class="coll-search-bar">
               <input
                 class="coll-search-input"
-                type="search"
+                type="text"
                 name="keyword"
                 placeholder="Search the collections..."
                 aria-label="Search the collections"
-                minlength="2"
-                spellcheck="true"
+                autocomplete="off"
               >
               <button type="submit" class="coll-search-btn" aria-label="Search">
                 <i class="fa fa-magnifying-glass"></i>
@@ -26,7 +26,7 @@
           <div class="coll-search-links">
             <!--
             <semantic-link iri="Default:StructuredSearch">Structured search</semantic-link>-->
-            <semantic-link iri="Default:Search">Browse all records</semantic-link>
+            <semantic-link iri="collection:Search">Browse all records</semantic-link>
           </div>
         </div>
       </div>
