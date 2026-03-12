@@ -16,6 +16,23 @@
 
     <!-- Header -->
     <div class="collection-detail-header">
+      <!-- Source collection badge -->
+      <semantic-query
+        query='SELECT ?collectionName ?collectionSlug WHERE {
+          GRAPH ?g { ?? a crm:E22_Human-Made_Object . }
+          VALUES (?g ?collectionName ?collectionSlug) {
+            (<https://sharedshelf.itatti.harvard.edu/graph/fototeca> "Photo Archive" "fototeca")
+            (<https://sharedshelf.itatti.harvard.edu/graph/berensonart> "Art Collection" "berensonart")
+            (<https://sharedshelf.itatti.harvard.edu/graph/bibber> "Archive" "bibber")
+          }
+        } LIMIT 1'
+        template="{{> sourceBadge}}"
+      >
+        <template id="sourceBadge">
+          {{#each bindings}}<a href="/resource/collection:Search?collection={{collectionSlug.value}}" class="collection-source-badge collection-source-badge--{{collectionSlug.value}}">{{collectionName.value}}</a>{{/each}}
+        </template>
+      </semantic-query>
+
       <!-- Type badges -->
       <semantic-query
         query='SELECT DISTINCT ?type WHERE {
