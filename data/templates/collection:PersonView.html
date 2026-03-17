@@ -128,7 +128,7 @@
           FILTER(ISURI(?fullUrl))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?imgUrl)
+          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!400,400") AS ?imgUrl)
         }
       } GROUP BY ?work ?label
       LIMIT 50'
@@ -186,7 +186,7 @@
           FILTER(ISURI(?fullUrl))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?imgUrl)
+          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!400,400") AS ?imgUrl)
         }
       } GROUP BY ?work ?label
       LIMIT 50'

@@ -921,19 +921,17 @@
 
 /* ---- Search Page ---- */
 .collection-search-header {
-  background: linear-gradient(135deg, var(--collection-crimson) 0%, var(--collection-crimson-dark) 100%);
-  padding: 40px 24px;
-  text-align: center;
+  background: var(--collection-bg);
+  padding: 32px 24px 16px;
+  text-align: left;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .collection-search-header h1 {
-  color: var(--collection-white);
+  color: var(--collection-anthracite);
   font-size: 32px;
   margin-bottom: 4px;
-}
-
-.collection-search-header .collection-subtitle {
-  color: rgba(255, 255, 255, 0.65);
 }
 
 .collection-search-body {
@@ -993,12 +991,15 @@
   width: 180px;
   min-height: 160px;
   background-color: var(--collection-bg-warm);
-  background-size: cover;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'%3E%3Crect x='24' y='28' width='72' height='64' rx='4' stroke='%23c5b99a' stroke-width='2.5' fill='none'/%3E%3Cpath d='M24 72 l20-18 12 10 16-22 24 30' stroke='%23c5b99a' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='48' cy='48' r='7' stroke='%23c5b99a' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
   background-position: center;
+  background-size: 64px 64px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .collection-card-thumb img {
@@ -1307,6 +1308,12 @@
   font-size: 48px;
   color: var(--collection-grey-medium);
   opacity: 0.4;
+}
+
+/* Fix: prevent .placeholder-person from overriding avatar dimensions */
+.collection-person-avatar.placeholder-person {
+  width: 120px;
+  height: 120px;
 }
 
 .collection-person-info {

@@ -317,17 +317,18 @@
 
         <!-- Images: all image records for this work (with thumbnails) -->
         <semantic-query
-          query='SELECT DISTINCT ?photo ?photoLabel ?imgUrl WHERE {
+          query='SELECT DISTINCT ?photo ?photoLabel ?imgUrl ?isVerso WHERE {
             ?photo crm:P65_shows_visual_item ?vis .
             ?vis crm:P138_represents ?? .
             OPTIONAL { ?photo rdfs:label ?photoLabel }
+            BIND(IF(BOUND(?photoLabel) && CONTAINS(LCASE(?photoLabel), "verso"), 1, 0) AS ?isVerso)
             OPTIONAL {
               ?photo crm:P129i_is_subject_of ?digital .
               ?digital crm:P1_is_identified_by ?fullUrl .
               FILTER(ISURI(?fullUrl))
-              BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?imgUrl)
+              BIND(REPLACE(STR(?fullUrl), "full/full", "full/!400,400") AS ?imgUrl)
             }
-          } LIMIT 20'
+          } ORDER BY ?isVerso LIMIT 20'
           template="{{> relatedImages}}"
         >
           <template id="relatedImages">

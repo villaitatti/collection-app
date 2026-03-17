@@ -9,13 +9,15 @@
           ?img crm:P129i_is_subject_of ?digital .
           ?digital crm:P1_is_identified_by ?fullUrl .
           FILTER(ISURI(?fullUrl))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!300,300") AS ?smallUrl)
+          OPTIONAL { ?img rdfs:label ?imgLbl }
+          FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
+          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!400,400") AS ?smallUrl)
         }
         OPTIONAL {
           <{{subject.value}}> crm:P129i_is_subject_of ?digital2 .
           ?digital2 crm:P1_is_identified_by ?fullUrl2 .
           FILTER(ISURI(?fullUrl2))
-          BIND(REPLACE(STR(?fullUrl2), "full/full", "full/!300,300") AS ?smallUrl2)
+          BIND(REPLACE(STR(?fullUrl2), "full/full", "full/!400,400") AS ?smallUrl2)
         }
         BIND(COALESCE(?smallUrl, ?smallUrl2, ?default) AS ?imgUrl)
       } LIMIT 1'
