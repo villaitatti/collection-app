@@ -1759,3 +1759,11 @@ img.img-with-fallback {
 /* ---- Override RS platform defaults ---- */
 .collection-page .component-page-toolbar { display: none !important; }
 .collection-page .navbar-default { box-shadow: none !important; }
+
+/* Hide the "Hide Filter" toggle button in facets */
+.collection-page .facet__hide-facets-button,
+.collection-page .FacetStore--hideButton,
+.collection-page button[title="Hide Filter"],
+.collection-page .semantic-search-facet__hide-button {
+  display: none !important;
+}

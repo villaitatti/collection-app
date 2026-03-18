@@ -3,28 +3,45 @@
 <semantic-context repository="sharedshelf">
 <div class="collection-page">
   <div class="collection-search-header">
-    <h1 id="collection-title">Berenson Photo Archive</h1>
-    <div style="display: flex; gap: 16px; margin-top: 8px;">
-      <a href="/resource/collection:Search?collection=fototeca" id="sub-fototeca" style="font-size: 14px; color: var(--collection-grey-medium); text-decoration: none; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--collection-grey-light); transition: all 0.2s;">Photo Archive</a>
-      <a href="/resource/collection:Search?collection=berensonart" id="sub-berensonart" style="font-size: 14px; color: var(--collection-grey-medium); text-decoration: none; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--collection-grey-light); transition: all 0.2s;">Art Collection</a>
-      <a href="/resource/collection:Search?collection=bibber" id="sub-bibber" style="font-size: 14px; color: var(--collection-grey-medium); text-decoration: none; padding: 4px 12px; border-radius: 20px; border: 1px solid var(--collection-grey-light); transition: all 0.2s;">Archive</a>
+    <!-- Title changes based on collection param -->
+    <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "berensonart") }'>
+      <template id='then'><h1>Berenson Art Collection</h1></template>
+      <template id='else'>
+        <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "bibber") }'>
+          <template id='then'><h1>Bibber Archive</h1></template>
+          <template id='else'><h1>Berenson Photo Archive</h1></template>
+        </semantic-if>
+      </template>
+    </semantic-if>
+
+    <!-- Collection sub-nav pills -->
+    <div style="display: flex; gap: 12px; margin-top: 8px;">
+      <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "fototeca") }'>
+        <template id='then'>
+          <a href="/resource/collection:Search?collection=fototeca" style="font-size:14px; text-decoration:none; padding:4px 12px; border-radius:20px; color:#802126; border:1px solid #802126; font-weight:600;">Photo Archive</a>
+        </template>
+        <template id='else'>
+          <a href="/resource/collection:Search?collection=fototeca" style="font-size:14px; color:#999; text-decoration:none; padding:4px 12px; border-radius:20px; border:1px solid #e8e8e8;">Photo Archive</a>
+        </template>
+      </semantic-if>
+      <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "berensonart") }'>
+        <template id='then'>
+          <a href="/resource/collection:Search?collection=berensonart" style="font-size:14px; text-decoration:none; padding:4px 12px; border-radius:20px; color:#802126; border:1px solid #802126; font-weight:600;">Art Collection</a>
+        </template>
+        <template id='else'>
+          <a href="/resource/collection:Search?collection=berensonart" style="font-size:14px; color:#999; text-decoration:none; padding:4px 12px; border-radius:20px; border:1px solid #e8e8e8;">Art Collection</a>
+        </template>
+      </semantic-if>
+      <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "bibber") }'>
+        <template id='then'>
+          <a href="/resource/collection:Search?collection=bibber" style="font-size:14px; text-decoration:none; padding:4px 12px; border-radius:20px; color:#802126; border:1px solid #802126; font-weight:600;">Archive</a>
+        </template>
+        <template id='else'>
+          <a href="/resource/collection:Search?collection=bibber" style="font-size:14px; color:#999; text-decoration:none; padding:4px 12px; border-radius:20px; border:1px solid #e8e8e8;">Archive</a>
+        </template>
+      </semantic-if>
     </div>
   </div>
-  <script>
-    (function() {
-      var names = { fototeca: 'Berenson Photo Archive', berensonart: 'Berenson Art Collection', bibber: 'Bibber Archive' };
-      var p = new URLSearchParams(window.location.search).get('collection');
-      if (p && names[p]) {
-        document.getElementById('collection-title').textContent = names[p];
-        var active = document.getElementById('sub-' + p);
-        if (active) {
-          active.style.background = 'var(--collection-crimson)';
-          active.style.color = '#fff';
-          active.style.borderColor = 'var(--collection-crimson)';
-        }
-      }
-    })();
-  </script>
 
   <div class="collection-container collection-search-body">
     <semantic-search
