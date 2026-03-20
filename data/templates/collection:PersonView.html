@@ -128,7 +128,7 @@
           FILTER(ISURI(?fullUrl))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!400,400") AS ?imgUrl)
+          BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
         }
       } GROUP BY ?work ?label
       LIMIT 50'
@@ -186,7 +186,7 @@
           FILTER(ISURI(?fullUrl))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!400,400") AS ?imgUrl)
+          BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
         }
       } GROUP BY ?work ?label
       LIMIT 50'

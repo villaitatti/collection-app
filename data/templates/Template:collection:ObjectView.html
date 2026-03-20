@@ -326,7 +326,7 @@
               ?photo crm:P129i_is_subject_of ?digital .
               ?digital crm:P1_is_identified_by ?fullUrl .
               FILTER(ISURI(?fullUrl))
-              BIND(REPLACE(STR(?fullUrl), "full/full", "full/!400,400") AS ?imgUrl)
+              BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
             }
           } ORDER BY ?isVerso LIMIT 20'
           template="{{> relatedImages}}"
