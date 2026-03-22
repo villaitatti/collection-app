@@ -1,4 +1,5 @@
 <div class="collection-card-grid">
+  <semantic-link iri="{{subject.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;">
   <div class="collection-card-thumb">
     <semantic-query
       query='SELECT ?imgUrl WHERE {
@@ -28,6 +29,7 @@
       </template>
     </semantic-query>
   </div>
+  </semantic-link>
   <div class="collection-card-body">
     <h3>
       <semantic-link iri="{{subject.value}}"></semantic-link>

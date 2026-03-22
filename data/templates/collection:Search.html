@@ -61,7 +61,22 @@
               ?collParam = "" ||
               ?g = URI(CONCAT("https://sharedshelf.itatti.harvard.edu/graph/", ?collParam))
             )
-          }
+            OPTIONAL {
+              ?_img crm:P65_shows_visual_item ?_vis .
+              ?_vis crm:P138_represents ?subject .
+              ?_img crm:P129i_is_subject_of ?_dig .
+              ?_dig crm:P1_is_identified_by ?_url .
+              FILTER(ISURI(?_url))
+              FILTER(CONTAINS(STR(?_url), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url), "collection.itatti.harvard.edu"))
+            }
+            OPTIONAL {
+              ?subject crm:P129i_is_subject_of ?_dig2 .
+              ?_dig2 crm:P1_is_identified_by ?_url2 .
+              FILTER(ISURI(?_url2))
+              FILTER(CONTAINS(STR(?_url2), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url2), "collection.itatti.harvard.edu"))
+            }
+            BIND(IF(BOUND(?_url) || BOUND(?_url2), 0, 1) AS ?noImage)
+          } ORDER BY ?noImage ?subject
         '
         query='
           SELECT DISTINCT ?subject WHERE {
@@ -74,7 +89,7 @@
               ?g = URI(CONCAT("https://sharedshelf.itatti.harvard.edu/graph/", ?collParam))
             )
             FILTER(REGEX(?label, ?__token__, "i"))
-          }
+          } ORDER BY ?label
         '
       ></semantic-search-query-keyword>
 
@@ -94,14 +109,30 @@
             <semantic-search-result>
               <semantic-table
                 id="search-result-table"
-                query='SELECT DISTINCT ?subject WHERE { } LIMIT 500'
+                query='SELECT DISTINCT ?subject WHERE {
+                  OPTIONAL {
+                    ?_img crm:P65_shows_visual_item ?_vis .
+                    ?_vis crm:P138_represents ?subject .
+                    ?_img crm:P129i_is_subject_of ?_dig .
+                    ?_dig crm:P1_is_identified_by ?_url .
+                    FILTER(ISURI(?_url))
+                    FILTER(CONTAINS(STR(?_url), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url), "collection.itatti.harvard.edu"))
+                  }
+                  OPTIONAL {
+                    ?subject crm:P129i_is_subject_of ?_dig2 .
+                    ?_dig2 crm:P1_is_identified_by ?_url2 .
+                    FILTER(ISURI(?_url2))
+                    FILTER(CONTAINS(STR(?_url2), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url2), "collection.itatti.harvard.edu"))
+                  }
+                  BIND(IF(BOUND(?_url) || BOUND(?_url2), 0, 1) AS ?noImage)
+                } ORDER BY ?noImage ?subject LIMIT 500'
                 number-of-displayed-rows="15"
                 tuple-template="{{> listCard}}"
                 options='{"showTableHeading": false, "showFilter": false}'
                 no-result-template='<div style="text-align:center; padding: 40px;"><h2 style="color: #999;">No results found</h2><p>Try broadening your search or removing some filters.</p></div>'
               >
                 <template id="listCard">
-                  <div class="no-spinner">
+                  <div class="no-spinner" style="width:100%;min-width:100%;">
                     [[> collection:CardWork]]
                   </div>
                 </template>

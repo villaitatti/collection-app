@@ -131,11 +131,13 @@
           <div class="collection-related-grid">
             {{#each bindings}}
               <div class="collection-card-grid" style="height: auto;">
-                <div class="collection-card-thumb" style="height: 160px;">
-                  {{#if thumb}}
-                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';" />
-                  {{/if}}
-                </div>
+                <semantic-link iri="{{work.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;">
+                  <div class="collection-card-thumb" style="height: 160px;">
+                    {{#if thumb}}
+                      <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';" />
+                    {{/if}}
+                  </div>
+                </semantic-link>
                 <div class="collection-card-body" style="padding: 12px;">
                   <h3 style="font-size: 13px; margin-bottom: 4px;">
                     <semantic-link iri="{{work.value}}">{{label.value}}</semantic-link>

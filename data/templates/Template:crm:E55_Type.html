@@ -38,7 +38,7 @@
           FILTER(ISURI(?fullUrl))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!300,300") AS ?imgUrl)
+          BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
         }
       } LIMIT 100'
       template="{{> subjectWorks}}"
@@ -50,13 +50,15 @@
           <div class="collection-related-grid">
             {{#each bindings}}
               <div class="collection-card-grid" style="height: auto;">
-                <div class="collection-card-thumb" style="height: 200px;">
-                  {{#if imgUrl}}
-                    <img src="{{imgUrl.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
-                  {{else}}
-                    <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
-                  {{/if}}
-                </div>
+                <semantic-link iri="{{work.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;">
+                  <div class="collection-card-thumb" style="height: 200px;">
+                    {{#if imgUrl}}
+                      <img src="{{imgUrl.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
+                    {{else}}
+                      <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
+                    {{/if}}
+                  </div>
+                </semantic-link>
                 <div class="collection-card-body" style="padding: 12px;">
                   <h3 style="font-size: 14px;">
                     <semantic-link iri="{{work.value}}">{{workLabel.value}}</semantic-link>
