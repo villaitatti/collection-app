@@ -345,12 +345,12 @@
                     image-or-region='{
                       "{{bindings.0.fullUrl.value}}":["{{bindings.0.fullUrl.value}}"]
                     }'
-                    image-id-pattern='{ SELECT ?imageIRI ?type ?imageID ?carrierImageIRI WHERE {
+                    image-id-pattern='OPTIONAL {
                                         BIND(<{{bindings.0.fullUrl.value}}> AS ?imageIRI)
                                         BIND("image" AS ?type)
                                         BIND(REPLACE(REPLACE(REPLACE(REPLACE(STR(?imageIRI), "/full/full/0/default.jpg", ""), "\\?.*$", ""), "(^.*)\\/(.*)$", "$2"), "%2F", "!") AS ?imageID)
                                         BIND(?imageIRI AS ?carrierImageIRI)
-                                      } }'
+                                      }'
                     iiif-server-url="https://iiif.itatti.harvard.edu/iiif/2"
                   >
                   </rs-iiif-mirador>
