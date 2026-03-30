@@ -84,38 +84,6 @@
         </template>
       </semantic-query>
 
-      <!-- Other side of the photograph (recto ↔ verso) -->
-      <semantic-query
-        query='SELECT ?otherSide ?otherLabel ?otherImgUrl WHERE {
-          { ?? crm:P130_shows_features_of ?otherSide }
-          UNION
-          { ?otherSide crm:P130_shows_features_of ?? }
-          OPTIONAL { ?otherSide rdfs:label ?otherLabel }
-          OPTIONAL {
-            ?otherSide crm:P129i_is_subject_of ?digital .
-            ?digital crm:P1_is_identified_by ?fullUrl .
-            FILTER(ISURI(?fullUrl))
-            BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?otherImgUrl)
-          }
-        } LIMIT 1'
-        template="{{> otherSide}}"
-      >
-        <template id="otherSide">
-          <div class="collection-other-side">
-            <div class="collection-other-side-label">Other side of this photograph</div>
-            <semantic-link iri="{{bindings.0.otherSide.value}}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
-              {{#if bindings.0.otherImgUrl}}
-                <img src="{{bindings.0.otherImgUrl.value}}" alt="" class="collection-other-side-thumb"
-                     onerror="this.onerror=null;this.style.display='none';" />
-              {{/if}}
-              <div>
-                <div class="collection-other-side-title">{{#if bindings.0.otherLabel}}{{bindings.0.otherLabel.value}}{{else}}View{{/if}}</div>
-                <div class="collection-other-side-action">View →</div>
-              </div>
-            </semantic-link>
-          </div>
-        </template>
-      </semantic-query>
     </div>
 
     <!-- Main Layout: 3-column — Metadata | Image | Subjects/Persons/Inscriptions -->
@@ -362,6 +330,39 @@
           </semantic-query>
         </div>
 
+        <!-- Other side of the photograph (recto ↔ verso) -->
+        <semantic-query
+          query='SELECT ?otherSide ?otherLabel ?otherImgUrl WHERE {
+            { ?? crm:P130_shows_features_of ?otherSide }
+            UNION
+            { ?otherSide crm:P130_shows_features_of ?? }
+            OPTIONAL { ?otherSide rdfs:label ?otherLabel }
+            OPTIONAL {
+              ?otherSide crm:P129i_is_subject_of ?digital .
+              ?digital crm:P1_is_identified_by ?fullUrl .
+              FILTER(ISURI(?fullUrl))
+              BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?otherImgUrl)
+            }
+          } LIMIT 1'
+          template="{{> otherSide}}"
+        >
+          <template id="otherSide">
+            <div class="collection-other-side">
+              <div class="collection-other-side-label">Other side of this photograph</div>
+              <semantic-link iri="{{bindings.0.otherSide.value}}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
+                {{#if bindings.0.otherImgUrl}}
+                  <img src="{{bindings.0.otherImgUrl.value}}" alt="" class="collection-other-side-thumb"
+                       onerror="this.onerror=null;this.style.display='none';" />
+                {{/if}}
+                <div>
+                  <div class="collection-other-side-title">{{#if bindings.0.otherLabel}}{{bindings.0.otherLabel.value}}{{else}}View{{/if}}</div>
+                  <div class="collection-other-side-action">View →</div>
+                </div>
+              </semantic-link>
+            </div>
+          </template>
+        </semantic-query>
+
         <!-- Images: all image records for this work, with recto/verso pairs grouped -->
         <semantic-query
           query='SELECT ?photo ?photoLabel (SAMPLE(?imgUrl0) AS ?imgUrl) (SAMPLE(?isVerso0) AS ?isVerso)
@@ -463,6 +464,23 @@
           </template>
         </semantic-query>
 
+        <!-- Notes -->
+        <semantic-query
+          query='SELECT ?note WHERE {
+            ?? crm:P3_has_note ?note .
+          } LIMIT 10'
+          template="{{> notes}}"
+        >
+          <template id="notes">
+            <div class="collection-context-section">
+              <h3>Notes</h3>
+              {{#each bindings}}
+              <div class="collection-inscription-item">{{note.value}}</div>
+              {{/each}}
+            </div>
+          </template>
+        </semantic-query>
+
         <!-- Persons Depicted -->
         <semantic-query
           query='SELECT DISTINCT ?person ?personLabel (SAMPLE(?thumbUrl) AS ?thumb) WHERE {
@@ -532,22 +550,6 @@
       </div>
     </div>
 
-    <!-- Notes (full width, below the 3-column area) -->
-    <semantic-query
-      query='SELECT ?note WHERE {
-        ?? crm:P3_has_note ?note .
-      } LIMIT 10'
-      template="{{> notes}}"
-    >
-      <template id="notes">
-        <div class="collection-notes-section">
-          <h2>Notes</h2>
-          {{#each bindings}}
-          <div class="collection-note-item">{{note.value}}</div>
-          {{/each}}
-        </div>
-      </template>
-    </semantic-query>
 
   </div>
 </div>

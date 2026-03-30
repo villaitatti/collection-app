@@ -24,7 +24,7 @@
 
     <!-- Works depicting this subject -->
     <semantic-query
-      query='SELECT DISTINCT ?work ?workLabel ?imgUrl WHERE {
+      query='SELECT ?work ?workLabel (SAMPLE(?imgUrl0) AS ?imgUrl) (SAMPLE(?creator0) AS ?creator) (SAMPLE(?dateNote0) AS ?date) WHERE {
         ?work a crm:E22_Human-Made_Object .
         ?work crm:P2_has_type <http://vocab.getty.edu/aat/300133025> .
         ?work rdfs:label ?workLabel .
@@ -38,9 +38,19 @@
           FILTER(ISURI(?fullUrl))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
+          BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl0)
         }
-      } LIMIT 100'
+        OPTIONAL {
+          ?work crm:P108i_was_produced_by ?prod .
+          ?prod crm:P14_carried_out_by ?creatorUri .
+          ?creatorUri rdfs:label ?creator0 .
+        }
+        OPTIONAL {
+          ?work crm:P108i_was_produced_by ?prod2 .
+          ?prod2 crm:P4_has_time-span ?ts .
+          ?ts crm:P3_has_note ?dateNote0 .
+        }
+      } GROUP BY ?work ?workLabel LIMIT 100'
       template="{{> subjectWorks}}"
       no-result-template='<div style="text-align: center; padding: 40px; color: #999;">No works found depicting this subject.</div>'
     >
@@ -63,6 +73,8 @@
                   <h3 style="font-size: 14px;">
                     <semantic-link iri="{{work.value}}">{{workLabel.value}}</semantic-link>
                   </h3>
+                  {{#if creator}}<div style="font-size: 12px; color: #666;">{{creator.value}}</div>{{/if}}
+                  {{#if date}}<div style="font-size: 11px; color: #999; margin-top: 2px;">{{date.value}}</div>{{/if}}
                 </div>
               </div>
             {{/each}}
