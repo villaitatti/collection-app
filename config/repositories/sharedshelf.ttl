@@ -8,12 +8,8 @@
 @prefix sparqlr: <http://www.openrdf.org/config/repository/sparql#> .
 [] a rep:Repository;
   rep:repositoryID "sharedshelf";
-  rdfs:label "SharedShelf SPARQL Repository";
+  rdfs:label "SharedShelf QLever SPARQL Repository";
   rep:repositoryImpl [
-      rep:repositoryType "researchspace:SPARQLBasicAuthRepository";
-      sparqlr:query-endpoint <https://collection.itatti.harvard.edu/blazegraph/namespace/sharedshelf/sparql>;
-      mph:quadMode true;
-      mph:writable true;
-      mph:username "${collection.username}";
-      mph:password "${collection.password}"
+      rep:repositoryType "researchspace:QLeverRepository";
+      sparqlr:query-endpoint <http://10.10.1.16:7001>
     ] .
