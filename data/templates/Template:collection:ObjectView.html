@@ -279,11 +279,11 @@
         </semantic-query>
       </div>
 
-      <!-- CENTER COLUMN: Image + Images below -->
+      <!-- CENTER COLUMN: Image (Mirador IIIF viewer) + Images below -->
       <div class="collection-center-column">
         <div class="collection-image-panel">
           <semantic-query
-            query='SELECT ?imgUrl WHERE {
+            query='SELECT ?fullUrl ?imgUrl WHERE {
               {
                 # Path 1: For works — get image from linked DR record
                 ?img crm:P65_shows_visual_item ?vis .
@@ -297,38 +297,50 @@
               } UNION {
                 # Path 2: For orphan images — direct P129i
                 ?? crm:P129i_is_subject_of ?digital2 .
-                ?digital2 crm:P1_is_identified_by ?fullUrl2 .
-                FILTER(ISURI(?fullUrl2))
+                ?digital2 crm:P1_is_identified_by ?fullUrl .
+                FILTER(ISURI(?fullUrl))
                 BIND(0 AS ?isVerso)
-                BIND(REPLACE(STR(?fullUrl2), "full/full", "full/!800,800") AS ?imgUrl)
+                BIND(REPLACE(STR(?fullUrl), "full/full", "full/!800,800") AS ?imgUrl)
               }
             } ORDER BY ?isVerso LIMIT 1'
             template="{{> imageDisplay}}"
           >
             <template id="imageDisplay">
-              {{#ifCond bindings.0.imgUrl.value "==" "none"}}
-                <div class="placeholder-artwork placeholder-artwork--dark" style="min-height:400px;"></div>
+              {{#if bindings.0.fullUrl}}
+                <div class="collection-mirador-container" style="width:100%; height:600px; position:relative;">
+                  <rs-iiif-mirador
+                    image-or-region='{
+                      "{{bindings.0.fullUrl.value}}":["{{bindings.0.fullUrl.value}}"]
+                    }'
+                    image-id-pattern='BIND( <{{bindings.0.fullUrl.value}}> AS ?imageIRI)
+                                      BIND("image" AS ?type)
+                                      BIND(REPLACE(REPLACE(REPLACE(REPLACE(STR(?imageIRI), "/full/full/0/default.jpg", ""), "\\?.*$", ""), "(^.*)\\/(.*)$", "$2"), "%2F", "!") AS ?imageID)
+                                      BIND(?imageIRI AS ?carrierImageIRI)'
+                    iiif-server-url="https://iiif.itatti.harvard.edu/iiif/2"
+                  >
+                  </rs-iiif-mirador>
+                </div>
               {{else}}
-                <img src="{{bindings.0.imgUrl.value}}" alt="Work image" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork placeholder-artwork--dark\' style=\'min-height:400px;\'></div>');" />
-              {{/ifCond}}
+                <div class="placeholder-artwork placeholder-artwork--dark" style="min-height:400px;"></div>
+              {{/if}}
             </template>
           </semantic-query>
         </div>
 
         <!-- Images: all image records for this work (with thumbnails) -->
         <semantic-query
-          query='SELECT DISTINCT ?photo ?photoLabel ?imgUrl ?isVerso WHERE {
+          query='SELECT ?photo ?photoLabel (SAMPLE(?imgUrl0) AS ?imgUrl) (SAMPLE(?isVerso0) AS ?isVerso) WHERE {
             ?photo crm:P65_shows_visual_item ?vis .
             ?vis crm:P138_represents ?? .
             OPTIONAL { ?photo rdfs:label ?photoLabel }
-            BIND(IF(BOUND(?photoLabel) && CONTAINS(LCASE(?photoLabel), "verso"), 1, 0) AS ?isVerso)
+            BIND(IF(BOUND(?photoLabel) && CONTAINS(LCASE(?photoLabel), "verso"), 1, 0) AS ?isVerso0)
             OPTIONAL {
               ?photo crm:P129i_is_subject_of ?digital .
               ?digital crm:P1_is_identified_by ?fullUrl .
               FILTER(ISURI(?fullUrl))
-              BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
+              BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl0)
             }
-          } ORDER BY ?isVerso LIMIT 20'
+          } GROUP BY ?photo ?photoLabel ORDER BY ?isVerso LIMIT 20'
           template="{{> relatedImages}}"
         >
           <template id="relatedImages">

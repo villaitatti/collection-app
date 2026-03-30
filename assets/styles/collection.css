@@ -1769,3 +1769,66 @@ img.img-with-fallback {
 .collection-page .semantic-search-facet__hide-button {
   display: none !important;
 }
+
+/* ---- Mirador IIIF Viewer (inline in ObjectView) ---- */
+.collection-mirador-container {
+  background: var(--collection-anthracite);
+  border-radius: var(--collection-radius);
+  overflow: hidden;
+}
+
+
+.collection-image-panel .collection-mirador-container {
+  flex: 1 1 100%;
+  align-self: stretch;
+}
+
+.collection-mirador-container .mirador {
+  height: 600px;
+}
+
+.collection-mirador-container .mirador-viewer {
+  top: 0px !important;
+}
+
+/* Hide unnecessary Mirador chrome for a clean inline experience */
+.collection-mirador-container .window-manifest-title {
+  display: none !important;
+}
+
+.collection-mirador-container .mirador-main-menu-bar {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-view-type {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-window-menu {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-metadata-view.mirador-tooltip {
+  display: none !important;
+}
+
+.collection-mirador-container .mirador-osd-annotation-controls {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-osd-toggle-bottom-panel.hud-control {
+  display: none !important;
+}
+
+/* Responsive: adjust Mirador height on smaller screens */
+@media (max-width: 992px) {
+  .collection-mirador-container {
+    height: 450px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .collection-mirador-container {
+    height: 350px !important;
+  }
+}
