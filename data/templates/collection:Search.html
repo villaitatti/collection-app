@@ -96,18 +96,18 @@
                 id="search-result-table"
                 query='SELECT DISTINCT ?subject WHERE {
                   OPTIONAL {
-                    ?_img crm:P65_shows_visual_item ?_vis .
-                    ?_vis crm:P138_represents ?subject .
-                    ?_img crm:P129i_is_subject_of ?_dig .
-                    ?_dig crm:P1_is_identified_by ?_url .
-                    FILTER(ISURI(?_url))
-                    FILTER(CONTAINS(STR(?_url), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url), "collection.itatti.harvard.edu"))
+                    ?_img2 crm:P65_shows_visual_item ?_vis2 .
+                    ?_vis2 crm:P138_represents ?subject .
+                    ?_img2 crm:P129i_is_subject_of ?_dig3 .
+                    ?_dig3 crm:P1_is_identified_by ?_url3 .
+                    FILTER(ISURI(?_url3))
+                    FILTER(CONTAINS(STR(?_url3), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url3), "collection.itatti.harvard.edu"))
                   }
                   OPTIONAL {
-                    ?subject crm:P129i_is_subject_of ?_dig2 .
-                    ?_dig2 crm:P1_is_identified_by ?_url2 .
-                    FILTER(ISURI(?_url2))
-                    FILTER(CONTAINS(STR(?_url2), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url2), "collection.itatti.harvard.edu"))
+                    ?subject crm:P129i_is_subject_of ?_dig4 .
+                    ?_dig4 crm:P1_is_identified_by ?_url4 .
+                    FILTER(ISURI(?_url4))
+                    FILTER(CONTAINS(STR(?_url4), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url4), "collection.itatti.harvard.edu"))
                   }
                   BIND(IF(BOUND(?_url) || BOUND(?_url2), 0, 1) AS ?noImage)
                   BIND(IF(CONTAINS(STR(?subject), "bellegreene") || CONTAINS(STR(?subject), "yashiro") || CONTAINS(STR(?subject), "mbdiaries"), 1, 0) AS ?isArchiveItem)

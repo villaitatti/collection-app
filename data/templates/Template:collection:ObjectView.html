@@ -83,6 +83,7 @@
           </div>
         </template>
       </semantic-query>
+
     </div>
 
     <!-- Main Layout: 3-column — Metadata | Image | Subjects/Persons/Inscriptions -->
@@ -117,11 +118,11 @@
         <!-- Production: Creator, Role, Technique, Date -->
         <semantic-query
           query='SELECT ?creator ?creatorUri
-                        (GROUP_CONCAT(DISTINCT ?role; separator=", ") AS ?roles)
-                        (SAMPLE(?technique) AS ?technique)
-                        (SAMPLE(?dateNote) AS ?dateNote)
-                        (SAMPLE(?dateBegin) AS ?dateBegin)
-                        (SAMPLE(?dateEnd) AS ?dateEnd)
+                        (GROUP_CONCAT(DISTINCT ?role0; separator=", ") AS ?roles)
+                        (SAMPLE(?technique0) AS ?technique)
+                        (SAMPLE(?dateNote0) AS ?dateNote)
+                        (SAMPLE(?dateBegin0) AS ?dateBegin)
+                        (SAMPLE(?dateEnd0) AS ?dateEnd)
           WHERE {
             ?? crm:P108i_was_produced_by ?prod .
             OPTIONAL {
@@ -130,17 +131,17 @@
             }
             OPTIONAL {
               ?prod crm:P2_has_type ?roleType .
-              ?roleType rdfs:label ?role .
+              ?roleType rdfs:label ?role0 .
             }
             OPTIONAL {
               ?prod crm:P32_used_general_technique ?techUri .
-              ?techUri rdfs:label ?technique .
+              ?techUri rdfs:label ?technique0 .
             }
             OPTIONAL {
               ?prod crm:P4_has_time-span ?ts .
-              ?ts crm:P3_has_note ?dateNote .
-              OPTIONAL { ?ts crm:P82a_begin_of_the_begin ?dateBegin }
-              OPTIONAL { ?ts crm:P82b_end_of_the_end ?dateEnd }
+              ?ts crm:P3_has_note ?dateNote0 .
+              OPTIONAL { ?ts crm:P82a_begin_of_the_begin ?dateBegin0 }
+              OPTIONAL { ?ts crm:P82b_end_of_the_end ?dateEnd0 }
             }
           }
           GROUP BY ?creator ?creatorUri
@@ -279,11 +280,11 @@
         </semantic-query>
       </div>
 
-      <!-- CENTER COLUMN: Image + Images below -->
+      <!-- CENTER COLUMN: Image (Mirador IIIF viewer) + Images below -->
       <div class="collection-center-column">
         <div class="collection-image-panel">
           <semantic-query
-            query='SELECT ?imgUrl WHERE {
+            query='SELECT ?fullUrl ?imgUrl WHERE {
               {
                 # Path 1: For works — get image from linked DR record
                 ?img crm:P65_shows_visual_item ?vis .
@@ -297,38 +298,99 @@
               } UNION {
                 # Path 2: For orphan images — direct P129i
                 ?? crm:P129i_is_subject_of ?digital2 .
-                ?digital2 crm:P1_is_identified_by ?fullUrl2 .
-                FILTER(ISURI(?fullUrl2))
+                ?digital2 crm:P1_is_identified_by ?fullUrl .
+                FILTER(ISURI(?fullUrl))
                 BIND(0 AS ?isVerso)
-                BIND(REPLACE(STR(?fullUrl2), "full/full", "full/!800,800") AS ?imgUrl)
+                BIND(REPLACE(STR(?fullUrl), "full/full", "full/!800,800") AS ?imgUrl)
               }
             } ORDER BY ?isVerso LIMIT 1'
             template="{{> imageDisplay}}"
           >
             <template id="imageDisplay">
-              {{#ifCond bindings.0.imgUrl.value "==" "none"}}
-                <div class="placeholder-artwork placeholder-artwork--dark" style="min-height:400px;"></div>
+              {{#if bindings.0.fullUrl}}
+                <div class="collection-mirador-container" style="width:100%; height:600px; position:relative;">
+                  <rs-iiif-mirador
+                    image-or-region='{
+                      "{{bindings.0.fullUrl.value}}":["{{bindings.0.fullUrl.value}}"]
+                    }'
+                    image-id-pattern='OPTIONAL {
+                                        BIND(<{{bindings.0.fullUrl.value}}> AS ?imageIRI)
+                                        BIND("image" AS ?type)
+                                        BIND(REPLACE(REPLACE(REPLACE(REPLACE(STR(?imageIRI), "/full/full/0/default.jpg", ""), "\\?.*$", ""), "(^.*)\\/(.*)$", "$2"), "%2F", "!") AS ?imageID)
+                                        BIND(?imageIRI AS ?carrierImageIRI)
+                                      }'
+                    iiif-server-url="https://iiif.itatti.harvard.edu/iiif/2"
+                  >
+                  </rs-iiif-mirador>
+                </div>
               {{else}}
-                <img src="{{bindings.0.imgUrl.value}}" alt="Work image" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork placeholder-artwork--dark\' style=\'min-height:400px;\'></div>');" />
-              {{/ifCond}}
+                <div class="placeholder-artwork placeholder-artwork--dark" style="min-height:400px;"></div>
+              {{/if}}
             </template>
           </semantic-query>
         </div>
 
-        <!-- Images: all image records for this work (with thumbnails) -->
+        <!-- Other side of the photograph (recto ↔ verso) -->
         <semantic-query
-          query='SELECT DISTINCT ?photo ?photoLabel ?imgUrl ?isVerso WHERE {
+          query='SELECT ?otherSide ?otherLabel ?otherImgUrl WHERE {
+            { ?? crm:P130_shows_features_of ?otherSide }
+            UNION
+            { ?otherSide crm:P130_shows_features_of ?? }
+            OPTIONAL { ?otherSide rdfs:label ?otherLabel }
+            OPTIONAL {
+              ?otherSide crm:P129i_is_subject_of ?digital .
+              ?digital crm:P1_is_identified_by ?fullUrl .
+              FILTER(ISURI(?fullUrl))
+              BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?otherImgUrl)
+            }
+          } LIMIT 1'
+          template="{{> otherSide}}"
+        >
+          <template id="otherSide">
+            <div class="collection-other-side">
+              <div class="collection-other-side-label">Other side of this photograph</div>
+              <semantic-link iri="{{bindings.0.otherSide.value}}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px;">
+                {{#if bindings.0.otherImgUrl}}
+                  <img src="{{bindings.0.otherImgUrl.value}}" alt="" class="collection-other-side-thumb"
+                       onerror="this.onerror=null;this.style.display='none';" />
+                {{/if}}
+                <div>
+                  <div class="collection-other-side-title">{{#if bindings.0.otherLabel}}{{bindings.0.otherLabel.value}}{{else}}View{{/if}}</div>
+                  <div class="collection-other-side-action">View →</div>
+                </div>
+              </semantic-link>
+            </div>
+          </template>
+        </semantic-query>
+
+        <!-- Images: all image records for this work, with recto/verso pairs grouped -->
+        <semantic-query
+          query='SELECT ?photo ?photoLabel (SAMPLE(?imgUrl0) AS ?imgUrl) (SAMPLE(?isVerso0) AS ?isVerso)
+                        ?otherSide ?otherSideLabel (SAMPLE(?otherImgUrl0) AS ?otherImgUrl) WHERE {
             ?photo crm:P65_shows_visual_item ?vis .
             ?vis crm:P138_represents ?? .
             OPTIONAL { ?photo rdfs:label ?photoLabel }
-            BIND(IF(BOUND(?photoLabel) && CONTAINS(LCASE(?photoLabel), "verso"), 1, 0) AS ?isVerso)
+            BIND(IF(BOUND(?photoLabel) && CONTAINS(LCASE(?photoLabel), "verso"), 1, 0) AS ?isVerso0)
             OPTIONAL {
               ?photo crm:P129i_is_subject_of ?digital .
               ?digital crm:P1_is_identified_by ?fullUrl .
               FILTER(ISURI(?fullUrl))
-              BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
+              BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl0)
             }
-          } ORDER BY ?isVerso LIMIT 20'
+            OPTIONAL {
+              { ?photo crm:P130_shows_features_of ?otherSide }
+              UNION
+              { ?otherSide crm:P130_shows_features_of ?photo }
+              OPTIONAL { ?otherSide rdfs:label ?otherSideLabel }
+              OPTIONAL {
+                ?otherSide crm:P129i_is_subject_of ?otherDigital .
+                ?otherDigital crm:P1_is_identified_by ?otherFullUrl .
+                FILTER(ISURI(?otherFullUrl))
+                BIND(REPLACE(REPLACE(REPLACE(STR(?otherFullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?otherImgUrl0)
+              }
+            }
+            FILTER(!BOUND(?isVerso0) || ?isVerso0 = 0)
+          } GROUP BY ?photo ?photoLabel ?otherSide ?otherSideLabel ORDER BY ?photoLabel LIMIT 30'
           template="{{> relatedImages}}"
         >
           <template id="relatedImages">
@@ -338,16 +400,30 @@
               <p class="collection-images-description">Digital images documenting this work, including recto, verso, and detail views.</p>
               <div class="collection-related-grid">
                 {{#each bindings}}
-                  <div class="collection-card-grid" style="height: auto;">
-                    <semantic-link iri="{{photo.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;">
-                      <div class="collection-card-thumb" style="height: 160px;">
-                        {{#if imgUrl}}
-                          <img src="{{imgUrl.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
-                        {{else}}
-                          <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
-                        {{/if}}
-                      </div>
-                    </semantic-link>
+                  <div class="collection-card-grid collection-card-pair" style="height: auto;">
+                    <div class="collection-card-pair-images">
+                      <semantic-link iri="{{photo.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;flex:1;">
+                        <div class="collection-card-thumb" style="height: 160px;">
+                          {{#if imgUrl}}
+                            <img src="{{imgUrl.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
+                          {{else}}
+                            <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
+                          {{/if}}
+                        </div>
+                      </semantic-link>
+                      {{#if otherSide}}
+                      <semantic-link iri="{{otherSide.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;flex:1;" class="collection-card-verso-thumb">
+                        <div class="collection-card-thumb" style="height: 160px; position: relative;">
+                          {{#if otherImgUrl}}
+                            <img src="{{otherImgUrl.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
+                          {{else}}
+                            <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
+                          {{/if}}
+                          <span class="collection-card-verso-badge">Verso</span>
+                        </div>
+                      </semantic-link>
+                      {{/if}}
+                    </div>
                     <div class="collection-card-body" style="padding: 12px;">
                       <h3 style="font-size:13px;">
                         {{#if photoLabel}}<semantic-link iri="{{photo.value}}">{{photoLabel.value}}</semantic-link>
@@ -384,6 +460,23 @@
                   <semantic-link iri="{{subject.value}}" class="collection-tag collection-tag--link">{{subjectLabel.value}}</semantic-link>
                 {{/each}}
               </div>
+            </div>
+          </template>
+        </semantic-query>
+
+        <!-- Notes -->
+        <semantic-query
+          query='SELECT ?note WHERE {
+            ?? crm:P3_has_note ?note .
+          } LIMIT 10'
+          template="{{> notes}}"
+        >
+          <template id="notes">
+            <div class="collection-context-section">
+              <h3>Notes</h3>
+              {{#each bindings}}
+              <div class="collection-inscription-item">{{note.value}}</div>
+              {{/each}}
             </div>
           </template>
         </semantic-query>
@@ -457,22 +550,6 @@
       </div>
     </div>
 
-    <!-- Notes (full width, below the 3-column area) -->
-    <semantic-query
-      query='SELECT ?note WHERE {
-        ?? crm:P3_has_note ?note .
-      } LIMIT 10'
-      template="{{> notes}}"
-    >
-      <template id="notes">
-        <div class="collection-notes-section">
-          <h2>Notes</h2>
-          {{#each bindings}}
-          <div class="collection-note-item">{{note.value}}</div>
-          {{/each}}
-        </div>
-      </template>
-    </semantic-query>
 
   </div>
 </div>

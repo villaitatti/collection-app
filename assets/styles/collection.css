@@ -1289,6 +1289,63 @@
   gap: 16px;
 }
 
+/* ---- Recto/verso paired image cards ---- */
+.collection-card-pair-images {
+  display: flex;
+  gap: 0;
+}
+
+.collection-card-pair-images > *:first-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.collection-card-verso-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #555;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-family: var(--collection-font-body);
+  backdrop-filter: blur(4px);
+}
+
+/* ---- Other side link (image detail page) ---- */
+.collection-other-side {
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: var(--collection-grey-bg, #f5f5f5);
+  border-left: 4px solid var(--collection-gold, #c8a951);
+  border-radius: 6px;
+}
+
+.collection-other-side-label {
+  font-size: 13px;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+.collection-other-side-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.collection-other-side-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.collection-other-side-action {
+  font-size: 13px;
+  color: var(--collection-gold, #c8a951);
+  margin-top: 2px;
+}
+
 /* ---- Person Page specifics ---- */
 .collection-person-header {
   display: flex;
@@ -1768,4 +1825,67 @@ img.img-with-fallback {
 .collection-page button[title="Hide Filter"],
 .collection-page .semantic-search-facet__hide-button {
   display: none !important;
+}
+
+/* ---- Mirador IIIF Viewer (inline in ObjectView) ---- */
+.collection-mirador-container {
+  background: var(--collection-anthracite);
+  border-radius: var(--collection-radius);
+  overflow: hidden;
+}
+
+
+.collection-image-panel .collection-mirador-container {
+  flex: 1 1 100%;
+  align-self: stretch;
+}
+
+.collection-mirador-container .mirador {
+  height: 600px;
+}
+
+.collection-mirador-container .mirador-viewer {
+  top: 0px !important;
+}
+
+/* Hide unnecessary Mirador chrome for a clean inline experience */
+.collection-mirador-container .window-manifest-title {
+  display: none !important;
+}
+
+.collection-mirador-container .mirador-main-menu-bar {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-view-type {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-window-menu {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-metadata-view.mirador-tooltip {
+  display: none !important;
+}
+
+.collection-mirador-container .mirador-osd-annotation-controls {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-osd-toggle-bottom-panel.hud-control {
+  display: none !important;
+}
+
+/* Responsive: adjust Mirador height on smaller screens */
+@media (max-width: 992px) {
+  .collection-mirador-container {
+    height: 450px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .collection-mirador-container {
+    height: 350px !important;
+  }
 }

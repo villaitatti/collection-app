@@ -106,7 +106,7 @@
 
     <!-- Works created by this person -->
     <semantic-query
-      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date) AS ?date) (SAMPLE(?keeper) AS ?keeper) WHERE {
+      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date0) AS ?date) (SAMPLE(?keeper0) AS ?keeper) WHERE {
         ?work a crm:E22_Human-Made_Object .
         ?work crm:P108i_was_produced_by ?prod .
         ?prod crm:P14_carried_out_by ?? .
@@ -114,11 +114,11 @@
         OPTIONAL {
           ?work crm:P108i_was_produced_by ?p2 .
           ?p2 crm:P4_has_time-span ?ts .
-          ?ts crm:P3_has_note ?date .
+          ?ts crm:P3_has_note ?date0 .
         }
         OPTIONAL {
           ?work crm:P50_has_current_keeper ?k .
-          ?k rdfs:label ?keeper .
+          ?k rdfs:label ?keeper0 .
         }
         OPTIONAL {
           ?img crm:P65_shows_visual_item ?vis .
@@ -166,7 +166,7 @@
 
     <!-- Works depicting this person (as subject) -->
     <semantic-query
-      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date) AS ?date) (SAMPLE(?keeper) AS ?keeper) WHERE {
+      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date0) AS ?date) (SAMPLE(?keeper0) AS ?keeper) WHERE {
         ?work a crm:E22_Human-Made_Object .
         ?work crm:P65_shows_visual_item ?visual .
         ?visual crm:P138_represents ?? .
@@ -174,11 +174,11 @@
         OPTIONAL {
           ?work crm:P108i_was_produced_by ?p .
           ?p crm:P4_has_time-span ?ts .
-          ?ts crm:P3_has_note ?date .
+          ?ts crm:P3_has_note ?date0 .
         }
         OPTIONAL {
           ?work crm:P50_has_current_keeper ?k .
-          ?k rdfs:label ?keeper .
+          ?k rdfs:label ?keeper0 .
         }
         OPTIONAL {
           ?img crm:P65_shows_visual_item ?vis .

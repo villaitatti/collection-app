@@ -81,11 +81,22 @@
     initSectionBreaks();
   }
 
+  /* Run immediately and on DOMContentLoaded */
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAll);
   } else {
     initAll();
   }
-  setTimeout(initAll, 600);
-  setTimeout(initAll, 1800);
+
+  /* Watch for React-rendered content (carousel, etc.) appearing later */
+  var observer = new MutationObserver(function () {
+    var carousel = document.getElementById('yashiro-carousel');
+    if (carousel && !carousel._carouselReady) {
+      initAll();
+    }
+  });
+  observer.observe(document.body || document.documentElement, {
+    childList: true,
+    subtree: true
+  });
 })();
