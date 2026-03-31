@@ -1,1 +1,2 @@
 deploymentTitle = I Tatti Digital Collections
+preferredThumbnails = { ?subject <http://www.cidoc-crm.org/cidoc-crm/P1_is_identified_by> ?letter . ?pic <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.cidoc-crm.org/cidoc-crm/E38_Image> . ?pic <http://www.cidoc-crm.org/cidoc-crm/P165i_is_incorporated_in> ?letter . ?pic <http://www.researchspace.org/ontology/image_index> 1 . BIND(STR(?pic) AS ?value) }

@@ -25,7 +25,17 @@
             FILTER(CONTAINS(STR(?fullUrl2), "iiif.itatti.harvard.edu") || CONTAINS(STR(?fullUrl2), "collection.itatti.harvard.edu"))
             BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl2), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?smallUrl2)
           }
-          BIND(COALESCE(?smallUrl, ?smallUrl2, ?default) AS ?imgUrl)
+          OPTIONAL {
+            # Path 3: archive items (bellegreene, yashiro, mbdiaries) → IIIF sized thumbnail
+            ?img3 crm:P65_shows_visual_item ?vis3 .
+            ?vis3 crm:P138_represents <{{subject.value}}> .
+            ?img3 crm:P129i_is_subject_of ?digital3 .
+            ?digital3 crm:P1_is_identified_by ?fullUrl3 .
+            FILTER(ISURI(?fullUrl3))
+            FILTER(CONTAINS(STR(?fullUrl3), "bellegreene") || CONTAINS(STR(?fullUrl3), "yashiro") || CONTAINS(STR(?fullUrl3), "mary_berenson"))
+            BIND(REPLACE(STR(?fullUrl3), "/full/full/", "/full/!400,400/") AS ?smallUrl3)
+          }
+          BIND(COALESCE(?smallUrl3, ?smallUrl, ?smallUrl2, ?default) AS ?imgUrl)
         } LIMIT 1'
         template="{{> thumb}}"
       >

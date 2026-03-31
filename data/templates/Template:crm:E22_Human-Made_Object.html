@@ -4,23 +4,16 @@
     [[> collection:ObjectView ]]
   </template>
   <template id='else'>
-    <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://bellegreene.itatti.harvard.edu/")) }'>
+    <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://bellegreene.itatti.harvard.edu/") || STRSTARTS(STR(??), "https://yashiro.itatti.harvard.edu/") || STRSTARTS(STR(??), "https://mbdiaries.itatti.harvard.edu/")) }'>
       <template id='then'>
-        [[> bellegreene:Letter ]]
+        [[> collection:ArchiveItemView ]]
       </template>
       <template id='else'>
-        <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://mbdiaries.itatti.harvard.edu/")) }'>
-          <template id='then'>
-            [[> mbdiaries-ontology:Diary ]]
-          </template>
-          <template id='else'>
-            <!-- Generic fallback for unknown E22 URIs -->
-            <div style="max-width: 800px; margin: 40px auto; padding: 24px;">
-              <h1><mp-label iri="[[this]]"></mp-label></h1>
-              <p>Object resource: <code>[[this]]</code></p>
-            </div>
-          </template>
-        </semantic-if>
+        <!-- Generic fallback for unknown E22 URIs -->
+        <div style="max-width: 800px; margin: 40px auto; padding: 24px;">
+          <h1><mp-label iri="[[this]]"></mp-label></h1>
+          <p>Object resource: <code>[[this]]</code></p>
+        </div>
       </template>
     </semantic-if>
   </template>

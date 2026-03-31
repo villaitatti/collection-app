@@ -1,0 +1,190 @@
+[[> collection:Header ]]
+
+<semantic-context repository="qlever">
+<div class="collection-page">
+  <div class="collection-container collection-detail collection-detail-fullwidth">
+
+    <!-- Breadcrumb -->
+    <div class="collection-breadcrumb">
+      <semantic-link iri="collection:Search">Collections</semantic-link>
+      <span class="separator">›</span>
+      <a href="/resource/collection:Search?collection=bibber">Archive</a>
+      <span class="separator">›</span>
+      <semantic-query query='SELECT ?label WHERE { ?? rdfs:label ?label } LIMIT 1'
+        template="{{bindings.0.label.value}}"></semantic-query>
+    </div>
+
+    <!-- Header row: title + "See in Project" button -->
+    <div class="collection-detail-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:24px;">
+      <div>
+        <span class="collection-badge" style="display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; background:#802126; color:white; margin-bottom:8px;">Archive</span>
+
+        <!-- Type badge -->
+        <semantic-query
+          query='SELECT ?type WHERE {
+            ?? crm:P2_has_type ?typeUri .
+            ?typeUri a crm:E55_Type ; rdfs:label ?type .
+          } LIMIT 2'
+          template='{{#each bindings}}<span style="display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; background:#e8e8e8; color:#333; margin-left:6px;">{{type.value}}</span>{{/each}}'
+        ></semantic-query>
+
+        <h1 style="margin-top:8px;">
+          <semantic-query query='SELECT ?label WHERE { ?? rdfs:label ?label } LIMIT 1'
+            template="{{bindings.0.label.value}}"></semantic-query>
+        </h1>
+      </div>
+
+      <!-- "See in Project" button — links to the resource in its original app -->
+      <semantic-query
+        query='SELECT ?projectUrl ?projectName WHERE {
+          BIND(STR(??) AS ?uri)
+          BIND(
+            IF(CONTAINS(?uri, "bellegreene"), "Belle Greene Project",
+            IF(CONTAINS(?uri, "yashiro"), "Yashiro Project",
+            IF(CONTAINS(?uri, "mbdiaries"), "Mary Berenson Diaries",
+            "Original Project"))) AS ?projectName)
+          BIND(?? AS ?projectUrl)
+        } LIMIT 1'
+        template='{{> seeInProject}}'
+      >
+        <template id="seeInProject">
+          <a href="{{bindings.0.projectUrl.value}}"
+             target="_blank"
+             style="display:inline-flex; align-items:center; gap:6px; padding:10px 20px; background:#802126; color:white; border-radius:6px; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; margin-top:12px;">
+            See in {{bindings.0.projectName.value}}
+            <span style="font-size:16px;">&#8599;</span>
+          </a>
+        </template>
+      </semantic-query>
+    </div>
+
+    <!-- Two-column layout: image + metadata -->
+    <div style="display:flex; gap:32px; margin-top:24px; flex-wrap:wrap;">
+
+      <!-- Left: Image -->
+      <div style="flex:0 0 400px; max-width:400px;">
+        <semantic-query
+          query='SELECT ?imgUrl WHERE {
+            OPTIONAL {
+              ?img crm:P65_shows_visual_item ?vis .
+              ?vis crm:P138_represents ?? .
+              ?img crm:P129i_is_subject_of ?digital .
+              ?digital crm:P1_is_identified_by ?fullUrl .
+              FILTER(ISURI(?fullUrl))
+              BIND(REPLACE(STR(?fullUrl), "/full/full/", "/full/!600,600/") AS ?imgUrl)
+            }
+          } LIMIT 1'
+          template='<img src="{{bindings.0.imgUrl.value}}" alt="" style="width:100%; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.1);" onerror="this.style.display=&apos;none&apos;" />'
+          no-result-template=""
+        ></semantic-query>
+      </div>
+
+      <!-- Right: Metadata fields -->
+      <div style="flex:1; min-width:300px;">
+        <table class="table" style="background:white; border-radius:8px;">
+          <tbody>
+            <!-- Creator / Author -->
+            <semantic-query
+              query='SELECT ?creator ?creatorUri WHERE {
+                ?? crm:P108i_was_produced_by ?prod .
+                ?prod crm:P14_carried_out_by ?creatorUri .
+                ?creatorUri rdfs:label ?creator .
+              } LIMIT 3'
+              template='{{> creatorRow}}'
+            >
+              <template id="creatorRow">
+                <tr><td style="font-weight:600; width:140px; vertical-align:top;">Creator</td>
+                <td>{{#each bindings}}{{#if @index}}, {{/if}}<semantic-link iri="{{creatorUri.value}}">{{creator.value}}</semantic-link>{{/each}}</td></tr>
+              </template>
+            </semantic-query>
+
+            <!-- Date -->
+            <semantic-query
+              query='SELECT ?date WHERE {
+                ?? crm:P108i_was_produced_by ?prod .
+                ?prod crm:P4_has_time-span ?ts .
+                { ?ts crm:P3_has_note ?date } UNION { ?ts rdfs:label ?date }
+              } LIMIT 1'
+              template='<tr><td style="font-weight:600; width:140px;">Date</td><td>{{bindings.0.date.value}}</td></tr>'
+            ></semantic-query>
+
+            <!-- Repository -->
+            <semantic-query
+              query='SELECT ?keeper ?keeperUri WHERE {
+                ?? crm:P50_has_current_keeper ?keeperUri .
+                ?keeperUri rdfs:label ?keeper .
+              } LIMIT 1'
+              template='<tr><td style="font-weight:600; width:140px;">Repository</td><td><semantic-link iri="{{bindings.0.keeperUri.value}}">{{bindings.0.keeper.value}}</semantic-link></td></tr>'
+            ></semantic-query>
+
+            <!-- Type -->
+            <semantic-query
+              query='SELECT ?type WHERE {
+                ?? crm:P2_has_type ?typeUri .
+                ?typeUri a crm:E55_Type ; rdfs:label ?type .
+              } LIMIT 3'
+              template='<tr><td style="font-weight:600; width:140px;">Type</td><td>{{#each bindings}}{{#if @index}}, {{/if}}{{type.value}}{{/each}}</td></tr>'
+            ></semantic-query>
+
+            <!-- Identifiers -->
+            <semantic-query
+              query='SELECT ?id ?idType WHERE {
+                ?? crm:P1_is_identified_by ?idNode .
+                ?idNode crm:P190_has_symbolic_content ?id .
+                OPTIONAL {
+                  ?idNode crm:P2_has_type ?typeUri .
+                  ?typeUri rdfs:label ?idType .
+                }
+              } LIMIT 10'
+              template='{{> idRows}}'
+            >
+              <template id="idRows">
+                {{#each bindings}}
+                <tr><td style="font-weight:600; width:140px;">{{#if idType}}{{idType.value}}{{else}}Identifier{{/if}}</td><td>{{id.value}}</td></tr>
+                {{/each}}
+              </template>
+            </semantic-query>
+
+            <!-- Notes -->
+            <semantic-query
+              query='SELECT ?note WHERE {
+                ?? crm:P3_has_note ?note .
+              } LIMIT 3'
+              template='{{#each bindings}}<tr><td style="font-weight:600; width:140px;">Note</td><td>{{note.value}}</td></tr>{{/each}}'
+            ></semantic-query>
+
+            <!-- People mentioned (bellegreene) -->
+            <semantic-query
+              query='SELECT ?person ?personUri WHERE {
+                ?? crm:P67_refers_to ?personUri .
+                ?personUri a crm:E21_Person ; rdfs:label ?person .
+              } LIMIT 10'
+              template='{{> peopleRow}}'
+            >
+              <template id="peopleRow">
+                <tr><td style="font-weight:600; width:140px; vertical-align:top;">People mentioned</td>
+                <td>{{#each bindings}}{{#if @index}}, {{/if}}<semantic-link iri="{{personUri.value}}">{{person.value}}</semantic-link>{{/each}}</td></tr>
+              </template>
+            </semantic-query>
+
+            <!-- Subjects (bellegreene) -->
+            <semantic-query
+              query='SELECT ?subject ?subjectUri WHERE {
+                ?? crm:P129_is_about ?subjectUri .
+                ?subjectUri rdfs:label ?subject .
+              } LIMIT 10'
+              template='{{> subjectRow}}'
+            >
+              <template id="subjectRow">
+                <tr><td style="font-weight:600; width:140px; vertical-align:top;">Subjects</td>
+                <td>{{#each bindings}}{{#if @index}}, {{/if}}{{subject.value}}{{/each}}</td></tr>
+              </template>
+            </semantic-query>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+</semantic-context>
