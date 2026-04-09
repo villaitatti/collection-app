@@ -36,6 +36,7 @@
           ?img crm:P129i_is_subject_of ?digital .
           ?digital crm:P1_is_identified_by ?fullUrl .
           FILTER(ISURI(?fullUrl))
+          FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
           BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl0)

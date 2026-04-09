@@ -116,6 +116,7 @@
           ?img crm:P129i_is_subject_of ?digital .
           ?digital crm:P1_is_identified_by ?fullUrl .
           FILTER(ISURI(?fullUrl))
+          FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
           BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
@@ -134,7 +135,9 @@
                 <semantic-link iri="{{work.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;">
                   <div class="collection-card-thumb" style="height: 160px;">
                     {{#if thumb}}
-                      <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';" />
+                      <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
+                    {{else}}
+                      <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
                     {{/if}}
                   </div>
                 </semantic-link>

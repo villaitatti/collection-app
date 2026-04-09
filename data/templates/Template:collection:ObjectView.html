@@ -292,6 +292,7 @@
                 ?img crm:P129i_is_subject_of ?digital .
                 ?digital crm:P1_is_identified_by ?fullUrl .
                 FILTER(ISURI(?fullUrl))
+                FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
                 OPTIONAL { ?img rdfs:label ?imgLabel }
                 BIND(IF(BOUND(?imgLabel) && CONTAINS(LCASE(?imgLabel), "verso"), 1, 0) AS ?isVerso)
                 BIND(REPLACE(STR(?fullUrl), "full/full", "full/!800,800") AS ?imgUrl)
@@ -300,6 +301,7 @@
                 ?? crm:P129i_is_subject_of ?digital2 .
                 ?digital2 crm:P1_is_identified_by ?fullUrl .
                 FILTER(ISURI(?fullUrl))
+                FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
                 BIND(0 AS ?isVerso)
                 BIND(REPLACE(STR(?fullUrl), "full/full", "full/!800,800") AS ?imgUrl)
               }
@@ -341,6 +343,7 @@
               ?otherSide crm:P129i_is_subject_of ?digital .
               ?digital crm:P1_is_identified_by ?fullUrl .
               FILTER(ISURI(?fullUrl))
+              FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
               BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?otherImgUrl)
             }
           } LIMIT 1'
@@ -375,6 +378,7 @@
               ?photo crm:P129i_is_subject_of ?digital .
               ?digital crm:P1_is_identified_by ?fullUrl .
               FILTER(ISURI(?fullUrl))
+              FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
               BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl0)
             }
             OPTIONAL {
@@ -386,6 +390,7 @@
                 ?otherSide crm:P129i_is_subject_of ?otherDigital .
                 ?otherDigital crm:P1_is_identified_by ?otherFullUrl .
                 FILTER(ISURI(?otherFullUrl))
+                FILTER(CONTAINS(STR(?otherFullUrl), "iiif.itatti.harvard.edu"))
                 BIND(REPLACE(REPLACE(REPLACE(STR(?otherFullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?otherImgUrl0)
               }
             }
@@ -497,6 +502,7 @@
               ?someImg crm:P129i_is_subject_of ?digital .
               ?digital crm:P1_is_identified_by ?fullUrl .
               FILTER(ISURI(?fullUrl))
+              FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
               OPTIONAL { ?someImg rdfs:label ?imgLbl }
               FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
               BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?thumbUrl)
