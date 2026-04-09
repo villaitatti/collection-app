@@ -34,7 +34,7 @@
         </h1>
       </div>
 
-      <!-- "See in Project" button — links to the resource in its original app -->
+      <!-- "See in Project" button -->
       <semantic-query
         query='SELECT ?projectUrl ?projectName WHERE {
           ?? <https://collection.itatti.harvard.edu/resource/custom/fc/seeInProject> ?projectUrl .
@@ -48,60 +48,20 @@
         template='{{> seeInProject}}'
       >
         <template id="seeInProject">
-          <a href="{{bindings.0.projectUrl.value}}"
-             target="_blank"
+          <semantic-link uri="{{bindings.0.projectUrl.value}}"
              style="display:inline-flex; align-items:center; gap:6px; padding:10px 20px; background:#802126; color:white; border-radius:6px; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; margin-top:12px;">
             See in {{bindings.0.projectName.value}} &#8599;
-          </a>
+          </semantic-link>
         </template>
       </semantic-query>
     </div>
 
-    <!-- Two-column layout: image + metadata -->
-    <div style="display:flex; gap:32px; margin-top:24px; flex-wrap:wrap;">
+    <!-- Main Layout: 3-column like ObjectView — Metadata | Image | (empty) -->
+    <div class="collection-detail-layout-3col">
 
-      <!-- Left: Image -->
-      <div style="flex:0 0 500px; max-width:500px;">
-        <semantic-query
-          query='SELECT ?imgUrl ?fullUrl WHERE {
-              ?? fr:Work_depicted_by_Photo ?photo .
-              ?photo crm:P129i_is_subject_of ?fullUrl .
-              ?fullUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817> .
-              BIND(REPLACE(STR(?fullUrl), "/full/full/", "/full/!600,600/") AS ?imgUrl)
-          } LIMIT 1'
-          template='{{> archiveImg}}'
-          no-result-template=""
-        >
-          <template id="archiveImg">
-            {{#if bindings.0.imgUrl}}
-              <div style="border-radius:8px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
-                <mp-overlay-dialog title="Image viewer" type="lightbox">
-                  <mp-overlay-dialog-trigger>
-                    <img src="{{bindings.0.imgUrl.value}}" style="width:100%; display:block; cursor:zoom-in;" />
-                  </mp-overlay-dialog-trigger>
-                  <mp-overlay-dialog-content>
-                    <div style="width:85vw; height:85vh;">
-                      <rs-iiif-mirador
-                        image-or-region='{"{{bindings.0.fullUrl.value}}":["{{bindings.0.fullUrl.value}}"]}'
-                        image-id-pattern='OPTIONAL {
-                          BIND(<{{bindings.0.fullUrl.value}}> AS ?imageIRI)
-                          BIND("image" AS ?type)
-                          BIND(REPLACE(REPLACE(REPLACE(REPLACE(STR(?imageIRI), "/full/full/0/default.jpg", ""), "\\?.*$", ""), "(^.*)\\/(.*)$", "$2"), "%2F", "!") AS ?imageID)
-                          BIND(?imageIRI AS ?carrierImageIRI)
-                        }'
-                        iiif-server-url="https://iiif.itatti.harvard.edu/iiif/2"
-                      ></rs-iiif-mirador>
-                    </div>
-                  </mp-overlay-dialog-content>
-                </mp-overlay-dialog>
-              </div>
-            {{/if}}
-          </template>
-        </semantic-query>
-      </div>
+      <!-- LEFT COLUMN: Metadata -->
+      <div class="collection-info-panel">
 
-      <!-- Right: Metadata fields -->
-      <div style="flex:1; min-width:300px;">
         <!-- All metadata in one query -->
         <semantic-query
           query='SELECT ?sender ?receiver ?date ?place ?keeper ?type WHERE {
@@ -112,20 +72,46 @@
             OPTIONAL { ?? fr:Work_kept_by_Institution ?kUri . ?kUri rdfs:label ?keeper }
             OPTIONAL { ?? crm:P2_has_type ?tUri . ?tUri a crm:E55_Type . ?tUri rdfs:label ?type . FILTER(?type != "works of art") }
           } LIMIT 1'
-          template='{{> metadataTable}}'
+          template='{{> metadataFields}}'
           no-result-template=''
         >
-          <template id="metadataTable">
-            <table class="table" style="background:white; border-radius:8px;">
-              <tbody>
-                {{#if bindings.0.sender}}<tr><td style="font-weight:600; width:140px;">Sender</td><td>{{bindings.0.sender.value}}</td></tr>{{/if}}
-                {{#if bindings.0.receiver}}<tr><td style="font-weight:600; width:140px;">Receiver</td><td>{{bindings.0.receiver.value}}</td></tr>{{/if}}
-                {{#if bindings.0.date}}<tr><td style="font-weight:600; width:140px;">Date</td><td>{{bindings.0.date.value}}</td></tr>{{/if}}
-                {{#if bindings.0.place}}<tr><td style="font-weight:600; width:140px;">Place</td><td>{{bindings.0.place.value}}</td></tr>{{/if}}
-                {{#if bindings.0.keeper}}<tr><td style="font-weight:600; width:140px;">Repository</td><td>{{bindings.0.keeper.value}}</td></tr>{{/if}}
-                {{#if bindings.0.type}}<tr><td style="font-weight:600; width:140px;">Type</td><td>{{bindings.0.type.value}}</td></tr>{{/if}}
-              </tbody>
-            </table>
+          <template id="metadataFields">
+            {{#if bindings.0.sender}}
+            <div class="collection-field">
+              <div class="collection-field-label">Author</div>
+              <div class="collection-field-value">{{bindings.0.sender.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.receiver}}
+            <div class="collection-field">
+              <div class="collection-field-label">Receiver</div>
+              <div class="collection-field-value">{{bindings.0.receiver.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.date}}
+            <div class="collection-field">
+              <div class="collection-field-label">Date</div>
+              <div class="collection-field-value">{{bindings.0.date.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.place}}
+            <div class="collection-field">
+              <div class="collection-field-label">Place</div>
+              <div class="collection-field-value">{{bindings.0.place.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.keeper}}
+            <div class="collection-field">
+              <div class="collection-field-label">Repository</div>
+              <div class="collection-field-value"><semantic-link iri="https://sharedshelf.itatti.harvard.edu/resource/group/9000418019">{{bindings.0.keeper.value}}</semantic-link></div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.type}}
+            <div class="collection-field">
+              <div class="collection-field-label">Type</div>
+              <div class="collection-field-value">{{bindings.0.type.value}}</div>
+            </div>
+            {{/if}}
           </template>
         </semantic-query>
 
@@ -151,17 +137,53 @@
           no-result-template=''
         >
           <template id="idRows">
-            <table class="table" style="background:white; border-radius:8px; margin-top:8px;">
-              <tbody>
-                {{#each bindings}}
-                <tr><td style="font-weight:600; width:140px;">{{idLabel.value}}</td><td>{{id.value}}</td></tr>
-                {{/each}}
-              </tbody>
-            </table>
+            {{#each bindings}}
+            <div class="collection-field">
+              <div class="collection-field-label">{{idLabel.value}}</div>
+              <div class="collection-field-value">{{id.value}}</div>
+            </div>
+            {{/each}}
           </template>
         </semantic-query>
 
       </div>
+
+      <!-- CENTER COLUMN: Image -->
+      <div class="collection-center-column">
+        <div class="collection-image-panel">
+          <semantic-query
+            query='SELECT ?imgUrl ?fullUrl WHERE {
+                ?? fr:Work_depicted_by_Photo ?photo .
+                ?photo crm:P129i_is_subject_of ?fullUrl .
+                ?fullUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817> .
+                BIND(REPLACE(STR(?fullUrl), "/full/full/", "/full/!600,600/") AS ?imgUrl)
+            } LIMIT 1'
+            template='{{> archiveImg}}'
+            no-result-template=""
+          >
+            <template id="archiveImg">
+              {{#if bindings.0.fullUrl}}
+                <div class="collection-mirador-container" style="width:100%; height:600px; position:relative;">
+                  <rs-iiif-mirador
+                    image-or-region='{"{{bindings.0.fullUrl.value}}":["{{bindings.0.fullUrl.value}}"]}'
+                    image-id-pattern='OPTIONAL {
+                      BIND(<{{bindings.0.fullUrl.value}}> AS ?imageIRI)
+                      BIND("image" AS ?type)
+                      BIND(REPLACE(REPLACE(REPLACE(REPLACE(STR(?imageIRI), "/full/full/0/default.jpg", ""), "\\?.*$", ""), "(^.*)\\/(.*)$", "$2"), "%2F", "!") AS ?imageID)
+                      BIND(?imageIRI AS ?carrierImageIRI)
+                    }'
+                    iiif-server-url="https://iiif.itatti.harvard.edu/iiif/2"
+                  ></rs-iiif-mirador>
+                </div>
+              {{/if}}
+            </template>
+          </semantic-query>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: empty -->
+      <div class="collection-side-panel"></div>
+
     </div>
 
   </div>
