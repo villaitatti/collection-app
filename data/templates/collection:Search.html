@@ -105,23 +105,8 @@
               <semantic-table
                 id="search-result-table"
                 query='SELECT DISTINCT ?subject WHERE {
-                  OPTIONAL {
-                    ?_img2 crm:P65_shows_visual_item ?_vis2 .
-                    ?_vis2 crm:P138_represents ?subject .
-                    ?_img2 crm:P129i_is_subject_of ?_dig3 .
-                    ?_dig3 crm:P1_is_identified_by ?_url3 .
-                    FILTER(ISURI(?_url3))
-                    FILTER(CONTAINS(STR(?_url3), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url3), "collection.itatti.harvard.edu"))
-                  }
-                  OPTIONAL {
-                    ?subject crm:P129i_is_subject_of ?_dig4 .
-                    ?_dig4 crm:P1_is_identified_by ?_url4 .
-                    FILTER(ISURI(?_url4))
-                    FILTER(CONTAINS(STR(?_url4), "iiif.itatti.harvard.edu") || CONTAINS(STR(?_url4), "collection.itatti.harvard.edu"))
-                  }
-                  BIND(IF(BOUND(?_url3) || BOUND(?_url4), 0, 1) AS ?noImage)
                   BIND(IF(CONTAINS(STR(?subject), "/archive/bellegreene/") || CONTAINS(STR(?subject), "/archive/yashiro/") || CONTAINS(STR(?subject), "/archive/mbdiaries/"), 1, 0) AS ?isArchiveItem)
-                } ORDER BY ?isArchiveItem ?noImage ?subject LIMIT 500'
+                } ORDER BY ?isArchiveItem ?subject LIMIT 500'
                 number-of-displayed-rows="15"
                 tuple-template="{{> listCard}}"
                 options='{"showTableHeading": false, "showFilter": false}'
