@@ -1,19 +1,53 @@
-<!-- Shared E22_Human-Made_Object template — routes to the correct app-specific view -->
-<semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://sharedshelf.itatti.harvard.edu/")) }'>
+<!-- E22 template — routes by URI pattern -->
+<semantic-if query='ASK { FILTER(CONTAINS(STR(??), "/archive/bellegreene/")) }'>
   <template id='then'>
-    [[> collection:ObjectView ]]
+    [[> collection:ArchiveItemView ]]
   </template>
   <template id='else'>
-    <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://bellegreene.itatti.harvard.edu/") || STRSTARTS(STR(??), "https://yashiro.itatti.harvard.edu/") || STRSTARTS(STR(??), "https://mbdiaries.itatti.harvard.edu/")) }'>
+    <semantic-if query='ASK { FILTER(CONTAINS(STR(??), "/archive/yashiro/")) }'>
       <template id='then'>
         [[> collection:ArchiveItemView ]]
       </template>
       <template id='else'>
-        <!-- Generic fallback for unknown E22 URIs -->
-        <div style="max-width: 800px; margin: 40px auto; padding: 24px;">
-          <h1><mp-label iri="[[this]]"></mp-label></h1>
-          <p>Object resource: <code>[[this]]</code></p>
-        </div>
+        <semantic-if query='ASK { FILTER(CONTAINS(STR(??), "/archive/mbdiaries/")) }'>
+          <template id='then'>
+            [[> collection:ArchiveItemView ]]
+          </template>
+          <template id='else'>
+            <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://bellegreene.itatti.harvard.edu/")) }'>
+              <template id='then'>
+                [[> Template:bellegreene:Letter ]]
+              </template>
+              <template id='else'>
+                <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://yashiro.itatti.harvard.edu/")) }'>
+                  <template id='then'>
+                    [[> Template:yashiro-annotation:TextDocument ]]
+                  </template>
+                  <template id='else'>
+                    <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://mbdiaries.itatti.harvard.edu/")) }'>
+                      <template id='then'>
+                        [[> Template:mbdiaries-ontology:Diary ]]
+                      </template>
+                      <template id='else'>
+                        <semantic-if query='ASK { FILTER(STRSTARTS(STR(??), "https://sharedshelf.itatti.harvard.edu/")) }'>
+                          <template id='then'>
+                            [[> collection:ObjectView ]]
+                          </template>
+                          <template id='else'>
+                            <div style="max-width: 800px; margin: 40px auto; padding: 24px;">
+                              <h1><mp-label iri="[[this]]"></mp-label></h1>
+                              <p>Object resource: <code>[[this]]</code></p>
+                            </div>
+                          </template>
+                        </semantic-if>
+                      </template>
+                    </semantic-if>
+                  </template>
+                </semantic-if>
+              </template>
+            </semantic-if>
+          </template>
+        </semantic-if>
       </template>
     </semantic-if>
   </template>
