@@ -921,19 +921,17 @@
 
 /* ---- Search Page ---- */
 .collection-search-header {
-  background: linear-gradient(135deg, var(--collection-crimson) 0%, var(--collection-crimson-dark) 100%);
-  padding: 40px 24px;
-  text-align: center;
+  background: var(--collection-bg);
+  padding: 32px 24px 16px;
+  text-align: left;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .collection-search-header h1 {
-  color: var(--collection-white);
+  color: var(--collection-anthracite);
   font-size: 32px;
   margin-bottom: 4px;
-}
-
-.collection-search-header .collection-subtitle {
-  color: rgba(255, 255, 255, 0.65);
 }
 
 .collection-search-body {
@@ -974,6 +972,7 @@
 /* ---- Cards (List/Grid) ---- */
 .collection-card {
   display: flex;
+  width: 100%;
   background: var(--collection-white);
   border: 1px solid var(--collection-grey-light);
   border-radius: var(--collection-radius);
@@ -993,12 +992,15 @@
   width: 180px;
   min-height: 160px;
   background-color: var(--collection-bg-warm);
-  background-size: cover;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120' fill='none'%3E%3Crect x='24' y='28' width='72' height='64' rx='4' stroke='%23c5b99a' stroke-width='2.5' fill='none'/%3E%3Cpath d='M24 72 l20-18 12 10 16-22 24 30' stroke='%23c5b99a' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='48' cy='48' r='7' stroke='%23c5b99a' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
   background-position: center;
+  background-size: 64px 64px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .collection-card-thumb img {
@@ -1287,6 +1289,63 @@
   gap: 16px;
 }
 
+/* ---- Recto/verso paired image cards ---- */
+.collection-card-pair-images {
+  display: flex;
+  gap: 0;
+}
+
+.collection-card-pair-images > *:first-child {
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.collection-card-verso-badge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  color: #555;
+  font-size: 9px;
+  font-weight: 500;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-family: var(--collection-font-body);
+  backdrop-filter: blur(4px);
+}
+
+/* ---- Other side link (image detail page) ---- */
+.collection-other-side {
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: var(--collection-grey-bg, #f5f5f5);
+  border-left: 4px solid var(--collection-gold, #c8a951);
+  border-radius: 6px;
+}
+
+.collection-other-side-label {
+  font-size: 13px;
+  color: #5f6368;
+  margin-bottom: 8px;
+}
+
+.collection-other-side-thumb {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.collection-other-side-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.collection-other-side-action {
+  font-size: 13px;
+  color: var(--collection-gold, #c8a951);
+  margin-top: 2px;
+}
+
 /* ---- Person Page specifics ---- */
 .collection-person-header {
   display: flex;
@@ -1307,6 +1366,12 @@
   font-size: 48px;
   color: var(--collection-grey-medium);
   opacity: 0.4;
+}
+
+/* Fix: prevent .placeholder-person from overriding avatar dimensions */
+.collection-person-avatar.placeholder-person {
+  width: 120px;
+  height: 120px;
 }
 
 .collection-person-info {
@@ -1752,3 +1817,75 @@ img.img-with-fallback {
 /* ---- Override RS platform defaults ---- */
 .collection-page .component-page-toolbar { display: none !important; }
 .collection-page .navbar-default { box-shadow: none !important; }
+
+
+/* Hide the "Hide Filter" toggle button in facets */
+.collection-page .facet__hide-facets-button,
+.collection-page .FacetStore--hideButton,
+.collection-page button[title="Hide Filter"],
+.collection-page .semantic-search-facet__hide-button {
+  display: none !important;
+}
+
+/* ---- Mirador IIIF Viewer (inline in ObjectView) ---- */
+.collection-mirador-container {
+  background: var(--collection-anthracite);
+  border-radius: var(--collection-radius);
+  overflow: hidden;
+}
+
+
+.collection-image-panel .collection-mirador-container {
+  flex: 1 1 100%;
+  align-self: stretch;
+}
+
+.collection-mirador-container .mirador {
+  height: 600px;
+}
+
+.collection-mirador-container .mirador-viewer {
+  top: 0px !important;
+}
+
+/* Hide unnecessary Mirador chrome for a clean inline experience */
+.collection-mirador-container .window-manifest-title {
+  display: none !important;
+}
+
+.collection-mirador-container .mirador-main-menu-bar {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-view-type {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-window-menu {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-btn.mirador-icon-metadata-view.mirador-tooltip {
+  display: none !important;
+}
+
+.collection-mirador-container .mirador-osd-annotation-controls {
+  display: none !important;
+}
+
+.collection-mirador-container a.mirador-osd-toggle-bottom-panel.hud-control {
+  display: none !important;
+}
+
+/* Responsive: adjust Mirador height on smaller screens */
+@media (max-width: 992px) {
+  .collection-mirador-container {
+    height: 450px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .collection-mirador-container {
+    height: 350px !important;
+  }
+}

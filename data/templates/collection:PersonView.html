@@ -106,7 +106,7 @@
 
     <!-- Works created by this person -->
     <semantic-query
-      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date) AS ?date) (SAMPLE(?keeper) AS ?keeper) WHERE {
+      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date0) AS ?date) (SAMPLE(?keeper0) AS ?keeper) WHERE {
         ?work a crm:E22_Human-Made_Object .
         ?work crm:P108i_was_produced_by ?prod .
         ?prod crm:P14_carried_out_by ?? .
@@ -114,11 +114,11 @@
         OPTIONAL {
           ?work crm:P108i_was_produced_by ?p2 .
           ?p2 crm:P4_has_time-span ?ts .
-          ?ts crm:P3_has_note ?date .
+          ?ts crm:P3_has_note ?date0 .
         }
         OPTIONAL {
           ?work crm:P50_has_current_keeper ?k .
-          ?k rdfs:label ?keeper .
+          ?k rdfs:label ?keeper0 .
         }
         OPTIONAL {
           ?img crm:P65_shows_visual_item ?vis .
@@ -126,9 +126,10 @@
           ?img crm:P129i_is_subject_of ?digital .
           ?digital crm:P1_is_identified_by ?fullUrl .
           FILTER(ISURI(?fullUrl))
+          FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?imgUrl)
+          BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
         }
       } GROUP BY ?work ?label
       LIMIT 50'
@@ -141,13 +142,15 @@
           <div class="collection-related-grid">
             {{#each bindings}}
               <div class="collection-card-grid" style="height: auto;">
-                <div class="collection-card-thumb" style="height: 160px;">
-                  {{#if thumb}}
-                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
-                  {{else}}
-                    <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
-                  {{/if}}
-                </div>
+                <semantic-link iri="{{work.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;">
+                  <div class="collection-card-thumb" style="height: 160px;">
+                    {{#if thumb}}
+                      <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
+                    {{else}}
+                      <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
+                    {{/if}}
+                  </div>
+                </semantic-link>
                 <div class="collection-card-body" style="padding: 12px;">
                   <h3 style="font-size: 13px; margin-bottom: 4px;">
                     <semantic-link iri="{{work.value}}">{{label.value}}</semantic-link>
@@ -164,7 +167,7 @@
 
     <!-- Works depicting this person (as subject) -->
     <semantic-query
-      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date) AS ?date) (SAMPLE(?keeper) AS ?keeper) WHERE {
+      query='SELECT DISTINCT ?work ?label (SAMPLE(?imgUrl) AS ?thumb) (SAMPLE(?date0) AS ?date) (SAMPLE(?keeper0) AS ?keeper) WHERE {
         ?work a crm:E22_Human-Made_Object .
         ?work crm:P65_shows_visual_item ?visual .
         ?visual crm:P138_represents ?? .
@@ -172,11 +175,11 @@
         OPTIONAL {
           ?work crm:P108i_was_produced_by ?p .
           ?p crm:P4_has_time-span ?ts .
-          ?ts crm:P3_has_note ?date .
+          ?ts crm:P3_has_note ?date0 .
         }
         OPTIONAL {
           ?work crm:P50_has_current_keeper ?k .
-          ?k rdfs:label ?keeper .
+          ?k rdfs:label ?keeper0 .
         }
         OPTIONAL {
           ?img crm:P65_shows_visual_item ?vis .
@@ -184,9 +187,10 @@
           ?img crm:P129i_is_subject_of ?digital .
           ?digital crm:P1_is_identified_by ?fullUrl .
           FILTER(ISURI(?fullUrl))
+          FILTER(CONTAINS(STR(?fullUrl), "iiif.itatti.harvard.edu"))
           OPTIONAL { ?img rdfs:label ?imgLbl }
           FILTER(!BOUND(?imgLbl) || !CONTAINS(LCASE(?imgLbl), "verso"))
-          BIND(REPLACE(STR(?fullUrl), "full/full", "full/!200,200") AS ?imgUrl)
+          BIND(REPLACE(REPLACE(REPLACE(STR(?fullUrl), "https://iiif.itatti.harvard.edu/iiif/2/", "https://collection.itatti.harvard.edu/thumbs/"), "%2F", "/"), "/full/.*$", "") AS ?imgUrl)
         }
       } GROUP BY ?work ?label
       LIMIT 50'
@@ -199,13 +203,15 @@
           <div class="collection-related-grid">
             {{#each bindings}}
               <div class="collection-card-grid" style="height: auto;">
-                <div class="collection-card-thumb" style="height: 160px;">
-                  {{#if thumb}}
-                    <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
-                  {{else}}
-                    <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
-                  {{/if}}
-                </div>
+                <semantic-link iri="{{work.value}}" getlabel=false style="display:block;text-decoration:none;cursor:pointer;">
+                  <div class="collection-card-thumb" style="height: 160px;">
+                    {{#if thumb}}
+                      <img src="{{thumb.value}}" alt="" style="width:100%;height:100%;object-fit:cover;" onerror="this.onerror=null;this.style.display='none';this.parentElement.insertAdjacentHTML('beforeend','<div class=\'placeholder-artwork\' style=\'width:100%;height:100%;\'></div>');" />
+                    {{else}}
+                      <div class="placeholder-artwork" style="width:100%;height:100%;"></div>
+                    {{/if}}
+                  </div>
+                </semantic-link>
                 <div class="collection-card-body" style="padding: 12px;">
                   <h3 style="font-size: 13px; margin-bottom: 4px;">
                     <semantic-link iri="{{work.value}}">{{label.value}}</semantic-link>

@@ -1,0 +1,191 @@
+[[> collection:Header ]]
+
+<semantic-context repository="qlever">
+<div class="collection-page">
+  <div class="collection-container collection-detail collection-detail-fullwidth">
+
+    <!-- Breadcrumb -->
+    <div class="collection-breadcrumb">
+      <semantic-link iri="collection:Search">Collections</semantic-link>
+      <span class="separator">›</span>
+      <a href="/resource/collection:Search?collection=bibber">Berenson Archive</a>
+      <span class="separator">›</span>
+      <semantic-query query='SELECT ?label WHERE { ?? rdfs:label ?label } LIMIT 1'
+        template="{{bindings.0.label.value}}"></semantic-query>
+    </div>
+
+    <!-- Header row: title + "See in Project" button -->
+    <div class="collection-detail-header" style="display:flex; justify-content:space-between; align-items:flex-start; gap:24px;">
+      <div>
+        <span class="collection-badge" style="display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; background:#802126; color:white; margin-bottom:8px;">Archive</span>
+
+        <!-- Type badge -->
+        <semantic-query
+          query='SELECT ?type WHERE {
+            ?? crm:P2_has_type ?typeUri .
+            ?typeUri a crm:E55_Type ; rdfs:label ?type .
+          } LIMIT 2'
+          template='{{#each bindings}}<span style="display:inline-block; padding:2px 10px; border-radius:12px; font-size:12px; background:#e8e8e8; color:#333; margin-left:6px;">{{type.value}}</span>{{/each}}'
+        ></semantic-query>
+
+        <h1 style="margin-top:8px;">
+          <semantic-query query='SELECT ?label WHERE { ?? rdfs:label ?label } LIMIT 1'
+            template="{{bindings.0.label.value}}"></semantic-query>
+        </h1>
+      </div>
+
+      <!-- "See in Project" button -->
+      <semantic-query
+        query='SELECT ?projectUrl ?projectName WHERE {
+          ?? <https://collection.itatti.harvard.edu/resource/custom/fc/seeInProject> ?projectUrl .
+          BIND(STR(?projectUrl) AS ?puri)
+          BIND(
+            IF(CONTAINS(?puri, "bellegreene"), "Belle Greene Project",
+            IF(CONTAINS(?puri, "yashiro"), "Yashiro Project",
+            IF(CONTAINS(?puri, "mbdiaries"), "Mary Berenson Diaries",
+            "Original Project"))) AS ?projectName)
+        } LIMIT 1'
+        template='{{> seeInProject}}'
+      >
+        <template id="seeInProject">
+          <semantic-link uri="{{bindings.0.projectUrl.value}}"
+             style="display:inline-flex; align-items:center; gap:6px; padding:10px 20px; background:#802126; color:white; border-radius:6px; text-decoration:none; font-size:14px; font-weight:600; white-space:nowrap; margin-top:12px;">
+            See in {{bindings.0.projectName.value}} &#8599;
+          </semantic-link>
+        </template>
+      </semantic-query>
+    </div>
+
+    <!-- Main Layout: 3-column like ObjectView — Metadata | Image | (empty) -->
+    <div class="collection-detail-layout-3col">
+
+      <!-- LEFT COLUMN: Metadata -->
+      <div class="collection-info-panel">
+
+        <!-- All metadata in one query -->
+        <semantic-query
+          query='SELECT ?sender ?receiver ?date ?place ?keeper ?type WHERE {
+            OPTIONAL { ?? fr:Work_created_from_Artist ?cUri . ?cUri rdfs:label ?sender }
+            OPTIONAL { ?? crm:P67_refers_to ?rUri . ?rUri a crm:E21_Person . ?rUri rdfs:label ?receiver }
+            OPTIONAL { ?? fr:Work_from_Date ?date }
+            OPTIONAL { ?? fr:Work_from_Place ?pUri . ?pUri rdfs:label ?place }
+            OPTIONAL { ?? fr:Work_kept_by_Institution ?kUri . ?kUri rdfs:label ?keeper }
+            OPTIONAL { ?? crm:P2_has_type ?tUri . ?tUri a crm:E55_Type . ?tUri rdfs:label ?type . FILTER(?type != "works of art") }
+          } LIMIT 1'
+          template='{{> metadataFields}}'
+          no-result-template=''
+        >
+          <template id="metadataFields">
+            {{#if bindings.0.sender}}
+            <div class="collection-field">
+              <div class="collection-field-label">Author</div>
+              <div class="collection-field-value">{{bindings.0.sender.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.receiver}}
+            <div class="collection-field">
+              <div class="collection-field-label">Receiver</div>
+              <div class="collection-field-value">{{bindings.0.receiver.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.date}}
+            <div class="collection-field">
+              <div class="collection-field-label">Date</div>
+              <div class="collection-field-value">{{bindings.0.date.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.place}}
+            <div class="collection-field">
+              <div class="collection-field-label">Place</div>
+              <div class="collection-field-value">{{bindings.0.place.value}}</div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.keeper}}
+            <div class="collection-field">
+              <div class="collection-field-label">Repository</div>
+              <div class="collection-field-value"><semantic-link iri="https://sharedshelf.itatti.harvard.edu/resource/group/9000418019">{{bindings.0.keeper.value}}</semantic-link></div>
+            </div>
+            {{/if}}
+            {{#if bindings.0.type}}
+            <div class="collection-field">
+              <div class="collection-field-label">Type</div>
+              <div class="collection-field-value">{{bindings.0.type.value}}</div>
+            </div>
+            {{/if}}
+          </template>
+        </semantic-query>
+
+        <!-- Identifiers (bellegreene-specific) -->
+        <semantic-query
+          query='SELECT ?id ?idLabel WHERE {
+            ?? crm:P1_is_identified_by ?idNode .
+            ?idNode crm:P190_has_symbolic_content ?id .
+            ?idNode crm:P2_has_type ?typeUri .
+            BIND(REPLACE(STR(?typeUri), "^.*/", "") AS ?localName)
+            FILTER(?localName != "box_number" && ?localName != "folder_number" && ?localName != "letter_number" && ?localName != "letter_id")
+            BIND(
+              IF(?localName = "letterhead", "Letterhead",
+              IF(?localName = "notes", "Notes",
+              IF(?localName = "n_pages", "Number of pages",
+              IF(?localName = "citation", "Citation",
+              IF(?localName = "recipient", "Recipient",
+              IF(?localName = "place", "Place",
+              REPLACE(REPLACE(?localName, "_", " "), "^(.)", UCASE("$1"))
+              )))))) AS ?idLabel)
+          } LIMIT 10'
+          template='{{> idRows}}'
+          no-result-template=''
+        >
+          <template id="idRows">
+            {{#each bindings}}
+            <div class="collection-field">
+              <div class="collection-field-label">{{idLabel.value}}</div>
+              <div class="collection-field-value">{{id.value}}</div>
+            </div>
+            {{/each}}
+          </template>
+        </semantic-query>
+
+      </div>
+
+      <!-- CENTER COLUMN: Image -->
+      <div class="collection-center-column">
+        <div class="collection-image-panel">
+          <semantic-query
+            query='SELECT ?imgUrl ?fullUrl WHERE {
+                ?? fr:Work_depicted_by_Photo ?photo .
+                ?photo crm:P129i_is_subject_of ?fullUrl .
+                ?fullUrl crm:P2_has_type <http://vocab.getty.edu/aat/300078817> .
+                BIND(REPLACE(STR(?fullUrl), "/full/full/", "/full/!600,600/") AS ?imgUrl)
+            } LIMIT 1'
+            template='{{> archiveImg}}'
+            no-result-template=""
+          >
+            <template id="archiveImg">
+              {{#if bindings.0.fullUrl}}
+                <div class="collection-mirador-container" style="width:100%; height:600px; position:relative;">
+                  <rs-iiif-mirador
+                    image-or-region='{"{{bindings.0.fullUrl.value}}":["{{bindings.0.fullUrl.value}}"]}'
+                    image-id-pattern='OPTIONAL {
+                      BIND(<{{bindings.0.fullUrl.value}}> AS ?imageIRI)
+                      BIND("image" AS ?type)
+                      BIND(REPLACE(REPLACE(REPLACE(REPLACE(STR(?imageIRI), "/full/full/0/default.jpg", ""), "\\?.*$", ""), "(^.*)\\/(.*)$", "$2"), "%2F", "!") AS ?imageID)
+                      BIND(?imageIRI AS ?carrierImageIRI)
+                    }'
+                    iiif-server-url="https://iiif.itatti.harvard.edu/iiif/2"
+                  ></rs-iiif-mirador>
+                </div>
+              {{/if}}
+            </template>
+          </semantic-query>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: empty -->
+      <div class="collection-side-panel"></div>
+
+    </div>
+
+  </div>
+</div>
+</semantic-context>

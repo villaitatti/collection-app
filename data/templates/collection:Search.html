@@ -1,20 +1,47 @@
 [[> collection:Header ]]
 
-<semantic-context repository="sharedshelf">
+<semantic-context repository="qlever">
 <div class="collection-page">
   <div class="collection-search-header">
-    <h1>Search the Collections</h1>
-    <p class="collection-subtitle" id="collection-subtitle">Berenson Photo Archive</p>
+    <!-- Title changes based on collection param -->
+    <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "berensonart") }'>
+      <template id='then'><h1>Berenson Art Collection</h1></template>
+      <template id='else'>
+        <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "bibber") }'>
+          <template id='then'><h1>Berenson Archive</h1></template>
+          <template id='else'><h1>Berenson Photo Archive</h1></template>
+        </semantic-if>
+      </template>
+    </semantic-if>
+
+    <!-- Collection sub-nav pills -->
+    <div style="display: flex; gap: 12px; margin-top: 8px;">
+      <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "fototeca") }'>
+        <template id='then'>
+          <a href="/resource/collection:Search?collection=fototeca" style="font-size:14px; text-decoration:none; padding:4px 12px; border-radius:20px; color:#802126; border:1px solid #802126; font-weight:600;">Photo Berenson Archive</a>
+        </template>
+        <template id='else'>
+          <a href="/resource/collection:Search?collection=fototeca" style="font-size:14px; color:#999; text-decoration:none; padding:4px 12px; border-radius:20px; border:1px solid #e8e8e8;">Photo Berenson Archive</a>
+        </template>
+      </semantic-if>
+      <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "berensonart") }'>
+        <template id='then'>
+          <a href="/resource/collection:Search?collection=berensonart" style="font-size:14px; text-decoration:none; padding:4px 12px; border-radius:20px; color:#802126; border:1px solid #802126; font-weight:600;">Art Collection</a>
+        </template>
+        <template id='else'>
+          <a href="/resource/collection:Search?collection=berensonart" style="font-size:14px; color:#999; text-decoration:none; padding:4px 12px; border-radius:20px; border:1px solid #e8e8e8;">Art Collection</a>
+        </template>
+      </semantic-if>
+      <semantic-if query='ASK { BIND("[[urlParam "collection"]]" AS ?c) FILTER(?c = "bibber") }'>
+        <template id='then'>
+          <a href="/resource/collection:Search?collection=bibber" style="font-size:14px; text-decoration:none; padding:4px 12px; border-radius:20px; color:#802126; border:1px solid #802126; font-weight:600;">Berenson Archive</a>
+        </template>
+        <template id='else'>
+          <a href="/resource/collection:Search?collection=bibber" style="font-size:14px; color:#999; text-decoration:none; padding:4px 12px; border-radius:20px; border:1px solid #e8e8e8;">Berenson Archive</a>
+        </template>
+      </semantic-if>
+    </div>
   </div>
-  <script>
-    (function() {
-      var names = { fototeca: 'Photo Archive', berensonart: 'Art Collection', bibber: 'Archive' };
-      var p = new URLSearchParams(window.location.search).get('collection');
-      if (p && names[p]) {
-        document.getElementById('collection-subtitle').textContent = names[p];
-      }
-    })();
-  </script>
 
   <div class="collection-container collection-search-body">
     <semantic-search
@@ -34,7 +61,10 @@
               ?collParam = "" ||
               ?g = URI(CONCAT("https://sharedshelf.itatti.harvard.edu/graph/", ?collParam))
             )
-          }
+            FILTER(!STRSTARTS(STR(?subject), "https://bellegreene.itatti.harvard.edu/")
+                && !STRSTARTS(STR(?subject), "https://yashiro.itatti.harvard.edu/")
+                && !STRSTARTS(STR(?subject), "https://mbdiaries.itatti.harvard.edu/"))
+          } ORDER BY ?subject
         '
         query='
           SELECT DISTINCT ?subject WHERE {
@@ -46,8 +76,11 @@
               ?collParam = "" ||
               ?g = URI(CONCAT("https://sharedshelf.itatti.harvard.edu/graph/", ?collParam))
             )
+            FILTER(!STRSTARTS(STR(?subject), "https://bellegreene.itatti.harvard.edu/")
+                && !STRSTARTS(STR(?subject), "https://yashiro.itatti.harvard.edu/")
+                && !STRSTARTS(STR(?subject), "https://mbdiaries.itatti.harvard.edu/"))
             FILTER(REGEX(?label, ?__token__, "i"))
-          }
+          } ORDER BY ?label
         '
       ></semantic-search-query-keyword>
 
@@ -65,16 +98,22 @@
         <bs-col lg="9" md="8" sm="7">
           <semantic-search-result-holder>
             <semantic-search-result>
+              <mp-sparql-result-counts id="search-count"
+                query="SELECT DISTINCT * {}"
+                template='{{#if hasLimit}}<div style="margin-bottom:12px; font-size:14px; color:#666;">Showing <b>{{numberOfResults}}</b> of <b>{{totalNumberOfResults}}</b> results</div>{{else}}<div style="margin-bottom:12px; font-size:14px; color:#666;"><b>{{numberOfResults}}</b> results</div>{{/if}}'
+              ></mp-sparql-result-counts>
               <semantic-table
                 id="search-result-table"
-                query='SELECT DISTINCT ?subject WHERE { } LIMIT 500'
+                query='SELECT DISTINCT ?subject WHERE {
+                  BIND(IF(CONTAINS(STR(?subject), "/archive/bellegreene/") || CONTAINS(STR(?subject), "/archive/yashiro/") || CONTAINS(STR(?subject), "/archive/mbdiaries/"), 1, 0) AS ?isArchiveItem)
+                } ORDER BY ?isArchiveItem ?subject LIMIT 500'
                 number-of-displayed-rows="15"
                 tuple-template="{{> listCard}}"
                 options='{"showTableHeading": false, "showFilter": false}'
                 no-result-template='<div style="text-align:center; padding: 40px;"><h2 style="color: #999;">No results found</h2><p>Try broadening your search or removing some filters.</p></div>'
               >
                 <template id="listCard">
-                  <div class="no-spinner">
+                  <div class="no-spinner" style="width:100%;min-width:100%;">
                     [[> collection:CardWork]]
                   </div>
                 </template>
